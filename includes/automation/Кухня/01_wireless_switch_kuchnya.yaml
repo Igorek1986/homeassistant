@@ -1,0 +1,25 @@
+# #Включение по клику
+# - alias: wireless_single_on/off
+  # initial_state: true
+  # trigger:
+# # Кнопка подключенная через zigbe2mqtt
+   # - platform: state
+     # entity_id: sensor.0x158d0002c9db62_action
+     # to: 'single'
+
+  # action:
+  # - service: switch.toggle
+    # entity_id: switch.0x00124b001ec85b30
+    
+# #Переключение по клику
+# - alias: wireless_tv_kuchnya_on/off
+  # initial_state: true
+  # trigger:
+# # Кнопка подключенная через zigbe2mqtt
+   # - platform: state
+     # entity_id: sensor.0x158d0002c9db62_action
+     # to: 'double'
+
+  # action:
+  # - service: media_player.toggle
+    # entity_id: media_player.tv_kukhnia

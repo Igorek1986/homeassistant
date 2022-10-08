@@ -1,0 +1,22 @@
+# gateway3:
+    # automation:
+# # Шлюз не доступен, уведомление в Телеграм
+    # - alias: gateway3_1_unavellabel
+      # trigger:
+        # platform: state
+        # entity_id: remote.0x842e14fffe14f5e0_pair
+        # # from: '0:06'
+        # to: unavailable
+    # #   condition:
+    # #     condition: or
+    # #     conditions:
+    # #      - condition: state
+    # #       entity_id: person.igor
+    # #       state: 'not_home'
+    # #      - condition: state
+    # #       entity_id: sensor.vog_l29_wifi_connection
+    # #       state: '<not connected>'
+      # action:
+        # - service: notify.telegram_id_1
+          # data:
+            # message: "Шлюз не доступен! Перезагрузите HA"

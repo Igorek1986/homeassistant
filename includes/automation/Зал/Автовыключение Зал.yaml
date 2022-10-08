@@ -1,0 +1,106 @@
+# Выключение без движения 30 минут
+# - alias: motion_zal_gateway_off
+  # initial_state: true
+  # trigger:
+# Датчик движения подключенный через zigbe2mqtt
+  # - platform: state
+    # entity_id: binary_sensor.auto_off_gateway_zal
+    # to: 'on'
+    # for: "0:{{ states('input_number.auto_off_gateway_zal') |int }}"
+    # for:
+     # minutes: 30
+  # condition:
+    # - condition: state
+      # entity_id: light.gateway_light_7c49eb88e98a
+      # state: 'on'
+  # action:
+  # - service: light.turn_off
+    # entity_id: light.gateway_light_7c49eb88e98a
+
+#Выключение света в Зале
+# - alias: motion_zal_svet_off
+  # initial_state: true
+  # trigger:
+# Датчик движения подключенный через zigbe2mqtt
+  # - platform: state
+    # entity_id: binary_sensor.auto_off_svet_zal
+    # to: 'on'
+    # for: "0:{{ states('input_number.auto_off_svet_zal') |int }}"
+    # for:
+     # minutes: 30
+  # condition:
+    # - condition: state
+      # entity_id: switch.0x158d00054eb5cc_channel_2
+      # state: 'on'
+  # action:
+  # - service: switch.turn_off
+    # entity_id: switch.0x158d00054eb5cc_channel_2
+
+# # Включение при движении
+# - alias: motion_zal_gateway_on
+  # initial_state: true
+  # trigger:
+# # Датчик движения подключенный через zigbe2mqtt
+  # - platform: state
+    # entity_id: binary_sensor.0x158d0003966333_motion
+    # to: 'on'
+  # condition:
+    # - condition: state
+      # entity_id: light.gateway_light_7c49eb88e98a
+      # state: 'off'
+    # - condition: time
+      # after: '22:00:00'
+      # before: '07:00:00'
+    # - condition: state
+      # entity_id: sun.sun
+      # state: "below_horizon"
+  # action:
+  # - service: light.turn_on
+    # entity_id: light.gateway_light_7c49eb88e98a
+
+# Выключение ТВ без движения 60 минут
+# - alias: motion_zal_tv_off
+  # initial_state: true
+  # trigger:
+# # Датчик движения подключенный через zigbe2mqtt
+  # - platform: state
+    # entity_id: binary_sensor.auto_off_tv_zal
+    # to: 'on'
+    # for: "0:{{ states('input_number.auto_off_tv_zal') |int }}"
+    # # for:
+     # # hours: 1
+  # condition:
+    # - condition: state
+      # entity_id: switch.tv_on
+      # state: 'on'
+    # - condition: time
+      # after: '22:00:00'
+      # before: '07:00:00'
+  # action:
+  # - service: switch.turn_off
+    # entity_id: switch.tv_on
+    
+# Выключение компьютера без движения 30 минут
+# - alias: motion_zal_komp_off
+  # initial_state: true
+  # trigger:
+# # Датчик движения подключенный через zigbe2mqtt
+  # - platform: state
+    # entity_id: binary_sensor.auto_off_komp_zal
+    # to: 'on'
+    # for: "0:{{ states('input_number.auto_off_komp_zal') |int }}"
+    # # for:
+     # # minutes: 30
+  # condition:
+    # - condition: state
+      # entity_id: switch.komp
+      # state: 'on'
+    # - condition: time
+      # after: '22:00:00'
+      # before: '07:00:00'
+    # - condition: state
+      # entity_id: binary_sensor.komp_zal_status
+      # state: 'off'
+  # action:
+  # - service: switch.turn_off
+    # entity_id: switch.komp

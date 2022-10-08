@@ -1,0 +1,63 @@
+# # Включение при движении
+# - alias: motion_spalnya_nochnik_on
+#   initial_state: true
+#   trigger:
+# # Датчик движения подключенный через zigbe2mqtt
+#   - platform: state
+#     entity_id: binary_sensor.0x158d0003983bf4_motion
+#     to: 'on'
+#   condition:
+#     - condition: state
+#       entity_id: light.zesp_bulb_00158d00036391d8
+#       state: 'off'
+#     - condition: time
+#       after: '22:30:00'
+#       before: '07:00:00'
+#     - condition: state
+#       entity_id: sun.sun
+#       state: "below_horizon"
+#   action:
+#   - service: light.turn_on
+#     entity_id: light.zesp_bulb_00158d00036391d8
+#     data_template:
+#       brightness_pct: 30
+# #      kelvin: 4000
+#       rgb_color: [255, 255, 255]
+    
+# # Выключение без движения 10 минут
+# - alias: motion_spalnya_nochnik_off
+#   initial_state: true
+#   trigger:
+# # Датчик движения подключенный через zigbe2mqtt
+#   - platform: state
+#     entity_id: binary_sensor.auto_off_nochnik_spalnya
+#     to: 'on'
+#     for: "0:{{ states('input_number.auto_off_nochnik_spalnya') |int }}"
+#     # for:
+#      # minutes: 10
+#   condition:
+#     - condition: state
+#       entity_id: zesp_bulb_light.00158d00036391d8
+#       state: 'on'
+#   action:
+#   - service: light.turn_off
+#     entity_id: light.zesp_bulb_00158d00036391d8
+
+# # Выключение без движения 30 минут
+# - alias: motion_spalnya_svet_off
+  # initial_state: true
+  # trigger:
+# # Датчик движения подключенный через zigbe2mqtt
+  # - platform: state
+    # entity_id: binary_sensor.auto_off_svet_spalnya
+    # to: 'on'
+    # for: "0:{{ states('input_number.auto_off_svet_spalnya') |int }}"
+    # # for:
+     # # minutes: 30
+  # condition:
+    # - condition: state
+      # entity_id: switch.0x158d00034d0a07_channel_1
+      # state: 'on'
+  # action:
+  # - service: switch.turn_off
+    # entity_id: switch.0x158d00034d0a07_channel_1

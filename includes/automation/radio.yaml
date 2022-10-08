@@ -1,0 +1,43 @@
+# # id: '1602073370552'
+# - alias: Коридор. Радио (Включение/отключение)
+  # description: ''
+  # trigger:
+    # - platform: state
+      # entity_id: input_boolean.gateway_radio_koridor
+    # - platform: state
+      # entity_id: input_number.gateway_volume_koridor
+    # - platform: state
+      # entity_id: input_select.gateway_radio_station
+  # condition: []
+  # action:
+    # - service: script.gateway_radio_koridor
+      # data: {}
+  # mode: single
+# - alias: Туалет. Радио (Включение/отключение)
+  # description: ''
+  # trigger:
+    # - platform: state
+      # entity_id: input_boolean.gateway_radio_tualet
+    # - platform: state
+      # entity_id: input_number.gateway_volume_tualet
+    # - platform: state
+      # entity_id: input_select.gateway_radio_station
+  # condition: []
+  # action:
+    # - service: script.gateway_radio_tualet
+      # data: {}
+  # mode: single
+# - alias: Спальня. Радио (Включение/отключение)
+  # description: ''
+  # trigger:
+    # - platform: state
+      # entity_id: input_boolean.gateway_radio_spalnya
+    # - platform: state
+      # entity_id: input_number.gateway_volume_spalnya
+    # - platform: state
+      # entity_id: input_select.gateway_radio_station
+  # condition: []
+  # action:
+    # - service: script.gateway_radio_spalnya
+      # data: {}
+  # mode: single

@@ -1,0 +1,39 @@
+blueprint:
+  name: Уведомление об обновлении компонентов HACS
+  domain: automation
+  input:
+    hacs_sensor:
+      name: HACS sensor
+      description: Сенсор который показывает есть ли обновления
+      selector:
+        entity:
+          domain: sensor
+          integration: hacs
+    notify_device:
+      name: Устроство на которое будет отправляться уведомление
+      description: На устройство должно быть установлено официальное приложение
+      selector:
+        device:
+          integration: mobile_app
+
+variables:
+  hacs_sensor: !input hacs_sensor
+  notify_device: !input notify_device
+  message: >-
+    {%- set repos = state_attr(hacs_sensor, 'repositories') %}
+    {%- for repo in repos %}
+    {{ repo['display_name'] }} [{{ repo['installed_version'] }} -> {{
+    repo['available_version'] }}]
+
+    {% endfor %}
+
+trigger:
+  platform: numeric_state
+  entity_id: !input hacs_sensor
+  above: 0
+action:
+  device_id: !input notify_device
+  domain: mobile_app
+  type: notify
+  title: "Доступно обновление в HACS"
+  message: "{{ message }}"

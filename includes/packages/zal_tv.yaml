@@ -1,0 +1,38 @@
+zal_tv:
+  switch:
+    - platform: xiaomi_miio
+      host: 192.168.88.57
+      token: b1caf288f5b422a1198c3f167f368ae1
+    - platform: template
+      switches:
+        tv_on:
+          value_template: "{{ is_state('binary_sensor.tv_zal_status', 'on') }}"
+          turn_on:
+            service: remote.send_command
+            data:
+             command:
+              - raw:Z6XLADICAACMBgAAjxEAALYRAADQtgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAjEBAQAAAAAAAQEBAAAAAAAAAQAAAAAAAAEAAQEBAQEBBAIxAQEAAAAAAAEBAQAAAAAAAAEAAAAAAAABAAEBAQEBAQQCMQEBAAAAAAABAQEAAAAAAAABAAAAAAAAAQABAQEBAQEAA=
+            entity_id: remote.mi_remote
+          turn_off:
+            service: remote.send_command
+            data:
+             command:
+              - raw:Z6XLADICAACMBgAAjxEAALYRAADQtgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAjEBAQAAAAAAAQEBAAAAAAAAAQAAAAAAAAEAAQEBAQEBBAIxAQEAAAAAAAEBAQAAAAAAAAEAAAAAAAABAAEBAQEBAQQCMQEBAAAAAAABAQEAAAAAAAABAAAAAAAAAQABAQEBAQEAA=
+            entity_id: remote.mi_remote
+          
+          
+  binary_sensor:
+    - platform: template
+      sensors:
+        tv_zal_status:
+          friendly_name: "ТВ Зал"
+          value_template: >-
+            {{ states('sensor.0x158d00035507c3_power')|float > (5) }}
+            
+
+    - platform: template
+      sensors:
+        komp_zal_status:
+          friendly_name: "Монитор"
+          value_template: >-
+            {{ states('sensor.0x003c84fffe85ac4e_power')|float > (5) }}

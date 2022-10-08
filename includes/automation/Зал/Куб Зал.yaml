@@ -1,0 +1,60 @@
+# #Включение по клику
+# - alias: cube_shake_on/off
+  # initial_state: true
+  # trigger:
+# # Кнопка подключенная через zigbe2mqtt
+   # - platform: state
+     # entity_id: sensor.0x158d000101f92d_action
+     # to: 'shake_air'
+
+  # action:
+  # - service: switch.toggle
+    # entity_id: switch.0x158d00054eb5cc_channel_2
+#   - service: input_boolean.toggle
+#     entity_id: input_boolean.svet_zal_on
+
+    
+# #Включение по клику
+# - alias: cube_flip90_on/off
+  # initial_state: true
+  # trigger:
+# # Кнопка подключенная через zigbe2mqtt
+   # - platform: state
+     # entity_id: sensor.0x158d000101f92d_action
+     # to: 'flip90'
+
+  # action:
+  # - service: switch.turn_off
+    # entity_id: switch.tv_on
+    
+# #Включение по клику
+# - alias: cube_right
+#   initial_state: true
+#   trigger:
+#     - platform: state
+#       entity_id: sensor.0x00158d00029ba6bc_action
+#   condition:
+#     condition: and
+#     conditions:
+#       - condition: template
+#         value_template: '{{ states.light.living_room.attributes.brightness < 4 }}'
+#       - condition: state
+#         entity_id: sensor.0x00158d00029ba6bc_action
+#         state: 'rotate_left'
+
+# # Кнопка подключенная через zigbe2mqtt
+#   - platform: state
+#      entity_id: sensor.0x158d000101f92d_action
+#      to: 'rotate_right'
+#   action:
+#   - service: light.turn_on
+#     data_template:
+#       entity_id: 
+#         - light.yeelight_color_0x00000000112cbed7
+#         - light.yeelight_color_0x000000000800fcce
+#       brightness: >
+#         {%if trigger.event.data.action_value | float > 0 %}
+#         {{ brightness | int + 50 }}
+#         {% else %}
+#         {{  brightness | int - 50 }}
+#         {% endif %}

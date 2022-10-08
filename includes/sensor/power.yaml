@@ -1,0 +1,37 @@
+# #Сенсоры мощности - 
+#   - platform: template
+#     sensors:
+#      0x158d0001107199_power:
+#       value_template: "{{ state_attr('switch.0x158d0001107199_switch', 'load_power') }}"
+#       unit_of_measurement: 'Вт'
+#       entity_id: switch.0x158d0001107199_switch
+#       device_class: power
+#       friendly_name: 'Розетка Zigbee мощность'
+
+#  - platform: template
+#    sensors:
+#      sp3_switch_load:
+#        friendly_name: "Розетка котел"
+#        value_template: "{{ state_attr('switch.sp3_switch', 'current_power_w') }}"
+#        unit_of_measurement: 'Вт'
+#        device_class: power
+        
+
+
+#   - platform: template
+#     sensors:
+#       0x00124b001ec85b30_power:
+#         friendly_name: "Розетка туалет"
+#         value_template: "{{ state_attr('switch.0x00124b001ec85b30_switch', 'power') }}"
+#         unit_of_measurement: 'Вт'
+#         device_class: power
+
+#   - platform: template
+#     sensors:
+#      0x158d00035507c3_power:
+#       value_template: "{{ state_attr('sensor.0x158d00035507c3_power', 'power') }}"
+#       unit_of_measurement: 'Вт'
+#       entity_id: switch.0x158d00035507c3_switch
+#       device_class: power
+#       friendly_name: 'Розетка Zigbee мощность'
+# sensor.0x158d00035507c3_power

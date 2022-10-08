@@ -1,0 +1,28 @@
+#Сенсоры воды - 
+  - platform: template
+    sensors:
+      water_cold_vanna:
+        friendly_name: 'ХВС Ванная'
+        unit_of_measurement: 'М3'
+        value_template: "{{ states('sensor.0x00124b002443190c_l3')|float/100 }}"
+        
+  - platform: template
+    sensors:
+      water_hot_vanna:
+        friendly_name: 'ГВС Ванная'
+        unit_of_measurement: 'М3'
+        value_template: "{{ states('sensor.0x00124b002443190c_l5')|float/100 }}"
+
+  - platform: template
+    sensors:
+      water_cold_kuchnya:
+        friendly_name: 'ХВС Кухня'
+        unit_of_measurement: 'М3'
+        value_template: "{{ states('sensor.0x00124b0024431c4d_l3')|float/100 }}"
+        
+  - platform: template
+    sensors:
+      water_hot_kuchnya:
+        friendly_name: 'ГВС Кухня'
+        unit_of_measurement: 'М3'
+        value_template: "{{ states('sensor.0x00124b0024431c4d_l5')|float/100 }}"

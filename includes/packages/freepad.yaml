@@ -1,0 +1,112 @@
+# freepad:
+    # automation:
+    # - alias: button_1
+      # trigger:
+        # entity_id: sensor.0x00124b001fbf234b_action
+        # platform: state
+        # to: 'button_1_single'
+        
+      # action:
+      # - service: switch.toggle
+        # entity_id: switch.0x158d00031de357_channel_1
+
+
+# #Включение по двойному клику ночью
+    # - alias: button_2_night
+      # trigger:
+        # entity_id: sensor.0x00124b001fbf234b_action
+        # platform: state
+        # to: 'button_2_single'
+      
+      # condition:
+       # - condition: state
+         # entity_id: light.yeelight_color_0x00000000112cbed7
+         # state: 'off'
+       # - condition: state
+         # entity_id: light.yeelight_color_0x000000000800fcce
+         # state: 'off' 
+       # - condition: time
+         # after: '22:00:00'
+         # before: '07:00:00'
+      
+      # action:
+      # - service: light.turn_on
+        # entity_id: 
+          # - light.yeelight_color_0x00000000112cbed7
+          # - light.yeelight_color_0x000000000800fcce
+        # data_template:
+          # rgb_color: [255, 126, 0]
+
+    # - alias: button_2
+      # trigger:
+        # entity_id: sensor.0x00124b001fbf234b_action
+        # platform: state
+        # to: 'button_2_single'
+        
+      # condition:
+      # - condition: state
+        # entity_id: light.yeelight_color_0x00000000112cbed7
+        # state: 'off'
+      # - condition: state
+        # entity_id: light.yeelight_color_0x000000000800fcce
+        # state: 'off' 
+      # - condition: time
+        # after: '07:00:01'
+        # before: '21:59:59'
+      
+      # action:
+      # - service: light.turn_on
+        # entity_id: 
+          # - light.yeelight_color_0x00000000112cbed7
+          # - light.yeelight_color_0x000000000800fcce
+        # data_template:
+          # brightness_pct: 50
+          # kelvin: 4000
+
+# #Выключение по двойному клику
+    # - alias: button_2_off
+      # trigger:
+        # entity_id: sensor.0x00124b001fbf234b_action
+        # platform: state
+        # to: 'button_2_single'
+
+      # condition:
+       # - condition: state
+         # entity_id: light.yeelight_color_0x00000000112cbed7
+         # state: 'on'
+       # - condition: state
+         # entity_id: light.yeelight_color_0x000000000800fcce
+         # state: 'on' 
+      
+      # action:
+      # - service: light.turn_off
+        # entity_id: 
+          # - light.yeelight_color_0x00000000112cbed7
+          # - light.yeelight_color_0x000000000800fcce
+
+    # - alias: button_3
+      # trigger:
+        # entity_id: sensor.0x00124b001fbf234b_action
+        # platform: state
+        # to: 'button_3_single'
+      # action:
+      # - service: switch.toggle
+        # entity_id: switch.0x00124b001ec85b30_switch
+        
+    # - alias: button_4
+      # trigger:
+        # entity_id: sensor.0x00124b001fbf234b_action
+        # platform: state
+        # to: 'button_4_single'
+      # action:
+      # - service: switch.toggle
+        # entity_id: switch.0x158d0003235546_switch
+        
+    # - alias: button_5
+      # trigger:
+        # entity_id: sensor.0x00124b001fbf234b_action
+        # platform: state
+        # to: 'button_5_single'
+      # action:
+      # - service: switch.toggle
+        # entity_id: switch.0x00124b001b7976bf

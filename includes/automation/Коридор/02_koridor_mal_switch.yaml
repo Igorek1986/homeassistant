@@ -1,0 +1,14 @@
+# #Включение правой клавиши зал
+# - alias: switch_koridor_mal_1_right
+  # initial_state: true
+# #   initial_state: false
+  # trigger:
+# # Кнопка подключенная через zigbe2mqtt
+   # - platform: state
+     # entity_id: sensor.0x158d00054eb5cc_action
+     # to: 'button_1_single'
+      
+  # action:
+  # - service: switch.toggle
+    # entity_id: 
+      # - switch.0x158d00054eb5cc_channel_2

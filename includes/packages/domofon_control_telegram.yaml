@@ -1,0 +1,183 @@
+# domofon_teleg:
+#   automation:
+#   - alias: 'Телеграм: Домофон. Управление'
+#     description: Управление домофоном через телеграм
+#     trigger:
+#     - platform: event
+#       event_type: telegram_callback
+#       event_data: {}
+#     condition: []
+#     action:
+#     - choose:
+#       - conditions:
+#         - condition: template
+#           value_template: '{{ trigger.event.data.command == ''/domofon'' }}'
+#         sequence:
+#         - service: telegram_bot.send_message
+#           data:
+#             message: | 
+#               {{"\U0001F4AC"}} Основной сервер
+#         - service: telegram_bot.send_message
+#           data:
+#             target: '{{ trigger.event.data.chat_id }}'
+#             message: &msg |
+#               {{'\U00002699'}} **Режим работы домофона**
+#   #Клавиатура
+#             inline_keyboard: &keyb
+#             - '{% set domofon_modes = states("input_select.smart_domofon_scrators_modes") %}
+#               {% if domofon_modes == "Не активен" %} {{"🟢"}}
+#               {% else %} {{"🔴"}}
+#               {% endif %} 
+#               Не активен:/domofon_not_active,
+#               {% set domofon_modes = states("input_select.smart_domofon_scrators_modes") %}
+#               {% if domofon_modes == "Открывать всегда" %} {{"🟢"}}
+#               {% else %} {{"🔴"}}
+#               {% endif %} 
+#               Открывать всегда:/domofon_open_always'
+#             - '{% if is_state("switch.smart_domofon_scrators_mute", "on") %} {{"🟢"}}
+#               {% else %} {{"🔴"}} 
+#               {% endif %}
+#               Беззвучный режим:/domofon_mute,
+#               {% set domofon_modes = states("input_select.smart_domofon_scrators_modes") %}
+#               {% if domofon_modes == "Сброс вызова" %} {{"🟢"}}
+#               {% else %} {{"🔴"}}
+#               {% endif %} 
+#               Сброс вызова:/domofon_reset_call'
+#             - '{% set domofon_modes = states("input_select.smart_domofon_scrators_modes") %}
+#               {% if domofon_modes == "Сброс вызова если нет ответа" %} {{"🟢"}}
+#               {% else %} {{"🔴"}}
+#               {% endif %} 
+#               Сброс вызова если нет ответа:/domofon_resetting_call_no_response'
+#             - Назад:/backhome
+    
+#   #Кнопка №1. Не активен
+#       - conditions:
+#         - condition: template
+#           value_template: '{{ trigger.event.data.command == "/domofon_not_active" }}'
+#         sequence:
+#         - service: input_select.select_option
+#           target:
+#             entity_id: input_select.smart_domofon_scrators_modes
+#           data:
+#             option: Не активен
+#         - delay:
+#             milliseconds: 300
+#         - service: telegram_bot.edit_message
+#           data:
+#             message_id: '{{ trigger.event.data.message.message_id }}'
+#             chat_id: '{{ trigger.event.data.user_id }}'
+#             callback_query_id: '{{ trigger.event.data.id }}'
+#             message: *msg
+#             inline_keyboard: *keyb
+  
+#   #Кнопка №2. Открывать всегда
+#       - conditions:
+#         - condition: template
+#           value_template: '{{ trigger.event.data.command == "/domofon_open_always" }}'
+#         sequence:
+#         - service: input_select.select_option
+#           target:
+#             entity_id: input_select.smart_domofon_scrators_modes
+#           data:
+#             option: Открывать всегда
+#         - delay:
+#             milliseconds: 300
+#         - service: telegram_bot.edit_message
+#           data:
+#             message_id: '{{ trigger.event.data.message.message_id }}'
+#             chat_id: '{{ trigger.event.data.user_id }}'
+#             callback_query_id: '{{ trigger.event.data.id }}'
+#             message: *msg
+#             inline_keyboard: *keyb
+  
+#   #Кнопка №3. Беззвучный режим
+#       - conditions:
+#         - condition: template
+#           value_template: '{{ trigger.event.data.command == "/domofon_mute" }}'
+#         sequence:
+#         - service: switch.toggle
+#           target:
+#             entity_id: switch.smart_domofon_scrators_mute
+#         - delay:
+#             milliseconds: 300
+#         - service: telegram_bot.edit_message
+#           data:
+#             message_id: '{{ trigger.event.data.message.message_id }}'
+#             chat_id: '{{ trigger.event.data.user_id }}'
+#             callback_query_id: '{{ trigger.event.data.id }}'
+#             message: *msg
+#             inline_keyboard: *keyb
+  
+#   #Кнопка №4. Сброс вызова
+#       - conditions:
+#         - condition: template
+#           value_template: '{{ trigger.event.data.command == "/domofon_reset_call" }}'
+#         sequence:
+#         - service: input_select.select_option
+#           target:
+#             entity_id: input_select.smart_domofon_scrators_modes
+#           data:
+#             option: Сброс вызова
+#         - delay:
+#             milliseconds: 300
+#         - service: telegram_bot.edit_message
+#           data:
+#             message_id: '{{ trigger.event.data.message.message_id }}'
+#             chat_id: '{{ trigger.event.data.user_id }}'
+#             callback_query_id: '{{ trigger.event.data.id }}'
+#             message: *msg
+#             inline_keyboard: *keyb
+  
+#   #Кнопка №5. Сброс вызова если нет ответа
+#       - conditions:
+#         - condition: template
+#           value_template: '{{ trigger.event.data.command == "/domofon_resetting_call_no_response" }}'
+#         sequence:
+#         - service: input_select.select_option
+#           target:
+#             entity_id: input_select.smart_domofon_scrators_modes
+#           data:
+#             option: Сброс вызова если нет ответа
+#         - delay:
+#             milliseconds: 300
+#         - service: telegram_bot.edit_message
+#           data:
+#             message_id: '{{ trigger.event.data.message.message_id }}'
+#             chat_id: '{{ trigger.event.data.user_id }}'
+#             callback_query_id: '{{ trigger.event.data.id }}'
+#             message: *msg
+#             inline_keyboard: *keyb
+#       default: []
+#     mode: restart
+    
+    
+# #   - id: telegram-control-pannel-start
+#   - alias: 'Telegram Control Pannel Command'
+#     initial_state: on
+#     trigger:
+#     - platform: event
+#       event_type: telegram_callback
+#       event_data:
+#         data: '/menu'
+#     action:
+#     - service: telegram_bot.send_message
+#       data_template:
+#           target: '{{ trigger.event.data.data.id }}'
+#           message: >
+#               {{ [
+#               "Пріветікі",
+#               "До зірок",
+#               "Сер, Да сер!",
+#               "Здоровенькі були!",
+#               "Вечір в хату!",
+#               "Здрасть!",
+#               "Шо такоє?",
+#               "Паєхалі",
+#               "хелло аміго",
+#               "Буенос ночес!"
+#               ] | random }}       
+#           data:
+#           inline_keyboard:
+#             - '{{"\U0001F4A1"}} Lights:/lights, {{"\u2753"}} Status:/sstatus, {{"\u26D4"}} Security:/security'
+#             - '{{"\U0001F6E0"}} System:/system, {{"\U0001F501"}} Ping:/ping, {{"\U0001F4CC"}} User location:/location '
+#             - '{{"\U0001F324"}} Weather:/weather, {{"\U0001F4B5"}} Shoping :/shopinglist'

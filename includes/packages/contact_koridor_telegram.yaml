@@ -1,0 +1,40 @@
+# door_coridor:
+    # automation:
+
+# # Входная дверь открыта, уведомление об открытии, Телеграм
+    # - alias: door_telegram_on
+
+      # trigger:
+        # entity_id: binary_sensor.0x158d00039c0a59_contact
+        # platform: state
+        # to: 'on'
+      # condition:
+        # condition: or
+        # conditions:
+         # - condition: state
+           # entity_id: person.igor
+           # state: 'not_home'
+
+      # action:
+        # service: notify.telegram_id_1
+        # data:
+          # message: "Входная дверь открыта"
+
+# # Входная дверь открыта, уведомление о закрытии, Телеграм
+    # - alias: door_kuchnya_telegram_off
+
+      # trigger:
+        # entity_id: binary_sensor.0x158d00039c0a59_contact
+        # platform: state
+        # to: 'off'
+      # condition:
+        # condition: or
+        # conditions:
+         # - condition: state
+           # entity_id: person.igor
+           # state: 'not_home'
+
+      # action:
+        # service: notify.telegram_id_1
+        # data:
+          # message: "Входная дверь закрыта"

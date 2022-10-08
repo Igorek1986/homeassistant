@@ -1,0 +1,6 @@
+  - platform: template
+    sensors:
+      tv_spalnya_status:
+        friendly_name: "ТВ Спальня"
+        value_template: >-
+          {{ states('sensor.0x158d0001107199_power')|float > (5) }}

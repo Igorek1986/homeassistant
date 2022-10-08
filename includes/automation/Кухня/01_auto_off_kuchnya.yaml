@@ -1,0 +1,85 @@
+# Выключение без движения 15 минут
+# - alias: motion_kuchnya_svet_off_left
+  # initial_state: true
+  # trigger:
+## Датчик движения подключенный через zigbe2mqtt
+  # - platform: state
+    # entity_id: binary_sensor.auto_off_svet_kuchnya_left
+    # to: 'on'
+    # for: "0:{{ states('input_number.auto_off_svet_kuchnya_left') |int }}"
+#    # for:
+#     # minutes: 15
+  # condition:
+    # - condition: state
+      # entity_id: switch.0x158d00031de357_channel_1
+      # state: 'on'
+  # action:
+  # - service: switch.turn_off
+    # entity_id: switch.0x158d00031de357_channel_1
+    
+# # Выключение без движения ночника 30 минут
+# - alias: motion_kuchnay_rgb_off
+  # initial_state: true
+  # trigger:
+# # Датчик движения подключенный через zigbe2mqtt
+  # - platform: state
+    # entity_id: binary_sensor.auto_off_rgb_kuchnya
+    # to: 'on'
+    # for: "0:{{ states('input_number.auto_off_rgb_kuchnya') |int }}"
+    # # for:
+     # # minutes: 30
+  # condition:
+    # condition: or
+    # conditions:
+      # - condition: state
+        # entity_id: light.yeelight_color_0x00000000112cbed7
+        # state: 'on'
+      # - condition: state
+        # entity_id: light.yeelight_color_0x000000000800fcce
+        # state: 'on'
+  # action:
+  # - service: light.turn_off
+    # entity_id: light.yeelight_color_0x00000000112cbed7
+  # - service: light.turn_off
+    # entity_id: light.yeelight_color_0x000000000800fcce
+    
+# # Выключение без движения подсветки 30 минут
+# - alias: motion_kuchnya_podsvetka_off
+  # initial_state: true
+  # trigger:
+# # Датчик движения подключенный через zigbe2mqtt
+  # - platform: state
+    # entity_id: binary_sensor.auto_off_podsvetka_kuchnya
+    # to: 'on'
+    # for: "0:{{ states('input_number.auto_off_podsvetka_kuchnya') |int }}"
+    # # for:
+     # # minutes: 30
+  # condition:
+    # - condition: state
+      # entity_id: switch.0x00124b001ec85b30
+      # state: 'on'
+  # action:
+  # - service: switch.turn_off
+    # entity_id: switch.0x00124b001ec85b30
+    
+# # Выключение без движения ТВ 60 минут
+# - alias: motion_kuchnay_tv_off
+  # initial_state: true
+  # trigger:
+# # Датчик движения подключенный через zigbe2mqtt
+  # - platform: state
+    # entity_id: binary_sensor.auto_off_tv_kuchnya
+    # to: 'on'
+    # for: "0:{{ states('input_number.auto_off_tv_kuchnya') |int }}"
+    # # for:
+     # # hours: 1
+  # condition:
+    # - condition: state
+      # entity_id: media_player.tv_kukhnia
+      # state: 'on'
+    # - condition: time
+      # after: '22:00:00'
+      # before: '07:00:00'
+  # action:
+  # - service: media_player.turn_off
+    # entity_id: media_player.tv_kukhnia

@@ -1,0 +1,77 @@
+
+# # Включение света
+# - alias: contact_koridor_on
+  # trigger:
+# # Датчик двери подключенный через zigbe2mqtt
+  # - platform: state
+    # entity_id: binary_sensor.0x158d00039c0a59_contact
+    # to: 'on'
+  # condition:
+    # condition: and
+    # conditions:
+      # - condition: state
+        # entity_id: switch.0x158d0003235546_switch
+        # state: 'off'
+      # - condition: state
+        # entity_id: binary_sensor.0x158d000396635b_motion
+        # state: 'off'
+        # # to: 'on'
+        # for:
+         # minutes: 2
+  # action:
+  # - service: switch.toggle
+    # entity_id: switch.0x158d0003235546_switch
+
+
+# # Выключение света
+# - alias: contact_lock_off
+  # trigger:
+# # Датчик двери подключенный через zigbe2mqtt
+  # - platform: state
+    # entity_id: binary_sensor.0x158d0003d31de4_contact
+    # to: 'off'
+# #   condition:
+# #     condition: and
+    # # conditions:
+    # #   - condition: state
+    # #     entity_id: switch.0x158d0003235546_switch
+    # #     state: 'off'
+    # #   - condition: state
+    # #     entity_id: binary_sensor.0x158d000396635b_motion
+    # #     state: 'off'
+    # #     # to: 'on'
+    # #     for:
+    # #      minutes: 2
+  # action:
+  # - service: switch.turn_off
+    # entity_id: switch.0x158d0003235546_switch
+  # - service: switch.turn_off
+    # entity_id: switch.0x00124b001ec85b30_switch
+  # - service: switch.turn_off
+    # entity_id: switch.0x158d00031de357_channel_1
+  # - service: light.turn_off
+    # entity_id: light.yeelight_color_0x00000000112cbed7
+  # - service: light.turn_off
+    # entity_id: light.yeelight_color_0x000000000800fcce
+  # - service: media_player.turn_off
+    # entity_id: media_player.tv_kukhnia
+  # - service: light.turn_off
+    # entity_id: light.gateway_light_7c49eb88e98a
+  # - service: switch.turn_off
+    # entity_id: switch.0x158d00034d0a07_channel_1
+  # - service: switch.turn_off
+    # entity_id: switch.0x158d000428aefc_channel_1
+  # - service: switch.turn_off
+    # entity_id: switch.0x158d000428aefc_channel_2
+  # - service: switch.turn_off
+    # entity_id: switch.0x158d0006b1fada_channel_1
+  # - service: switch.turn_off
+    # entity_id: switch.0x158d00034d0a07_channel_2
+  # - service: light.turn_off
+    # entity_id: light.gyver_lamp_esp_920e37
+  # - service: light.turn_off
+    # entity_id: light.zesp_bulb_00158d00036391d8
+  # - service: light.turn_off
+    # entity_id: light.zesp_bulb_00158d0002ecd55b
+  # - service: light.turn_off
+    # entity_id: light.zesp_bulb_00158d0003f0e83b

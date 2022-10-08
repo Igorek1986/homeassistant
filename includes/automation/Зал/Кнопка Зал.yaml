@@ -1,0 +1,38 @@
+# #Включение по тройному клику
+# - alias: knopka_triple_off
+#   initial_state: true
+#   trigger:
+# # Кнопка подключенная через zigbe2mqtt
+#   - platform: state
+#      entity_id: sensor.0x158d0002e6b618_action
+#      to: 'triple'
+
+#   action:
+#   - service: switch.turn_off
+#     entity_id: switch.0x158d00031de357_channel_1
+
+# #Включение по двойному клику
+# - alias: knopka_double_off
+#   initial_state: true
+#   trigger:
+# # Кнопка подключенная через zigbe2mqtt
+#   - platform: state
+#      entity_id: sensor.0x158d0002e6b618_action
+#      to: 'double'
+
+#   action:
+#   - service: switch.turn_off
+#     entity_id: switch.tv_on
+    
+# #Включение по клику
+# - alias: knopka_single_off
+#   initial_state: true
+#   trigger:
+# # Кнопка подключенная через zigbe2mqtt
+#   - platform: state
+#      entity_id: sensor.0x158d0002e6b618_action
+#      to: 'single'
+
+#   action:
+#   - service: switch.turn_off
+#     entity_id: switch.switch_zal

@@ -1,0 +1,20 @@
+  energy_daily_kvartira:
+    source: sensor.0x60a423fffe0da3ab_energy
+    cycle: daily
+    tariffs:
+      - day
+      - night
+    
+  energy_monthly_kvartira:
+    source: sensor.0x60a423fffe0da3ab_energy
+    cycle: monthly
+    tariffs:
+      - day
+      - night
+    
+  energy_yearly_kvartira:
+    source: sensor.0x60a423fffe0da3ab_energy
+    cycle: yearly
+    tariffs:
+      - day
+      - night

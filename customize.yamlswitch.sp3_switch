@@ -1,0 +1,92 @@
+#Бинарные сенсоры
+binary_sensor.0x00158d0002583b1a_occupancy:
+  friendly_name: Датчик движения
+  icon: mdi:motion-sensor
+  
+sensor.0x00158d0002583b1a_battery:
+  friendly_name: Датчик движения батарейка
+  
+#Кнопка (Зал)
+sensor.0x00158d0002e6b618_click:
+  friendly_name: Кнопка (Зал)
+  icon: mdi:radiobox-blank
+sensor.0x00158d0002e6b618_battery:
+  friendly_name: Кнопка батарейка (Зал)
+  
+sensor.0x00158d0002fa9e5d_click:
+  friendly_name: Кнопка2 (Кухня)
+  icon: mdi:radiobox-blank
+sensor.0x00158d0002fa9e5d_battery:
+  friendly_name: Кнопка2 батарейка (Кухня)
+  
+#Беспроводной выключатель кухня
+sensor.0x00158d0002c9db62_click:
+  friendly_name: Беспроводной выключатель (Кухня)
+  icon: mdi:light-switch
+  
+sensor.0x00158d0002c9db62_battery:
+  friendly_name: Беспроводной выключатель батарейка (Кухня)
+  
+#Светильники
+light.gateway_light_7c49eb88e98a:
+  friendly_name: Шлюз ночник
+  icon: mdi:star-circle-outline
+
+#Fit
+sensor.igor_steps:
+  friendly_name: Шаги
+sensor.igor_distance:
+  friendly_name: Расстояние
+sensor.igor_heart_rate:
+  friendly_name: Пульс
+sensor.igor_sleep:
+  friendly_name: Сон
+sensor.igor_weight:
+  friendly_name: Вес
+
+#Розетки, выключатели, реле 
+switch.0x00158d0001107199_switch:
+  friendly_name: Розетка Zigbee
+  device_class: plug  
+  icon: mdi:power
+sensor.0x00158d0001107199_power:
+  friendly_name: 'Розетка Zigbee мощность' 
+  unit_of_measurement: 'Вт'
+
+switch.0x00124b001ec85b30_switch:
+  friendly_name: 'Розетка туалет'
+  device_class: plug  
+  icon: mdi:power
+sensor.0x00124b001ec85b30_power:
+  friendly_name: 'Розетка туалет'
+  unit_of_measurement: 'Вт'
+  
+switch.sp3_switch:
+  friendly_name: 'Розетка компьютер'
+  device_class: plug  
+  icon: mdi:power
+  
+switch.0x00158d0003235546_switch:
+  friendly_name: Выключатель (Коридор)
+  icon: mdi:power-socket
+  
+switch.0x00158d00031de357_switch_left:
+  friendly_name: Выключатель левая клавиша (Кухня)
+  icon: mdi:power-socket
+  
+switch.0x00158d00031de357_switch_right:
+  friendly_name: Выключатель правая клавиша (Кухня)
+  icon: mdi:power-socket
+
+switch.0x00158d00034d0a07_switch_left:
+  friendly_name: Выключатель левая клавиша (Спальня)
+  icon: mdi:power-socket
+  
+switch.0x00158d00034d0a07_switch_right:
+  friendly_name: Выключатель правая клавиша (Спальня)
+  icon: mdi:power-socket
+
+#Сенсоры
+sensor.illumination_7c49eb88e98a:
+  friendly_name: Шлюз освещенность
+  device_class: illuminance

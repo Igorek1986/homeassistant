@@ -1,0 +1,29 @@
+    # Сенсор автоотключения света 
+      - platform: template
+        sensors:
+          auto_off_svet_zerkalo_vannay:
+            friendly_name: "Автоотключение света зеркало ванная"
+            value_template: >-
+              {{ is_state('switch.0x00124b001b7976bf', 'on')  
+                 and is_state('binary_sensor.0x158d0003f12cf9_motion', 'off')  }}
+            icon_template: >-
+              {% if is_state("binary_sensor.auto_off_svet_zerkalo_vannay", "on") %}
+              mdi:timer
+              {% else %}
+              mdi:timer-off
+              {% endif %}
+              
+    #Сенсор автоотключения вентилятора ванная
+      - platform: template
+        sensors:
+          auto_off_fan_vannay:
+            friendly_name: "Автоотключение света зеркало ванная"
+            value_template: >-
+              {{ is_state('switch.0x04cf8cdf3c8e15d6', 'on')  
+                 and is_state('binary_sensor.0x158d0003f12cf9_motion', 'off')  }}
+            icon_template: >-
+              {% if is_state("binary_sensor.auto_off_fan_vannay", "on") %}
+              mdi:timer
+              {% else %}
+              mdi:timer-off
+              {% endif %}

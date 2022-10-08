@@ -1,0 +1,118 @@
+# svet_kuchnya:
+    # automation:
+
+# # Свет в кухне, уведомление о включении, Телеграм
+    # - alias: svet_kuchnya_telegram_on
+      # trigger:
+        # entity_id: switch.0x158d00031de357_channel_1
+        # platform: state
+        # to: 'on'
+      # condition:
+        # condition: and
+        # conditions:
+         # - condition: state
+           # entity_id: person.igor
+           # state: 'not_home'
+         # - condition: state
+           # entity_id: person.marina
+           # state: 'not_home'
+
+      # action:
+        # service: notify.telegram_id_1
+        # data:
+          # message: "Свет в кухне включен!"
+
+# # Свет в кухне, уведомление о выключении, Телеграм
+    # - alias: svet_kuchnya_telegram_off
+      # trigger:
+        # entity_id: switch.0x158d00031de357_channel_1
+        # platform: state
+        # to: 'off'
+      # condition:
+        # condition: and
+        # conditions:
+         # - condition: state
+           # entity_id: person.igor
+           # state: 'not_home'
+         # - condition: state
+           # entity_id: person.marina
+           # state: 'not_home'
+
+      # action:
+        # service: notify.telegram_id_1
+        # data:
+          # message: "Свет в кухне выключен!"
+          
+# # Свет в кухне, уведомление о выключении, Телеграм
+    # - alias: svet_kuchnya_telegram_off
+      # trigger:
+        # entity_id: switch.0x158d00031de357_channel_2
+        # platform: state
+        # to: 'off'
+      # condition:
+        # condition: and
+        # conditions:
+         # - condition: state
+           # entity_id: person.igor
+           # state: 'not_home'
+         # - condition: state
+           # entity_id: person.marina
+           # state: 'not_home'
+
+      # action:
+        # service: notify.telegram_id_1
+        # data:
+          # message: "Подсветка  в кухне выключена!"
+          
+    # - alias: cube brightness UP
+      # initial_state: true
+      # trigger:
+      # - platform: state
+        # entity_id: sensor.0x158d0002fa9e5d_action
+        # to: long
+      # action:
+        # - service: light.turn_on
+          # data_template:
+            # entity_id: light.yeelight_color_0x00000000112cbed7
+            # brightness: > 
+              # {%- set bright = ((states.light.yeelight_color_0x00000000112cbed7.attributes.brightness + state_attr('sensor.0x158d0002fa9e5d_action','angle')) )|int %}
+              # {% if bright > 255 %}
+                # 255
+              # {% elif bright < 0 %}
+                # 1
+              # {% else %}
+                # {{bright}}
+              # {% endif %}
+        
+#    - alias: Cvety_on
+#      trigger:
+#        platform: state
+#        entity_id: switch.0x158d00035507c3_switch
+#        from: 'off'
+#        to: 'on'
+#      condition:
+#        condition: or
+#        conditions:
+#         - condition: state
+#           entity_id: person.igor
+#           state: 'not_home'
+#      action:
+#        service: notify.telegram_id_2
+#        data:
+#          message: "Подсветка цветов включена"
+#    - alias: Cvety_off
+#      trigger:
+#        platform: state
+#        entity_id: switch.0x158d00035507c3_switch
+#        from: 'on'
+#        to: 'off'
+#      condition:
+#        condition: or
+#        conditions:
+#         - condition: state
+#           entity_id: person.igor
+#           state: 'not_home'
+#      action:
+#        service: notify.telegram_id_2
+#        data:
+#          message: "Подсветка цветов выключена"

@@ -1,0 +1,56 @@
+    # Сенсор автоотключения света 
+      - platform: template
+        sensors:
+          auto_off_gateway_zal:
+            friendly_name: "Автоотключение подсветки шлюза зал"
+            value_template: >-
+              {{ is_state('light.gateway_light_7c49eb88e98a', 'on')  
+                 and is_state('binary_sensor.0x158d0003966333_motion', 'off')  }}
+            icon_template: >-
+              {% if is_state("binary_sensor.auto_off_gateway_zal", "on") %}
+              mdi:timer
+              {% else %}
+              mdi:timer-off
+              {% endif %}
+              
+      - platform: template
+        sensors:
+          auto_off_tv_zal:
+            friendly_name: "Автоотключение ТВ зал"
+            value_template: >-
+              {{ is_state('switch.tv_on', 'on')  
+                 and is_state('binary_sensor.0x158d0003966333_motion', 'off')  }}
+            icon_template: >-
+              {% if is_state("binary_sensor.auto_off_tv_zal", "on") %}
+              mdi:timer
+              {% else %}
+              mdi:timer-off
+              {% endif %}
+              
+      - platform: template
+        sensors:
+          auto_off_komp_zal:
+            friendly_name: "Автоотключение компьютера зал"
+            value_template: >-
+              {{ is_state('switch.komp', 'on')  
+                 and is_state('binary_sensor.0x158d0003966333_motion', 'off')  }}
+            icon_template: >-
+              {% if is_state("binary_sensor.auto_off_komp_zal", "on") %}
+              mdi:timer
+              {% else %}
+              mdi:timer-off
+              {% endif %}
+
+      - platform: template
+        sensors:
+          auto_off_svet_zal:
+            friendly_name: "Автоотключение света зал"
+            value_template: >-
+              {{ is_state('switch.0x00158d00054eb5cc_channel_2', 'on')  
+                 and is_state('binary_sensor.0x158d0003966333_motion', 'off')  }}
+            icon_template: >-
+              {% if is_state("binary_sensor.auto_off_gateway_zal", "on") %}
+              mdi:timer
+              {% else %}
+              mdi:timer-off
+              {% endif %}

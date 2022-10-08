@@ -1,0 +1,16 @@
+  zigbee_permit_join:
+    name: Allow devices to join
+    initial: off
+    icon: mdi:cellphone-wireless
+    
+  # garage_door_motion:
+    # name: Гаражные ворота движение # ON движение OFF остановка
+    # icon: mdi:garage-alert
+
+  # garage_door_direction:
+    # name: Гаражные ворота направление # ON вверх OFF вниз
+    # icon: mdi:sign-direction
+    
+  svet_zal_on:
+    name: Свет
+    

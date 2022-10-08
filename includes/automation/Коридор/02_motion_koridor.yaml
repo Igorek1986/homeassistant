@@ -1,0 +1,80 @@
+# # Выключение без движения 3 минут
+# - alias: motion_koridor_off
+  # initial_state: true
+  # trigger:
+# # # Выключатель подключенный через gateway 3
+# #   - platform: state
+# #      entity_id: sensor.0x158d0003235546_action
+# #      to: 'single'
+     
+# # Датчик движения подключенный через zigbe2mqtt
+  # - platform: state
+    # entity_id: binary_sensor.auto_off_svet_koridor
+    # to: 'on'
+    # for: "0:{{ states('input_number.auto_off_svet_koridor') |int }}"
+    # # for:
+      # # minutes: 3
+  # condition:
+    # - condition: state
+      # entity_id: switch.0x158d0003235546_switch
+      # state: 'on'
+  # action:
+  # - service: switch.turn_off
+    # entity_id: switch.0x158d0003235546_switch
+
+
+# # Выключение без движения 6 минут
+# - alias: motion_koridor_mal_tualet_off
+  # initial_state: true
+  # trigger:
+# # Датчик движения подключенный через gateway 3
+  # - platform: state
+    # entity_id: binary_sensor.auto_off_svet_koridor_tualet
+    # to: 'on'
+    # for: "0:{{ states('input_number.tualet_svet_minutes') |int }}"
+    # #   minutes: 6
+  # condition:
+    # - condition: state
+      # entity_id: switch.0x158d00054ce938_channel_1
+      # state: 'on'
+  # action:
+  # - service: switch.turn_off
+    # entity_id: switch.0x158d00054ce938_channel_1
+
+# # Выключение без движения 30 минут
+# - alias: motion_koridor_mal_vanna_off
+  # initial_state: true
+  # trigger:
+# # Датчик движения подключенный через gateway 3
+  # - platform: state
+    # entity_id: binary_sensor.auto_off_svet_koridor_vanna
+    # to: 'on'
+    # for: "0:{{ states('input_number.auto_off_svet_koridor_vanna') |int }}"
+    # # for:
+      # # minutes: 30
+  # condition:
+    # - condition: state
+      # entity_id: switch.0x158d00054ce938_channel_2
+      # state: 'on'
+  # action:
+  # - service: switch.turn_off
+    # entity_id: switch.0x158d00054ce938_channel_2
+    
+# # Выключение без движения 5 минут
+# - alias: motion_koridor_mal_off
+  # initial_state: true
+  # trigger:
+# # Датчик движения подключенный через gateway 3
+  # - platform: state
+    # entity_id: binary_sensor.auto_off_svet_koridor_mal
+    # to: 'on'
+    # for: "0:{{ states('input_number.auto_off_svet_koridor_mal') |int }}"
+    # # for:
+      # # minutes: 5
+  # condition:
+    # - condition: state
+      # entity_id: switch.0x158d0005882b0b_switch
+      # state: 'on'
+  # action:
+  # - service: switch.turn_off
+    # entity_id: switch.0x158d0005882b0b_switch

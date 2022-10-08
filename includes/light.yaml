@@ -1,0 +1,69 @@
+#Выключатель подсветка
+  - platform: switch
+    name: led_light
+    entity_id: switch.0x00124b001ec85b30
+#Выключатель левая клавиша (Кухня) zigbee2mqtt
+  - platform: switch
+    name: led_light_1_left
+    entity_id: switch.0x00158d00031de357_channel_1
+    
+#Выключатель правая клавиша (Кухня) zigbee2mqtt
+  - platform: switch
+    name: led_light_1_right
+    entity_id: switch.0x00158d00031de357_channel_2
+
+# Выключатель (Коридор)
+  - platform: switch
+    name: led_light_2
+    entity_id: switch.0x158d0003235546_switch
+    
+#Выключатель левая клавиша (Детская) zigbee2mqtt
+  - platform: switch
+    name: led_light_3_left
+    entity_id: switch.0x00158d0006b1fada_channel_1
+    
+#Выключатель правая клавиша (Детская) zigbee2mqtt
+  - platform: switch
+    name: led_light_3_right
+    entity_id: switch.0x00158d0006b1fada_channel_2
+    
+#   - platform: switch
+#     name: tv_on
+#     entity_id: switch.tv_on
+
+#Выключатель (Резерв) zigbee2mqtt
+  - platform: switch
+    name: led_light_4_left
+    entity_id: switch.0x00158d00034d0a07_channel_1
+    
+#Выключатель (Ванная) zigbee2mqtt
+  - platform: switch
+    name: led_light_5_vanna
+    entity_id: switch.0x00124b001b7976bf
+    
+#Выключатель (Ванная свет) zigbee2mqtt
+  - platform: switch
+    name: led_light_5_vanna_svet
+    entity_id: switch.0x00158d00054ce938_channel_2
+    
+#Выключатель (Туалет свет) zigbee2mqtt
+  - platform: switch
+    name: led_light_5_tualet_svet
+    entity_id: switch.0x00158d00054ce938_channel_1
+    
+#Выключатель (Коридор мал.) zigbee2mqtt
+  - platform: switch
+    name: led_light_2_koridor_svet_mal
+    entity_id: switch.0x158d0005882b0b_switch
+
+# Выключатель (Зал) zigbee2mqtt
+  - platform: switch
+    name: led_light_zal
+    entity_id: switch.0x00158d00054eb5cc_channel_2
+    
+#Ночник кухня
+  - platform: group
+    name: Kitchen_nochnik
+    entities:
+      - light.yeelight_color_0x00000000112cbed7
+      - light.yeelight_color_0x000000000800fcce

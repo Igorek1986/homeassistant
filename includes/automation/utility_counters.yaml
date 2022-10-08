@@ -1,0 +1,99 @@
+# ##################################
+# System - Power Meter Daily
+# ##################################
+- alias: system_power_meter_daily
+#  id: system_power_meter_daily
+  initial_state: true
+  trigger:
+    - platform: time
+      at: '23:59:30'
+  action:
+  - service: input_number.set_value
+    # target:
+    data:
+      entity_id: input_number.power_meter_t1
+      value: "{{ ((states('input_number.power_meter_t1')) | float + states('sensor.energy_daily_kvartira_day')|float/1 )|round(2) }}"
+  - service: input_number.set_value
+    # target:
+    data:
+      entity_id: input_number.power_meter_t2
+      value: "{{ ((states('input_number.power_meter_t2')) | float + states('sensor.energy_daily_kvartira_night')|float/1 )|round(2) }}"
+  - service: mqtt.publish
+    data:
+      topic: 'utility/main/energy/day'
+      payload: "{{ states('input_number.power_meter_t1') }}"
+      retain: true
+  - service: mqtt.publish
+    data:
+      topic: 'utility/main/energy/night'
+      payload: "{{ states('input_number.power_meter_t2') }}"
+      retain: true
+  - service: notify.telegram_id_1
+    data:
+      message: '"\U0001f50c Данные счетчика электричества обновлены!"'
+    # - choose:
+        # - conditions: 
+            # - condition: state
+              # entity_id: binary_sensor.esp8266_pzem_hb_status
+              # state: 'on'
+      # sequence:
+        # - service: input_number.set_value
+          # data:
+            # entity_id: input_number.power_meter_t1
+            # value: "{{ ((states('input_number.power_meter_t1')) | float + states('sensor.energy_daily_kvartira_day')|float/1 )|round(2) }}"
+        # - service: input_number.set_value
+          # data:
+            # entity_id: input_number.power_meter_t2
+            # value: "{{ ((states('input_number.power_meter_t2')) | float + states('sensor.energy_daily_kvartira_night')|float/1 )|round(2) }}"
+        # - service: mqtt.publish 
+          # data:
+            # topic: "utility/main/energy/day"
+            # payload: "{{ states('input_number.power_meter_t1') }}"
+            # retain: true
+        # - service: mqtt.publish 
+          # data:
+            # topic: "utility/main/energy/night"
+            # payload: "{{ states('input_number.power_meter_t2') }}"
+            # retain: true
+        # - service: notify.telegram_1
+          # data:
+            # message: "\U0001f50c Данные счетчика электричества обновлены!"
+        # - conditions: 
+            # - condition: state
+              # entity_id: binary_sensor.esp8266_pzem_hb_status
+              # state: 'off'
+          # sequence:
+            # - service: notify.telegram
+              # data:
+                # message: "\U0001f50c PZEM недоступен! Ожидаем"
+            # - wait_for_trigger:
+                # - platform: state
+                  # entity_id: binary_sensor.esp8266_pzem_hb_status
+                  # to: 'on'
+              # timeout:
+                # seconds: 28
+              # continue_on_timeout: false
+            # - service: notify.telegram
+              # data:
+                # message: "\U0001f50c PZEM доступен!"
+            # - service: input_number.set_value
+              # data:
+                # entity_id: input_number.power_meter_t1
+                # value: "{{ ((states('input_number.power_meter_t1')) | float + states('sensor.esp8266_pzem_hb_energy_daily_day')|float/1 )|round(2) }}"
+            # - service: input_number.set_value
+              # data:
+                # entity_id: input_number.power_meter_t2
+                # value: "{{ ((states('input_number.power_meter_t2')) | float + states('sensor.esp8266_pzem_hb_energy_daily_night')|float/1 )|round(2) }}"
+            # - service: mqtt.publish 
+              # data:
+                # topic: "utility/main/energy/day"
+                # payload: "{{ states('input_number.power_meter_t1') }}"
+                # retain: true
+            # - service: mqtt.publish 
+              # data:
+                # topic: "utility/main/energy/night"
+                # payload: "{{ states('input_number.power_meter_t2') }}"
+                # retain: true
+            # - service: notify.telegram
+              # data:
+                # message: "\U0001f50c Данные счетчика электричества обновлены!"

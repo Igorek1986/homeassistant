@@ -1,0 +1,408 @@
+  # garagescript:
+    # alias: garagescript
+    # sequence:
+      # - service: switch.turn_on
+        # entity_id: switch.zavod_0xec1bbdfffeac506f_switch
+      # - delay:
+          # seconds: 1
+      # - service: switch.turn_off
+        # entity_id: switch.zavod_0xec1bbdfffeac506f_switch
+      # - service: homeassistant.update_entity
+        # entity_id: sensor.garage_open_close
+        
+  # garage_counter_decrement:
+    # alias: counter decrement
+    # sequence:
+      # - service: counter.decrement
+        # data:
+          # entity_id: counter.garage_counter
+      
+  # garage_counter_increment:
+    # alias: counter increment
+    # sequence:
+      # - service: counter.increment
+        # data:
+          # entity_id: counter.garage_counter
+
+  # garage_door_direction:
+    # alias: garage door direction
+    # sequence:
+      # - service: input_boolean.toggle
+        # data:
+          # entity_id: input_boolean.garage_door_direction
+
+  # noop:
+    # alias: Заглушка
+    # sequence:
+      # - delay:
+          # seconds: 0.1
+
+#Радио Кодидор#          
+  gateway_sound_stop_koridor:
+    alias: Коридор. Остановить воспроизведение
+    sequence:
+    - service: mqtt.publish
+      data:
+        topic: home/00158D0003F0E83B/playSound/kill/set
+        payload: '1'
+    mode: single
+    icon: mdi:stop
+  gateway_radio_koridor:
+    alias: Коридор. Радио
+    sequence:
+    - choose:
+      - conditions:
+        - condition: state
+          entity_id: input_boolean.gateway_radio_koridor
+          state: 'on'
+        sequence:
+        - service: script.gateway_sound_stop_koridor
+          data: {}
+        - delay:
+            milliseconds: 100
+        - service: mqtt.publish
+          data:
+            topic: home/00158D0003F0E83B/playSound/json/set
+            payload: >-
+                  {% if is_state("input_select.gateway_radio_station_koridor", "Radio
+                  Record - Медляк FM") %}
+                    {% set station = 'http://air2.radiorecord.ru:805/mdl_320' %}
+                  {% elif is_state("input_select.gateway_radio_station_koridor", "Radio
+                  Record - Gold") %}
+                    {% set station = 'http://air2.radiorecord.ru:805/gold_320' %}
+                  {% elif is_state("input_select.gateway_radio_station_koridor", "Radio
+                  Record - Gold") %}
+                    {% set station = 'http://dorognoe.hostingradio.ru:8000/radio?type=.mp3' %}
+                  {% elif is_state("input_select.gateway_radio_station_koridor","Relax
+                  Natur") %} 
+                    {% set station = 'http://ic7.101.ru:8000/c19_1' %}
+                  {% elif is_state("input_select.gateway_radio_station_koridor","Типичное
+                  FM") %} 
+                    {% set station = 'http://play.tipfm.ru:9000/9696' %}
+                  {% elif
+                  is_state("input_select.gateway_radio_station_koridor","Атмосфера") %} 
+                    {% set station = 'https://myradio24.org/atmo' %}
+                  {% elif is_state("input_select.gateway_radio_station_koridor","Маруся
+                  ФМ") %} 
+                    {% set station = 'http://radio-holding.ru:9000/marusya_default' %}
+                  {% elif is_state("input_select.gateway_radio_station_koridor","Smooth
+                  Jazz") %} 
+                    {% set station = 'http://stream14.shoutcastsolutions.com:8057/256streamTitle1' %}
+                  {% else %}
+                    {% set station = 'http://air2.radiorecord.ru:805/mdl_320' %}
+                  {% endif %}    {"volume":"{{ (50000 *
+                  states("input_number.gateway_volume_koridor") | float ) | int
+                  }}","path":"{{ station }}"}
+  
+      - conditions:
+        - condition: state
+          entity_id: input_boolean.gateway_radio_koridor
+          state: 'off'
+        sequence:
+        - service: script.gateway_sound_stop_koridor
+          data: {}
+      default: []
+    mode: single
+    icon: mdi:script
+  gateway_text_say_koridor:
+    alias: Коридор. Воспроизведение фразы
+    sequence:
+    - service: script.gateway_sound_stop_koridor
+      data: {}
+    - service: mqtt.publish
+      data:
+        topic: home/00158D0003F0E83B/saytxt/json/set
+        payload: '{"volume":"{{ states(''input_number.gateway_volume_koridor'') }}","text":"{{
+          states(''input_text.text_say'') }}","lang":"ru"}'
+    mode: single
+    icon: mdi:text-to-speech
+  gateway_volume_koridor:
+    alias: Коридор. Громкость
+    sequence:
+    - service: mqtt.publish
+      data:
+        topic: home/00158D0003F0E83B/playSound/volume/set
+        payload: '{{ (50000 * states("input_number.gateway_volume_koridor") | float ) | int
+          }}'
+    mode: single
+    icon: mdi:volume-high
+
+#Радио Спальня#
+  gateway_sound_stop_spalnya:
+    alias: Спальня. Остановить воспроизведение
+    sequence:
+    - service: mqtt.publish
+      data:
+        topic: home/00158D00036391D8/playSound/kill/set
+        payload: '1'
+    mode: single
+    icon: mdi:stop
+  gateway_radio_spalnya:
+    alias: Спальня. Радио
+    sequence:
+    - choose:
+      - conditions:
+        - condition: state
+          entity_id: input_boolean.gateway_radio_spalnya
+          state: 'on'
+        sequence:
+        - service: script.gateway_sound_stop_spalnya
+          data: {}
+        - delay:
+            milliseconds: 100
+        - service: mqtt.publish
+          data:
+            topic: home/00158D00036391D8/playSound/json/set
+            payload: >-
+                  {% if is_state("input_select.gateway_radio_station_spalnya", "Radio
+                  Record - Медляк FM") %}
+                    {% set station = 'http://air2.radiorecord.ru:805/mdl_320' %}
+                  {% elif is_state("input_select.gateway_radio_station_spalnya", "Radio
+                  Record - Gold") %}
+                    {% set station = 'http://air2.radiorecord.ru:805/gold_320' %}
+                  {% elif is_state("input_select.gateway_radio_station_spalnya", "Radio
+                  Record - Gold") %}
+                    {% set station = 'http://dorognoe.hostingradio.ru:8000/radio?type=.mp3' %}
+                  {% elif is_state("input_select.gateway_radio_station_spalnya","Relax
+                  Natur") %} 
+                    {% set station = 'http://ic7.101.ru:8000/c19_1' %}
+                  {% elif is_state("input_select.gateway_radio_station_spalnya","Типичное
+                  FM") %} 
+                    {% set station = 'http://play.tipfm.ru:9000/9696' %}
+                  {% elif
+                  is_state("input_select.gateway_radio_station_spalnya","Атмосфера") %} 
+                    {% set station = 'https://myradio24.org/atmo' %}
+                  {% elif is_state("input_select.gateway_radio_station_spalnya","Маруся
+                  ФМ") %} 
+                    {% set station = 'http://radio-holding.ru:9000/marusya_default' %}
+                  {% elif is_state("input_select.gateway_radio_station_spalnya","Smooth
+                  Jazz") %} 
+                    {% set station = 'http://stream14.shoutcastsolutions.com:8057/256streamTitle1' %}
+                  {% else %}
+                    {% set station = 'http://air2.radiorecord.ru:805/mdl_320' %}
+                  {% endif %}    {"volume":"{{ (50000 *
+                  states("input_number.gateway_volume_spalnya") | float ) | int
+                  }}","path":"{{ station }}"}
+  
+      - conditions:
+        - condition: state
+          entity_id: input_boolean.gateway_radio_spalnya
+          state: 'off'
+        sequence:
+        - service: script.gateway_sound_stop_spalnya
+          data: {}
+      default: []
+    mode: single
+    icon: mdi:script
+  gateway_text_say_spalnya:
+    alias: Спальня. Воспроизведение фразы
+    sequence:
+    - service: script.gateway_sound_stop_spalnya
+      data: {}
+    - service: mqtt.publish
+      data:
+        topic: home/00158D00036391D8/saytxt/json/set
+        payload: '{"volume":"{{ states(''input_number.gateway_volume_spalnya'') }}","text":"{{
+          states(''input_text.text_say'') }}","lang":"ru"}'
+    mode: single
+    icon: mdi:text-to-speech
+  gateway_volume_spalnya:
+    alias: Спальня. Громкость
+    sequence:
+    - service: mqtt.publish
+      data:
+        topic: home/00158D00036391D8/playSound/volume/set
+        payload: '{{ (50000 * states("input_number.gateway_volume_spalnya") | float ) | int
+          }}'
+    mode: single
+    icon: mdi:volume-high
+    
+#Радио Туалет#
+  gateway_sound_stop_tualet:
+    alias: Туалет. Остановить воспроизведение
+    sequence:
+    - service: mqtt.publish
+      data:
+        topic: home/00158D0002ECD55B/playSound/kill/set
+        payload: '1'
+    mode: single
+    icon: mdi:stop
+  gateway_radio_tualet:
+    alias: Туалет. Радио
+    sequence:
+    - choose:
+      - conditions:
+        - condition: state
+          entity_id: input_boolean.gateway_radio_tualet
+          state: 'on'
+        sequence:
+        - service: script.gateway_sound_stop_tualet
+          data: {}
+        - delay:
+            milliseconds: 100
+        - service: mqtt.publish
+          data:
+            topic: home/00158D0002ECD55B/playSound/json/set
+            payload: >-
+                  {% if is_state("input_select.gateway_radio_station_tualet", "Radio
+                  Record - Медляк FM") %}
+                    {% set station = 'http://air2.radiorecord.ru:805/mdl_320' %}
+                  {% elif is_state("input_select.gateway_radio_station_tualet", "Radio
+                  Record - Gold") %}
+                    {% set station = 'http://air2.radiorecord.ru:805/gold_320' %}
+                  {% elif is_state("input_select.gateway_radio_station_tualet", "Radio
+                  Record - Gold") %}
+                    {% set station = 'http://dorognoe.hostingradio.ru:8000/radio?type=.mp3' %}
+                  {% elif is_state("input_select.gateway_radio_station_tualet","Relax
+                  Natur") %} 
+                    {% set station = 'http://ic7.101.ru:8000/c19_1' %}
+                  {% elif is_state("input_select.gateway_radio_station_tualet","Типичное
+                  FM") %} 
+                    {% set station = 'http://play.tipfm.ru:9000/9696' %}
+                  {% elif
+                  is_state("input_select.gateway_radio_station","Атмосфера") %} 
+                    {% set station = 'https://myradio24.org/atmo' %}
+                  {% elif is_state("input_select.gateway_radio_station_tualet","Маруся
+                  ФМ") %} 
+                    {% set station = 'http://radio-holding.ru:9000/marusya_default' %}
+                  {% elif is_state("input_select.gateway_radio_station_tualet","Smooth
+                  Jazz") %} 
+                    {% set station = 'http://stream14.shoutcastsolutions.com:8057/256streamTitle1' %}
+                  {% else %}
+                    {% set station = 'http://air2.radiorecord.ru:805/mdl_320' %}
+                  {% endif %}    {"volume":"{{ (50000 *
+                  states("input_number.gateway_volume_tualet") | float ) | int
+                  }}","path":"{{ station }}"}
+  
+      - conditions:
+        - condition: state
+          entity_id: input_boolean.gateway_radio_tualet
+          state: 'off'
+        sequence:
+        - service: script.gateway_sound_stop_tualet
+          data: {}
+      default: []
+    mode: single
+    icon: mdi:script
+  gateway_text_say_tualet:
+    alias: Туалет. Воспроизведение фразы
+    sequence:
+    - service: script.gateway_sound_stop_tualet
+      data: {}
+    - service: mqtt.publish
+      data:
+        topic: home/00158D0002ECD55B/saytxt/json/set
+        payload: '{"volume":"{{ states(''input_number.gateway_volume_tualet'') }}","text":"{{
+          states(''input_text.text_say'') }}","lang":"ru"}'
+    mode: single
+    icon: mdi:text-to-speech
+  gateway_volume_tualet:
+    alias: Туалет. Громкость
+    sequence:
+    - service: mqtt.publish
+      data:
+        topic: home/00158D0002ECD55B/playSound/volume/set
+        payload: '{{ (50000 * states("input_number.gateway_volume_tualet") | float ) | int
+          }}'
+    mode: single
+    icon: mdi:volume-high
+
+
+    
+  reboot_gateway_shkav:
+    sequence:
+    - service: remote.send_command
+      entity_id: remote.0x842e14fffe14f5e0_pair  # change to your gateway
+      data:
+        command: reboot
+
+  reboot_gateway_kuchnya:
+    sequence:
+    - service: remote.send_command
+      entity_id: remote.0x588e81fffee179e3_pair  # change to your gateway
+      data:
+        command: reboot
+
+  reboot_gateway_spalnya:
+    sequence:
+    - service: remote.send_command
+      entity_id: remote.0x842e14fffe54d126_pair  # change to your gateway
+      data:
+        command: reboot
+
+  reboot_gateway_detskay:
+    sequence:
+    - service: remote.send_command
+      entity_id: remote.0x588e81fffef9cbc6_pair  # change to your gateway
+      data:
+        command: reboot
+        
+  reboot_gateway_zavod:
+    sequence:
+    - service: remote.send_command
+      entity_id: remote.zavod_0xbc33acfffe515422_pair  # change to your gateway
+      data:
+        command: reboot
+        
+  call_mini:
+    alias: Звонок на станцию
+    sequence:
+      - service: media_player.volume_set
+        data:
+          volume_level: 0
+        entity_id: media_player.yandex_station_ff98f0299947cb18e9407ac0  # поменяйте на свою колонку
+      - delay: '00:00:05'
+      - service: media_player.play_media
+        data:
+          media_content_id: Сними трубку
+          media_content_type: command
+        entity_id: media_player.yandex_station_ff98f0299947cb18e9407ac0  # поменяйте на свою колонку
+      - delay: '00:00:01'
+      - service: media_player.volume_set
+        data:
+          volume_level: 0.5
+        entity_id: media_player.yandex_station_ff98f0299947cb18e9407ac0  # поменяйте на свою колонку
+    mode: single
+    icon: 'mdi:phone-classic'
+
+  # battery_level_check:
+    # alias: Battery Level Check
+    # sequence:
+      # - service: script.turn_on
+        # data_template:
+          # entity_id: >
+            # {% set num_low_bat = expand('group.batteries') | selectattr('state','<=','50') | map(attribute='name') | list | count %}
+            # {% if num_low_bat >0 %}
+              # script.battery_level_low
+            # {% else %}
+              # script.battery_level_ok
+            # {% endif%}
+
+  # battery_level_low:
+    # alias: Battery Level Low
+    # sequence:
+      # - service: notify.telegram_id_1
+        # data_template:
+          # message: >
+            # {% set low_bat = expand('group.batteries') | selectattr('state','<=',states('input_number.battery_low_level')) | map(attribute='name') | list | join(', ') %}
+          
+            # {% set num_low_bat = expand('group.batteries') | selectattr('state','<=',states('input_number.battery_low_level')) | map(attribute='name') | list | count %}
+            # {{"\U0001f6a8"}} Низкий заряд батарей ({{ num_low_bat}}шт): {{low_bat}}
+
+  
+  # battery_level_ok:
+    # alias: Battery Level Ok
+    # sequence:
+      # - service: notify.telegram_id_1
+        # data:
+          # message: "\U0001f50b Батарей с уровнем заряда ниже {{states('input_number.battery_low_level')|int}}% не найдено!"
+
+
+  # update_shopping_list:
+    # alias: Обновить список покупок
+    # sequence:
+      # - service: media_player.play_media
+        # entity_id: media_player.yandex_station_ff98f0299947cb18e9407ac0
+        # data:
+          # media_content_id: update
+          # media_content_type: shopping_list

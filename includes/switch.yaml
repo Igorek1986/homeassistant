@@ -1,0 +1,27 @@
+
+#   - platform: broadlink
+#     timeout: 30
+    # host: 192.168.88.75
+    # mac: 34:EA:34:75:BF:BB
+    # friendly_name: "SP3 switch"
+    # type: sp3
+    
+  - platform: wake_on_lan
+    mac: B0:6E:BF:C1:BB:4A
+    name: Komp
+    host: 192.168.88.99
+    turn_off:
+      service: hassio.addon_stdin
+      data:
+       addon: core_rpc_shutdown
+       input: Komp
+
+#  - platform: wake_on_lan
+#    mac: 00:26:18:9E:96:42
+#    name: Komp_zavod
+#    host: 192.168.88.170
+#    turn_off:
+#      service: hassio.addon_stdin
+#      data:
+#       addon: core_rpc_shutdown
+#       input: Komp_zavod

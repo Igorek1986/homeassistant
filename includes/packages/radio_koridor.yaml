@@ -1,0 +1,188 @@
+radio:
+  input_boolean:
+    gateway_radio_koridor:
+      name: "Радио Коридор"
+      icon: mdi:radio
+
+    # - gateway_radio_spalnya:
+    #     name: "Радио Спальня"
+    #     icon: mdi:radio
+
+    # - gateway_radio_tualet:
+    #     name: "Радио Туалет"
+    #     icon: mdi:radio
+      
+  input_select:
+    gateway_radio_station_koridor:
+      name: "Станция"
+      options:
+        - 'Radio Record - Медляк FM'
+        - 'Маруся ФМ'
+        - 'Radio Record - Gold'
+        - 'Relax Natur'
+        - 'Типичное FM'
+        - 'Атмосфера'
+        - 'Smooth Jazz'
+        - 'Дорожное радио'
+      icon: mdi:playlist-music-outline
+
+
+    # - gateway_radio_station_spalnya:
+    #     name: "Станция"
+    #     options:
+    #       - 'Radio Record - Медляк FM'
+    #       - 'Маруся ФМ'
+    #       - 'Radio Record - Gold'
+    #       - 'Relax Natur'
+    #       - 'Типичное FM'
+    #       - 'Атмосфера'
+    #       - 'Smooth Jazz'
+    #       - 'Дорожное радио'
+    #     icon: mdi:playlist-music-outline
+      
+
+    # - gateway_radio_station_tualet:
+    #     name: "Станция"
+    #     options:
+    #       - 'Radio Record - Медляк FM'
+    #       - 'Маруся ФМ'
+    #       - 'Radio Record - Gold'
+    #       - 'Relax Natur'
+    #       - 'Типичное FM'
+    #       - 'Атмосфера'
+    #       - 'Smooth Jazz'
+    #       - 'Дорожное радио'
+    #     icon: mdi:playlist-music-outline
+    
+  input_number:
+    gateway_volume_koridor:
+      name: "Радио коридор. Громкость"
+      icon: mdi:volume-high
+      min: 0
+      max: 1
+      step: 0.01
+    
+
+    # - gateway_volume_spalnya:
+    #     name: "Радио спальня. Громкость"
+    #     icon: mdi:volume-high
+    #     min: 0
+    #     max: 1
+    #     step: 0.01
+
+
+    # - gateway_volume_tualet:
+    #     name: "Радио туалет. Громкость"
+    #     icon: mdi:volume-high
+    #     min: 0
+    #     max: 1
+    #     step: 0.01
+    
+  media_player:
+    - platform: universal
+      name: "Радио коридор"
+      state_template: >
+        {% if is_state('input_boolean.gateway_radio_koridor', 'off') %}
+        off
+        {% else %}
+        playing
+        {% endif %}
+      commands:
+        turn_on:
+          service: input_boolean.turn_on
+          entity_id: input_boolean.gateway_radio_koridor
+        turn_off:
+          service: input_boolean.turn_off
+          entity_id: input_boolean.gateway_radio_koridor
+        volume_up:
+          service: input_number.increment
+          entity_id: input_number.gateway_volume_koridor
+        volume_down:
+          service: input_number.decrement
+          entity_id: input_number.gateway_volume_koridor
+        volume_set:
+          service: input_number.set_value
+          data:
+            entity_id: input_number.gateway_volume_koridor
+            value: '{{ volume_level }}'
+        select_source:
+          service: input_select.select_option
+          data:
+            entity_id: input_select.gateway_radio_station_koridor
+            option: '{{ source }}'
+      attributes:
+        volume_level: input_number.gateway_volume
+        source: input_select.gateway_radio_station_koridor
+        source_list: input_select.gateway_radio_station_koridor|options
+        
+    # - platform: universal
+    #   name: "Радио спальня"
+    #   state_template: >
+    #     {% if is_state('input_boolean.gateway_radio_spalnya', 'off') %}
+    #     off
+    #     {% else %}
+    #     playing
+    #     {% endif %}
+    #   commands:
+    #     turn_on:
+    #       service: input_boolean.turn_on
+    #       entity_id: input_boolean.gateway_radio_spalnya
+    #     turn_off:
+    #       service: input_boolean.turn_off
+    #       entity_id: input_boolean.gateway_radio_spalnya
+    #     volume_up:
+    #       service: input_number.increment
+    #       entity_id: input_number.gateway_volume_spalnya
+    #     volume_down:
+    #       service: input_number.decrement
+    #       entity_id: input_number.gateway_volume_spalnya
+    #     volume_set:
+    #       service: input_number.set_value
+    #       data:
+    #         entity_id: input_number.gateway_volume_spalnya
+    #         value: '{{ volume_level }}'
+    #     select_source:
+    #       service: input_select.select_option
+    #       data:
+    #         entity_id: input_select.gateway_radio_station_spalnya
+    #         option: '{{ source }}'
+    #   attributes:
+    #     volume_level: input_number.gateway_volume_spalnya
+    #     source: input_select.gateway_radio_station_spalnya
+    #     source_list: input_select.gateway_radio_station_spalnya|options
+        
+    # - platform: universal
+    #   name: "Радио туалет"
+    #   state_template: >
+    #     {% if is_state('input_boolean.gateway_radio_tualet', 'off') %}
+    #     off
+    #     {% else %}
+    #     playing
+    #     {% endif %}
+    #   commands:
+    #     turn_on:
+    #       service: input_boolean.turn_on
+    #       entity_id: input_boolean.gateway_radio_tualet
+    #     turn_off:
+    #       service: input_boolean.turn_off
+    #       entity_id: input_boolean.gateway_radio_tualet
+    #     volume_up:
+    #       service: input_number.increment
+    #       entity_id: input_number.gateway_volume_tualet
+    #     volume_down:
+    #       service: input_number.decrement
+    #       entity_id: input_number.gateway_volume_tualet
+    #     volume_set:
+    #       service: input_number.set_value
+    #       data:
+    #         entity_id: input_number.gateway_volume_tualet
+    #         value: '{{ volume_level }}'
+    #     select_source:
+    #       service: input_select.select_option
+    #       data:
+    #         entity_id: input_select.gateway_radio_station_tualet
+    #         option: '{{ source }}'
+    #   attributes:
+    #     volume_level: input_number.gateway_volume_tualet
+    #     source: input_select.gateway_radio_station_tualet
+    #     source_list: input_select.gateway_radio_station_tualet|options

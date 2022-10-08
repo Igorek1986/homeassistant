@@ -1,0 +1,64 @@
+radio_tualet:
+  input_boolean:
+    gateway_radio_tualet:
+      name: "Радио Туалет"
+      icon: mdi:radio
+      
+  input_select:
+    gateway_radio_station_tualet:
+      name: "Станция"
+      options:
+        - 'Radio Record - Медляк FM'
+        - 'Маруся ФМ'
+        - 'Radio Record - Gold'
+        - 'Relax Natur'
+        - 'Типичное FM'
+        - 'Атмосфера'
+        - 'Smooth Jazz'
+        - 'Дорожное радио'
+      icon: mdi:playlist-music-outline
+    
+  input_number:
+    gateway_volume_tualet:
+      name: "Радио туалет. Громкость"
+      icon: mdi:volume-high
+      min: 0
+      max: 1
+      step: 0.01
+    
+  media_player:
+    - platform: universal
+      name: "Радио туалет"
+      state_template: >
+        {% if is_state('input_boolean.gateway_radio_tualet', 'off') %}
+        off
+        {% else %}
+        playing
+        {% endif %}
+      commands:
+        turn_on:
+          service: input_boolean.turn_on
+          entity_id: input_boolean.gateway_radio_tualet
+        turn_off:
+          service: input_boolean.turn_off
+          entity_id: input_boolean.gateway_radio_tualet
+        volume_up:
+          service: input_number.increment
+          entity_id: input_number.gateway_volume_tualet
+        volume_down:
+          service: input_number.decrement
+          entity_id: input_number.gateway_volume_tualet
+        volume_set:
+          service: input_number.set_value
+          data:
+            entity_id: input_number.gateway_volume_tualet
+            value: '{{ volume_level }}'
+        select_source:
+          service: input_select.select_option
+          data:
+            entity_id: input_select.gateway_radio_station_tualet
+            option: '{{ source }}'
+      attributes:
+        volume_level: input_number.gateway_volume_tualet
+        source: input_select.gateway_radio_station_tualet
+        source_list: input_select.gateway_radio_station_tualet|options

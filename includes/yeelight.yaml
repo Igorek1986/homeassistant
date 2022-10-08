@@ -1,0 +1,10 @@
+#  devices:
+#      192.168.88.16:
+#        name: yeelink_rgb_buld
+#        transition: 1000
+#        model: color2
+        
+#      192.168.88.18:
+#        name: yeelink_rgb_buld
+#        transition: 1000
+#        model: color2

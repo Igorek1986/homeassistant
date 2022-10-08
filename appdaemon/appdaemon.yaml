@@ -1,0 +1,15 @@
+---
+secrets: /config/secrets.yaml
+appdaemon:
+  latitude: !secret latitude_coord
+  longitude: !secret longitude_coord
+  elevation: 81
+  time_zone: Asia/Yekaterinburg
+  plugins:
+    HASS:
+      type: hass
+http:
+  url: http://127.0.0.1:5050
+admin:
+api:
+hadashboard:

@@ -1,0 +1,131 @@
+
+# # Domofon
+# domofon_telegram:
+#     automation:
+#       - alias: Domofon incoming call notification
+#         initial_state: true
+#         trigger:
+#           # Обнаружен звонок
+#           - platform: state
+#             entity_id: binary_sensor.smartintercom_e8db849c6ee5_line_detect
+#             to: 'on'
+#         action:
+#           - choose:
+#               # Включён режим авто-открыть или авто-открыть-один-раз
+#               - conditions:
+#                   - condition: or
+#                     conditions:
+#                       - condition: state
+#                         entity_id: select.smartintercom_e8db849c6ee5_modes
+#                         state: 'Открывать всегда'
+#                       # - condition: state
+#                         # entity_id: switch.domofon_automatically_open_once
+#                         # state: 'on'
+#                 sequence:
+#                   # Отправить уведомление
+#                   - service: notify.telegram_id_1
+#                     data:
+#                       message: "Звонок в домофон (откроется автоматически)"
+#               # Включён режим авто-отклонить
+#               - conditions:
+#                   - condition: state
+#                     entity_id: select.smartintercom_e8db849c6ee5_modes
+#                     state: 'Сброс вызова'
+#                 sequence:
+#                   # Отправить уведомление
+#                   - service: notify.telegram_id_1
+#                     data:
+#                       message: "Звонок в домофон (отклонится автоматически)"
+#             default:
+#               # Отправить уведомление с кнопками Открыть/Отклонить
+#               - service: notify.telegram_id_1
+#                 data:
+#                   message: "Звонок в домофон"
+#                   data:
+#                     inline_keyboard:
+#                       - "{{ 'Открыть:/domofon_open, Отклонить:/domofon_reject' }}"
+#               - delay:
+#                   hours: 0
+#                   minutes: 0
+#                   seconds: 15
+#                   milliseconds: 0
+
+#       - alias: Telegram /domofon_open callback
+#         initial_state: true
+#         trigger:
+#           # Из телеграмма пришла команда Открыть
+#           - platform: event
+#             event_type: telegram_callback
+#             event_data:
+#               data: '/domofon_open'
+#         action:
+#           - choose:
+#               # Идет звонок
+#               - conditions:
+#                   - condition: state
+#                     entity_id: binary_sensor.smartintercom_e8db849c6ee5_line_detect
+#                     state: 'on'
+#                 sequence:
+#                   # Отправить подтверждение о намерении открыть
+#                   - service: telegram_bot.answer_callback_query
+#                     data_template:
+#                       callback_query_id: "{{ trigger.event.data.id }}"
+#                       message: "Открываю..."
+#                   # Открыть
+#                   - service: switch.turn_on
+#                     entity_id: switch.smartintercom_e8db849c6ee5_accept_call
+#             default:
+#               # Отправить ответ, что нету звонка
+#               - service: telegram_bot.answer_callback_query
+#                 data_template:
+#                   callback_query_id: "{{ trigger.event.data.id }}"
+#                   message: "Нет входящего звонка"
+
+#       - alias: Telegram /domofon_reject callback
+#         initial_state: true
+#         trigger:
+#           # Из телеграмма пришла команда Отклонить
+#           - platform: event
+#             event_type: telegram_callback
+#             event_data:
+#               data: '/domofon_reject'
+#         action:
+#           - choose:
+#               # Идет звонок
+#               - conditions:
+#                   - condition: state
+#                     entity_id: binary_sensor.smartintercom_e8db849c6ee5_line_detect
+#                     state: 'on'
+#                 sequence:
+#                   # Отправить подтверждение о намерении отклонить
+#                   - service: telegram_bot.answer_callback_query
+#                     data_template:
+#                       callback_query_id: "{{ trigger.event.data.id }}"
+#                       message: "Отклоняю..."
+#                   # Открыть
+#                   - service: switch.turn_on
+#                     entity_id: switch.smartintercom_e8db849c6ee5_reject_call
+#             default:
+#               # Отправить ответ, что нету звонка
+#               - service: telegram_bot.answer_callback_query
+#                 data_template:
+#                   callback_query_id: "{{ trigger.event.data.id }}"
+#                   message: "Нет входящего звонка"
+
+#       # - alias: Domofon opened by button notification
+#         # initial_state: true
+#         # trigger:
+#           # # Нажата кнопка на плате
+#           # - platform: state
+#             # entity_id: binary_sensor.domofon_button
+#             # to: 'on'
+#         # condition:
+#           # # Идет звонок
+#           # - condition: state
+#             # entity_id: binary_sensor.smartintercom_e8db849c6ee5_line_detect
+#             # state: 'on'
+#         # action:
+#           # # Отправить уведомление
+#           # - service: notify.telegram_id_1
+#             # data:
+#               # message: "Домофон открыт кнопкой"

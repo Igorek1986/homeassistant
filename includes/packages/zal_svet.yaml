@@ -1,0 +1,45 @@
+# zal_svet:
+#   switch:
+#     - platform: xiaomi_miio
+#       host: 192.168.88.57
+#       token: b1caf288f5b422a1198c3f167f368ae1
+#     - platform: template
+#       switches:
+#         switch_zal:
+#           value_template: "{{ is_state('input_boolean.svet_zal_on', 'on') }}"
+#           turn_on:
+#             - service: remote.send_command
+#               data:
+#               command:
+#                 - raw:Z6WPADcCAACdBgAAmBEAAHUjAACdPQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAjABAAAAAAAAAQABAQEBAQEEAjABAAAAAAAAAQABAQEBAQEEAjABAAAAAAAAAQABAQEBAQEEAjABAAAAAAAAAQABAQEBAQEAA=
+#               entity_id: remote.mi_remote
+#             - service: input_boolean.toggle
+#               entity_id: input_boolean.svet_zal_on
+#           turn_off:
+#             - service: remote.send_command
+#               data:
+#               command:
+#                 - raw:Z6WPADcCAACdBgAAmBEAAHUjAACdPQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAjABAAAAAAAAAQABAQEBAQEEAjABAAAAAAAAAQABAQEBAQEEAjABAAAAAAAAAQABAQEBAQEEAjABAAAAAAAAAQABAQEBAQEAA=
+#               entity_id: remote.mi_remote
+#             - service: input_boolean.toggle
+#               entity_id: input_boolean.svet_zal_on
+        
+#     - platform: xiaomi_miio
+#       host: 192.168.88.57
+#       token: b1caf288f5b422a1198c3f167f368ae1
+#     - platform: template
+#       switches:
+#         zal_right:
+#           value_template: "{{ is_state('input_boolean.svet_zal_on', 'on') }}"
+#           turn_on:
+#             service: remote.send_command
+#             data:
+#              command:
+#               - raw:Z6WzADsCAACSBgAAkxEAAHYjAACGPQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAjABAQAAAAAAAQAAAQEBAQEEAjABAQAAAAAAAQAAAQEBAQEEAjABAQAAAAAAAQAAAQEBAQEEAjABAQAAAAAAAQAAAQEBAQEEAjABAQAAAAAAAQAAAQEBAQEAA=
+#             entity_id: remote.mi_remote
+#           turn_off:
+#             service: remote.send_command
+#             data:
+#              command:
+#               - raw:Z6WPACkCAADEBgAAuREAAE4jAADCPQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAjABAQAAAAAAAQAAAQEBAQEEAjABAQAAAAAAAQAAAQEBAQEEAjABAQAAAAAAAQAAAQEBAQEEAjABAQAAAAAAAQAAAQEBAQEAA=
+#             entity_id: remote.mi_remote

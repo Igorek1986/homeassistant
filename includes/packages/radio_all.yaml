@@ -1,0 +1,8 @@
+# radio_all:
+#   media_player:
+#     platform: universal
+#     name: Radio ALL
+#     children:
+#       - media_player.radio_koridor
+#       - media_player.radio_spalnia
+#       - media_player.radio_tualet

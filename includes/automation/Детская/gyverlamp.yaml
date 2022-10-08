@@ -1,0 +1,76 @@
+# - alias: Gyver Speed
+  # trigger:
+    # platform: state
+    # entity_id: input_number.gyverlamp_speed
+    
+  # action:
+    # - service: mqtt.publish
+      # data_template:
+        # topic: homeassistant/light/ESP-920e37/effect/speed/set
+        # payload_template: "{{ trigger.to_state.state | int }}"
+    
+# - alias: Gyver Scale
+  # trigger:
+    # platform: state
+    # entity_id: input_number.gyverlamp_scale
+    
+  # action:
+    # - service: mqtt.publish
+      # data_template:
+        # topic: homeassistant/light/ESP-920e37/effect/scale/set
+        # payload_template: "{{ trigger.to_state.state | int }}"
+        
+# - alias: Gyver Brightness
+  # trigger:
+    # platform: state
+    # entity_id: input_number.gyverlamp_brightness
+    
+  # action:
+    # - service: mqtt.publish
+      # data_template:
+        # topic: homeassistant/light/ESP-920e37/brightness/set
+        # payload_template: "{{ trigger.to_state.state | int }}"
+        
+# - alias: Gyver Effect
+  # trigger:
+    # - platform: state
+      # entity_id: input_select.gyverlamp_effect
+  # action:
+    # - service: mqtt.publish
+      # data_template:
+        # topic: homeassistant/light/ESP-920e37/effect/set
+        # retain: true
+        # payload_template: "{{ states('input_select.gyverlamp_effect') }}"
+        # #payload_template: "{{ trigger.to_state.state | int }}"
+        
+# #Синхронизация
+# - alias: Gyver Brightness Sync
+  # trigger:
+    # platform: mqtt
+    # topic: 'homeassistant/light/ESP-920e37/brightness/status'
+  # action:
+    # - service: input_number.set_value
+      # data_template:
+        # entity_id: input_number.gyverlamp_brightness
+        # value: "{{ trigger.payload | int }}"
+        
+# - alias: Gyver Speed Sync
+  # trigger:
+    # platform: mqtt
+    # topic: 'homeassistant/light/ESP-920e37/effect/speed/status'
+  # action:
+    # - service: input_number.set_value
+      # data_template:
+        # entity_id: input_number.gyverlamp_speed
+        # value: "{{ trigger.payload | int }}"
+        
+# - alias: Gyver Scale Sync
+  # trigger:
+    # platform: mqtt
+    # topic: 'homeassistant/light/ESP-920e37/effect/scale/status'
+  # action:
+    # - service: input_number.set_value
+      # data_template:
+        # entity_id: input_number.gyverlamp_scale
+        # value: "{{ trigger.payload | int }}"
+

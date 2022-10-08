@@ -1,0 +1,17 @@
+#   - platform: mqtt
+#     name: 00158d0002ecd55b_illuminance
+#     state_topic: "home/00158D0002ECD55B/illuminance"
+#     device_class: illuminance
+#     unit_of_measurement: "lm"
+
+#   - platform: mqtt
+#     name: 00158D00036391D8_illuminance
+#     state_topic: "home/00158D00036391D8/illuminance"
+#     device_class: illuminance
+#     unit_of_measurement: "lm"
+
+#   - platform: mqtt
+#     name: 00158d0003f0e83b_illuminance
+#     state_topic: "home/00158D0003F0E83B/illuminance"
+#     device_class: illuminance
+#     unit_of_measurement: "lm"

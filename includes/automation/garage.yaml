@@ -1,0 +1,64 @@
+# - alias: калибровка закрыты 
+  # trigger:
+    # platform: state
+    # entity_id: binary_sensor.zavod_0x00158d0005448590_contact
+    # from: 'on'
+    # to: 'off'
+  # action:
+    # - service: input_boolean.turn_off
+      # entity_id: input_boolean.garage_door_motion
+    # - service: input_boolean.turn_on
+      # entity_id: input_boolean.garage_door_direction
+    # - service: counter.reset
+      # data:
+        # entity_id: counter.garage_counter
+
+# - alias: калибровка открыты
+  # trigger:
+    # platform: state
+    # entity_id: binary_sensor.zavod_0x00158d00054480be_contact
+    # from: 'on'
+    # to: 'off'
+  # action:
+    # - service: input_boolean.turn_off
+      # entity_id: input_boolean.garage_door_motion
+    # - service: input_boolean.turn_off
+      # entity_id: input_boolean.garage_door_direction
+    # - service: counter.configure
+      # data:
+        # entity_id: counter.garage_counter
+        # value: 25
+
+# - alias: Смена направления 
+  # trigger:
+    # platform: state
+    # entity_id: switch.zavod_0xec1bbdfffeac506f_switch
+    # from: 'off'
+    # to: 'on'
+  # action:
+    # - service: input_boolean.toggle
+      # entity_id: input_boolean.garage_door_motion
+    # - service_template: >
+        # {% if is_state('input_boolean.garage_door_motion','off') and
+           # is_state('binary_sensor.zavod_0x00158d00054480be_contact','on') and
+           # is_state('binary_sensor.zavod_0x00158d00054480be_contact','on') %}
+          # script.garage_door_direction
+        # {% else %}
+          # script.noop
+        # {% endif %}
+
+# - alias: Garage door couter
+  # trigger:
+    # platform: time_pattern
+    # seconds: "/1"
+  # action:
+    # - service_template: >
+        # {% if is_state('input_boolean.garage_door_motion','on') and
+              # is_state('input_boolean.garage_door_direction','on') %}
+          # script.garage_counter_increment
+        # {% elif is_state('input_boolean.garage_door_motion','on') and
+                # is_state('input_boolean.garage_door_direction','off') %}
+          # script.garage_counter_decrement
+        # {% else %}
+          # script.noop
+        # {% endif %}

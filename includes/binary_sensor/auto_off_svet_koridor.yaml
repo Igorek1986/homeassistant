@@ -1,0 +1,74 @@
+    # Сенсор автоотключения света 
+      - platform: template
+        sensors:
+          auto_off_svet_koridor:
+            friendly_name: "Автоотключение света коридор"
+            value_template: >-
+              {{ is_state('switch.0x158d0003235546_switch', 'on')  
+                 and is_state('binary_sensor.0x158d000396635b_motion', 'off')  }}
+            icon_template: >-
+              {% if is_state("binary_sensor.auto_off_svet_koridor", "on") %}
+              mdi:timer
+              {% else %}
+              mdi:timer-off
+              {% endif %}
+              
+    # Сенсор автоотключения света 
+      - platform: template
+        sensors:
+          auto_off_nochnik_koridor:
+            friendly_name: "Автоотключение ночника коридор"
+            value_template: >-
+              {{ is_state('light.zesp_bulb_00158d0003f0e83b', 'on')  
+                 and is_state('binary_sensor.motion_all', 'off')  }}
+            icon_template: >-
+              {% if is_state("binary_sensor.auto_off_nochnik_koridor", "on") %}
+              mdi:timer
+              {% else %}
+              mdi:timer-off
+              {% endif %}
+              
+    # Сенсор автоотключения света 
+      - platform: template
+        sensors:
+          auto_off_svet_koridor_tualet:
+            friendly_name: "Автоотключение света туалет"
+            value_template: >-
+              {{ is_state('switch.0x00158d00054ce938_channel_1', 'on')  
+                 and is_state('binary_sensor.0x158d0002583b1a_motion', 'off')  }}
+            icon_template: >-
+              {% if is_state("binary_sensor.auto_off_svet_koridor_tualet", "on") %}
+              mdi:timer
+              {% else %}
+              mdi:timer-off
+              {% endif %}
+              
+    # Сенсор автоотключения света 
+      - platform: template
+        sensors:
+          auto_off_svet_koridor_vanna:
+            friendly_name: "Автоотключение света ванная"
+            value_template: >-
+              {{ is_state('switch.0x00158d00054ce938_channel_2', 'on')  
+                 and is_state('binary_sensor.0x158d0003f12cf9_motion', 'off')  }}
+            icon_template: >-
+              {% if is_state("binary_sensor.auto_off_svet_koridor_vanna", "on") %}
+              mdi:timer
+              {% else %}
+              mdi:timer-off
+              {% endif %}
+              
+    # Сенсор автоотключения света 
+      - platform: template
+        sensors:
+          auto_off_svet_koridor_mal:
+            friendly_name: "Автоотключение света коридор (мал)"
+            value_template: >-
+              {{ is_state('switch.0x158d0005882b0b_switch', 'on')  
+                 and is_state('binary_sensor.motion_all', 'off')  }}
+            icon_template: >-
+              {% if is_state("binary_sensor.auto_off_svet_koridor_mal", "on") %}
+              mdi:timer
+              {% else %}
+              mdi:timer-off
+              {% endif %}

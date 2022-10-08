@@ -1,0 +1,14 @@
+# Составной датчик движения
+  - platform: template
+    sensors:
+      motion_all:
+        friendly_name: "Движение в доме"
+        device_class: motion
+        value_template: >- 
+          {{ is_state('binary_sensor.0x158d0002583b1a_motion', 'on')
+             or is_state('binary_sensor.0x158d0003966333_motion', 'on')
+             or is_state('binary_sensor.0x158d000396635b_motion', 'on')
+             or is_state('binary_sensor.0x158d0003983bf4_motion', 'on')
+             or is_state('binary_sensor.0x158d000398f96c_motion', 'on')
+             or is_state('binary_sensor.0x158d00039db890_motion', 'on')
+             or is_state('binary_sensor.0x158d0003f12cf9_motion', 'on')  }} 

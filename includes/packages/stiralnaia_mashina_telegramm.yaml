@@ -1,0 +1,68 @@
+# stiralnaia_mashina:
+    # automation:
+# # Стиральная машина, уведомление о завершении, Телеграм
+    # - alias: stiralnaia_mashina_telegram_5min
+      # trigger:
+        # platform: state
+        # entity_id: sensor.stiralnaia_mashina
+        # attribute: remain_time
+        # from: '0:06'
+        # to: '0:05'
+    # #   condition:
+    # #     condition: or
+    # #     conditions:
+    # #      - condition: state
+    # #       entity_id: person.igor
+    # #       state: 'not_home'
+    # #      - condition: state
+    # #       entity_id: sensor.vog_l29_wifi_connection
+    # #       state: '<not connected>'
+      # action:
+        # # - service: notify.telegram_id_1
+        # #   data:
+        # #     message: "Стиральная машина почти закончила! Осталось 5 минут"
+        # - service: notify.telegram_id_2
+          # data:
+            # message: "Стиральная машина почти закончила! Осталось 5 минут"
+          
+    # - alias: stiralnaia_mashina_telegram_off
+      # trigger:
+        # platform: state
+        # entity_id: sensor.stiralnaia_mashina
+        # attribute: remain_time
+        # from: '0:01'
+        # to: '0:00'
+        # # platform: numeric_state
+        # # entity_id: sensor.stiralnaia_mashina
+        # # value_template: state_attr('sensor.stiralnaia_mashina', 'remain_time')
+        # # below: 0
+    # #   condition:
+    # #     condition: or
+    # #     conditions:
+    # #      - condition: state
+    # #       entity_id: person.igor
+    # #       state: 'not_home'
+    # #      - condition: state
+    # #       entity_id: sensor.vog_l29_wifi_connection
+    # #       state: '<not connected>'
+      # action:
+        # # - service: notify.telegram_id_1
+        # #   data:
+        # #     message: "Стиральная машина закончила! Достаньте белье"
+        # - service: notify.telegram_id_2
+          # data:
+            # message: "Стиральная машина закончила! Достаньте белье"
+        # # - delay: '00:00:30'
+
+    # - alias: stiralnaia_mashina_telegram_error
+      # trigger:
+        # platform: state
+        # entity_id: binary_sensor.stiralnaia_mashina_error_state
+        # to: 'on'
+      # action:
+        # # - service: notify.telegram_id_1
+        # #   data:
+        # #     message: "Стиральная машина ошибка! Проверьте стиральную машину"
+        # - service: notify.telegram_id_2
+          # data:
+            # message: "Стиральная машина ошибка! Проверьте стиральную машину"
