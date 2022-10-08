@@ -1,0 +1,583 @@
+# title: Home Assistant - сервер
+# views:
+
+  # - title: Главная
+    # icon: mdi:home-assistant
+    
+    # cards:
+
+      # - type: vertical-stack
+        # cards:
+        
+        # - type: markdown
+          # content: >
+             # **Текущее состояние**
+             
+        # - type: entities
+          # show_header_toggle: false
+          # entities:
+            # - entity: sensor.time
+              # name: Текущее время
+              # icon: mdi:clock-outline
+            # - entity: sensor.date
+              # name: Дата
+              # icon: mdi:calendar-check-outline
+              
+        # # - type: entities
+        # #   show_header_toggle: false
+        # #   entities:
+        # #     - entity: sensor.maria_db_size
+        # #       name: Объем БД
+        # #       icon: mdi:database
+
+      # - type: vertical-stack
+        # cards:
+        # - type: markdown
+          # content: >
+             # **Графики** 
+
+        # - type: horizontal-stack
+          # cards:
+
+           # - type: gauge
+             # name: Загрузка CPU
+             # unit: '%'
+             # entity: sensor.processor_use
+             # severity:
+                # green: 0
+                # yellow: 60
+                # red: 85
+             
+           # - type: gauge
+             # name: Загрузка ОЗУ
+             # unit: '%'
+             # entity: sensor.memory_use_percent
+             # severity:
+                # green: 0
+                # yellow: 60
+                # red: 85
+                
+        # - type: horizontal-stack
+          # cards:
+
+           # - type: gauge
+             # name: Диск заполнен
+             # unit: '%'
+             # entity: sensor.disk_use_percent
+             # severity:
+                # green: 0
+                # yellow: 60
+                # red: 85    
+                
+           # - type: gauge
+             # name: Свободное место
+             # unit: 'Гб'
+             # entity: sensor.disk_free
+             # severity:
+                # red: 2
+                # yellow: 6
+                # green: 8
+                
+        # # - type: history-graph
+        # #   entities:
+        # #   - entity: sensor.maria_db_size
+        # #      name: Maria DB
+                
+              
+  # - title: Погода
+    # icon: mdi:weather-partly-snowy-rainy
+    
+    # cards:
+
+        # - type: weather-forecast
+          # entity: weather.home_assistant 
+          
+          
+  # - title: Освещение
+    # icon: mdi:lightbulb-group
+    
+          
+    # cards:
+    
+      # - type: vertical-stack
+        # cards:
+        # - type: markdown
+          # content: >
+             # **Панель переключателей** 
+             
+        # - type: entities
+          # show_header_toggle: false
+          # entities:          
+            # - entity: light.yeelink_rgb_buld
+              # name: Лампочка
+            # - entity: light.yeelink_rgb_buld_2
+              # name: Лампочка2
+            # - entity: light.led_light
+              # name: Светодиодная лента
+            # - entity: light.led_light_1_left
+              # name: Левая клавиша (Кухня)
+            # - entity: light.led_light_1_right
+              # name: Правая клавиша (Кухня)
+            # - entity: light.led_light_2
+              # name: Выключатель (вход)
+            # - entity: light.led_light_3_left
+              # name: Левая клавиша (Спальня)
+            # - entity: light.led_light_3_right
+              # name: Правая клавиша (Спальня)
+
+
+      # - type: vertical-stack
+        # cards:
+        # - type: markdown
+          # content: >
+             # **Светильники**    
+             
+      # - type: vertical-stack
+        # cards:
+        # - type: markdown
+          # content: >
+             # **Кухня**    
+              
+        # - type: horizontal-stack
+          # cards:
+            # - type: light
+              # entity: light.yeelink_rgb_buld
+              # name: Лампочка
+            # - type: light
+              # entity: light.yeelink_rgb_buld_2
+              # name: Лампочка2
+            # - type: light
+              # entity: light.led_light
+              # name: Светодиодная лента
+        # - type: horizontal-stack
+          # cards:
+            # - type: light
+              # entity: light.led_light_1_left
+              # name: Левая клавиша
+            # - type: light
+              # entity: light.led_light_1_right
+              # name: Правая клавиша
+        # - type: markdown
+          # content: >
+             # **Коридор**    
+        # - type: horizontal-stack
+          # cards:
+            # - type: light
+              # entity: light.led_light_2
+              # name: Выключатель (вход)
+        # - type: markdown
+          # content: >
+             # **Спальня**    
+        # - type: horizontal-stack
+          # cards:
+            # - type: light
+              # entity: light.led_light_3_left
+              # name: Левая клавиша
+            # - type: light
+              # entity: light.led_light_3_right
+              # name: Правая клавиша
+
+  # - title: Zigbee
+    # icon: mdi:zigbee
+    
+    # cards:
+    
+      # - type: vertical-stack
+        # cards:
+        # - type: markdown
+          # content: >
+             # **Уровень заряда** 
+             
+        # - type: entities
+          # show_header_toggle: false
+          # entities:          
+            # - entity: sensor.0x158d0002583b1a_battery
+            # - entity: sensor.0x158d0002e6b618_battery
+            # - entity: sensor.0x158d0002fa9e5d_battery
+            # - entity: sensor.0x158d0002c9db62_battery
+            
+        # - type: markdown
+          # content: >
+             # **Розетки** 
+             
+        # - type: entities
+          # show_header_toggle: false
+          # entities:          
+            # - entity: switch.0x158d0001107199_switch
+            # - entity: sensor.0x158d0001107199_power
+
+        # - type: entities
+          # show_header_toggle: false
+          # entities:          
+            # - entity: switch.0x00124b001ec85b30_switch
+            # - entity: sensor.0x00124b001ec85b30_power
+
+        # - type: markdown
+          # content: >
+             # **Розетка WiFi** 
+             
+        # - type: entities
+          # show_header_toggle: false
+          # entities:          
+            # - entity: switch.sp3_switch
+            # - entity: sensor.sp3_switch_load
+            
+        # - type: markdown
+          # content: >
+             # **Шлюз** 
+             
+        # - type: entities
+          # show_header_toggle: false
+          # entities:          
+            # - entity: light.gateway_light_7c49eb88e98a
+            # - entity: sensor.illumination_7c49eb88e98a
+            
+  # - title: СС 2531
+    # icon: mdi:usb-flash-drive
+    
+    # cards:
+    
+      # - type: vertical-stack
+        # cards:
+        # - type: markdown
+          # content: >
+             # **Добавление устройств**     
+
+        # - type: entities
+          # title: Добавление Zigbee устройств
+          # show_header_toggle: false
+          # entities:
+             # - entity: input_boolean.zigbee_permit_join
+             # - entity: timer.zigbee_permit_join
+             # - entity: sensor.bridge_state
+             
+
+  # - title: Fit
+    # icon: mdi:google-fit
+    # cards:
+      # - type: vertical-stack
+        # cards:
+        # - type: markdown
+          # content: >
+             # **Google Fit Igor**
+        # - type: entities
+          # show_header_toggle: false
+          # entities:
+          # - entity: sensor.igor_steps
+          # - entity: sensor.igor_steps_remain
+          # - entity: sensor.igor_distance
+          # - entity: sensor.igor_move_time_custom
+          # - entity: sensor.igor_heart_rate
+          # - entity: sensor.igor_heartrate_update 
+          # - entity: sensor.igor_sleep
+          # - entity: sensor.igor_weight
+          # - entity: sensor.igor_weight_update
+            
+  # - title: TV Samsung
+    # icon: mdi:television
+    
+    # cards:
+    
+      # - type: vertical-stack
+        # cards:
+        # - type: markdown
+          # content: >
+             # **Самсунг ТВ**     
+        # - type: entities
+          # show_header_toggle: false
+          # entities:          
+            # - entity: switch.tv_on
+              # name: Включение/Выключение ТВ
+
+        # - type: markdown
+          # content: >
+             # **Mibox S**    
+        # - type: media-control
+          # entity: media_player.mibox4
+
+        # # - type: horizontal-stack
+        # #   cards:
+        # #     - type: light
+        # #       entity: light.tv_on
+        # #       name: Включение/Выключение ТВ
+
+  # - title: TV LG
+    # icon: mdi:television
+    # cards:
+       # - type: entities
+         # entities:
+             # - media_player.tv_kukhnia
+# #          elements:
+# #           - service: media_player.toggle
+# #             service_data:
+# #               entity_id: media_player.tv_kukhnia_2
+# #             style:
+# #               left: 38%
+# #               top: 11%
+# #             type: service-button
+# #           - service: webostv.button
+# #             service_data:
+# #               button: 1
+# #               entity_id: media_player.tv_kukhnia_2
+# #             style:
+# #               left: 36%
+# #               top: 16%
+# #             type: service-button
+# #           - service: webostv.button
+# #             service_data:
+# #               button: 2
+# #               entity_id: media_player.tv_kukhnia_2
+# #             style:
+# #               left: 51.5%
+# #               top: 16%
+# #             type: service-button
+# #           - service: webostv.button
+# #             service_data:
+# #               button: 3
+# #               entity_id: media_player.tv_kukhnia_2
+# #             style:
+# #               left: 67%
+# #               top: 16%
+# #             type: service-button
+# #           - service: webostv.button
+# #             service_data:
+# #               button: 4
+# #               entity_id: media_player.tv_kukhnia_2
+# #             style:
+# #               left: 36%
+# #               top: 20.5%
+# #             type: service-button
+# #           - service: webostv.button
+# #             service_data:
+# #               button: 5
+# #               entity_id: media_player.tv_kukhnia_2
+# #             style:
+# #               left: 51.5%
+# #               top: 20.5%
+# #             type: service-button
+# #           - service: webostv.button
+# #             service_data:
+# #               button: 6
+# #               entity_id: media_player.tv_kukhnia_2
+# #             style:
+# #               left: 67%
+# #               top: 20.5%
+# #             type: service-button
+# #           - service: webostv.button
+# #             service_data:
+# #               button: 7
+# #               entity_id: media_player.tv_kukhnia_2
+# #             style:
+# #               left: 36%
+# #               top: 24.5%
+# #             type: service-button
+# #           - service: webostv.button
+# #             service_data:
+# #               button: 8
+# #               entity_id: media_player.tv_kukhnia_2
+# #             style:
+# #               left: 51.5%
+# #               top: 24.5%
+# #             type: service-button
+# #           - service: webostv.button
+# #             service_data:
+# #               button: 9
+# #               entity_id: media_player.tv_kukhnia_2
+# #             style:
+# #               left: 67%
+# #               top: 24.5%
+# #             type: service-button
+# #           - service: webostv.button
+# #             service_data:
+# #               button: DASH
+# #               entity_id: media_player.tv_kukhnia_2
+# #             style:
+# #               left: 36%
+# #               top: 29%
+# #             type: service-button
+# #           - service: webostv.button
+# #             service_data:
+# #               button: 0
+# #               entity_id: media_player.tv_kukhnia_2
+# #             style:
+# #               left: 51.5%
+# #               top: 29%
+# #             type: service-button
+# #           - service: webostv.button
+# #             service_data:
+# #               button: VOLUMEUP
+# #               entity_id: media_player.tv_kukhnia_2
+# #             style:
+# #               left: 34.5%
+# #               top: 34%
+# #             type: service-button
+# #           - service: webostv.button
+# #             service_data:
+# #               button: MUTE
+# #               entity_id: media_player.tv_kukhnia_2
+# #             style:
+# #               left: 51.5%
+# #               top: 34%
+# #             type: service-button
+# #           - service: webostv.button
+# #             service_data:
+# #               button: CHANNELUP
+# #               entity_id: media_player.tv_kukhnia_2
+# #             style:
+# #               left: 69%
+# #               top: 34%
+# #             type: service-button
+# #           - service: webostv.button
+# #             service_data:
+# #               button: VOLUMEDOWN
+# #               entity_id: media_player.tv_kukhnia_2
+# #             style:
+# #               left: 34.5%
+# #               top: 41%
+# #             type: service-button
+# #           - service: webostv.button
+# #             service_data:
+# #               button: CHANNELDOWN
+# #               entity_id: media_player.tv_kukhnia_2
+# #             style:
+# #               left: 69%
+# #               top: 41%
+# #             type: service-button
+# #           - service: webostv.button
+# #             service_data:
+# #               button: HOME
+# #               entity_id: media_player.tv_kukhnia_2
+# #             style:
+# #               left: 32%
+# #               top: 46%
+# #             type: service-button
+# #           - service: webostv.button
+# #             service_data:
+# #               button: UP
+# #               entity_id: media_player.tv_kukhnia_2
+# #             style:
+# #               left: 51.5%
+# #               top: 49.5%
+# #             type: service-button
+# #           - service: webostv.button
+# #             service_data:
+# #               button: LEFT
+# #               entity_id: media_player.tv_kukhnia_2
+# #             style:
+# #               left: 34%
+# #               top: 56%
+# #             type: service-button
+# #           - service: webostv.button
+# #             service_data:
+# #               button: ENTER
+# #               entity_id: media_player.tv_kukhnia_2
+# #             style:
+# #               left: 51.5%
+# #               top: 56%
+# #             type: service-button
+# #           - service: webostv.button
+# #             service_data:
+# #               button: RIGHT
+# #               entity_id: media_player.tv_kukhnia_2
+# #             style:
+# #               left: 67%
+# #               top: 56%
+# #             type: service-button
+# #           - service: webostv.button
+# #             service_data:
+# #               button: DOWN
+# #               entity_id: media_player.tv_kukhnia_2
+# #             style:
+# #               left: 51.5%
+# #               top: 62%
+# #             type: service-button
+# #           - service: webostv.button
+# #             service_data:
+# #               button: BACK
+# #               entity_id: media_player.tv_kukhnia_2
+# #             style:
+# #               left: 31%
+# #               top: 65.5%
+# #             type: service-button
+# #           - service: webostv.button
+# #             service_data:
+# #               button: PROGRAM
+# #               entity_id: media_player.tv_kukhnia_2
+# #             style:
+# #               left: 72%
+# #               top: 65.5%
+# #             type: service-button
+# #           - service: webostv.button
+# #             service_data:
+# #               button: RED
+# #               entity_id: media_player.tv_kukhnia_2
+# #             style:
+# #               left: 32%
+# #               top: 75%
+# #             type: service-button
+# #           - service: webostv.button
+# #             service_data:
+# #               button: GREEN
+# #               entity_id: media_player.tv_kukhnia_2
+# #             style:
+# #               left: 44.5%
+# #               top: 75%
+# #             type: service-button
+# #           - service: webostv.button
+# #             service_data:
+# #               button: YELLOW
+# #               entity_id: media_player.tv_kukhnia_2
+# #             style:
+# #               left: 58%
+# #               top: 75%
+# #             type: service-button
+# #           - service: webostv.button
+# #             service_data:
+# #               button: BLUE
+# #               entity_id: media_player.tv_kukhnia_2
+# #             style:
+# #               left: 71.5%
+# #               top: 75%
+# #             type: service-button
+# #           - service: media_player.select_source
+# #             service_data:
+# #               entity_id: media_player.tv_kukhnia_2
+# #               source: Amazon Prime Video
+# #             style:
+# #               left: 71.5%
+# #               top: 70.3%
+# #             type: service-button    
+# #           - service: media_player.select_source
+# #             service_data:
+# #               entity_id: media_player.tv_kukhnia_2
+# #               source: Netflix
+# #             style:
+# #               left: 31.3%
+# #               top: 70.3%
+# #             type: service-button
+# #           - service: webostv.command
+# #             service_data:
+# #               command: media.controls/play
+# #               entity_id: media_player.tv_kukhnia_2
+# #             style:
+# #               left: 36.5%
+# #               top: 79.5%
+# #             type: service-button
+# #           - service: webostv.command
+# #             service_data:
+# #               command: media.controls/play
+# #               entity_id: media_player.tv_kukhnia_2
+# #             style:
+# #               left: 51%
+# #               top: 79.5%
+# #             type: service-button
+# #           - service: webostv.button
+# #             service_data:
+# #               button: LIVE_ZOOM
+# #               entity_id: media_player.tv_kukhnia_2
+# #             style:
+# #               left: 67%
+# #               top: 79.5%
+# #             type: service-button
+# # image: /local/lgremote.jpg
+# # type: picture-elements

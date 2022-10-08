@@ -1,0 +1,1521 @@
+- id: '1613698355190'
+  alias: Уведомление об обновлении компонентов HACS
+  description: ''
+  use_blueprint:
+    path: homeassistant/hacs_update_notification.yaml
+    input:
+      hacs_sensor: sensor.hacs
+      notify_device: 0a73048f155a11ebb495570e9df93de3
+- id: '1618123351228'
+  alias: Запуск ХА
+  description: ''
+  trigger:
+  - platform: homeassistant
+    event: start
+  condition: []
+  action:
+  - service: notify.mobile_app_iphone_igor
+    data_template:
+      message: "\U0001F603 Сервер запущен за {{states('sensor.start_time')|int}}сек!"
+  - service: notify.telegram_id_1
+    data_template:
+      message: "\U0001F603 Сервер запущен за {{states('sensor.start_time')|int}}сек!"
+  mode: single
+- id: '1618123614983'
+  alias: Стоп ХА
+  description: ''
+  trigger:
+  - platform: homeassistant
+    event: shutdown
+  condition: []
+  action:
+  - service: notify.mobile_app_iphone_igor
+    data_template:
+      message: "\U0001F621 Сервер остановлен после {{states('sensor.ha_uptime_text').replace('d','д').replace('h','ч').replace('m','м')}}
+        работы!"
+  mode: single
+- id: '1618127526447'
+  alias: Включение ночника в зале при движении
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.0x158d0003966333_motion
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: light.gateway_light_7c49eb88e98a
+    state: 'off'
+  - condition: time
+    after: '22:00:00'
+    before: 07:00:00
+  - condition: state
+    entity_id: sun.sun
+    state: below_horizon
+  action:
+  - service: light.turn_on
+    target:
+      entity_id: light.gateway_light_7c49eb88e98a
+  mode: single
+- id: '1618129250095'
+  alias: Выключение ночника шлюза в зале без движения
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.auto_off_gateway_zal
+    to: 'on'
+    for: 0:{{ states('input_number.auto_off_gateway_zal') |int }}
+  condition:
+  - condition: state
+    entity_id: light.gateway_light_7c49eb88e98a
+    state: 'on'
+  action:
+  - service: light.turn_off
+    entity_id: light.gateway_light_7c49eb88e98a
+  mode: single
+- id: '1618412949322'
+  alias: Выключение света в зале без движения
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.auto_off_svet_zal
+    to: 'on'
+    for: 0:{{ states('input_number.auto_off_svet_zal') |int }}
+  condition:
+  - condition: state
+    entity_id: switch.0x00158d00054eb5cc_channel_2
+    state: 'on'
+  action:
+  - service: switch.turn_off
+    data: {}
+    target:
+      entity_id:
+      - switch.0x00158d00054eb5cc_channel_2
+  mode: single
+- id: '1618413162651'
+  alias: Выключение ТВ в зале без движения
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.auto_off_tv_zal
+    to: 'on'
+    for: 0:{{ states('input_number.auto_off_tv_zal') |int }}
+  condition:
+  - condition: state
+    entity_id: switch.tv_on
+    state: 'on'
+  - condition: time
+    after: '22:00:00'
+    before: 07:00:00
+  action:
+  - service: switch.turn_off
+    entity_id: switch.tv_on
+  mode: single
+- id: '1618413251393'
+  alias: Выключение компьютера в зале без движения
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.auto_off_komp_zal
+    to: 'on'
+    for: 0:{{ states('input_number.auto_off_komp_zal') |int }}
+  condition:
+  - condition: state
+    entity_id: switch.komp
+    state: 'on'
+  - condition: time
+    after: '22:00:00'
+    before: 07:00:00
+  - condition: state
+    entity_id: binary_sensor.komp_zal_status
+    state: 'off'
+  action:
+  - service: switch.turn_off
+    entity_id: switch.komp
+  mode: single
+- id: '1618413653134'
+  alias: Включение света левой клавишей в зале (Беспроводной выключатель)
+  trigger:
+  - platform: state
+    entity_id: sensor.0x158d00046501c3_action
+    to: button_1_single
+  action:
+  - service: switch.toggle
+    data: {}
+    target:
+      entity_id:
+      - switch.0x00158d00054eb5cc_channel_2
+  mode: single
+- id: '1618413995152'
+  alias: Включение/Выключение ТВ Беспроводной выключатель правая кнопка
+  trigger:
+  - platform: state
+    entity_id: sensor.0x158d00046501c3_action
+    to: button_2_single
+  action:
+  - service: switch.toggle
+    entity_id: switch.tv_on
+  mode: single
+- id: '1618414095808'
+  alias: Включение/Выключение ночника Беспроводной выключатель две кнопки
+  trigger:
+  - platform: state
+    entity_id: sensor.0x158d00046501c3_action
+    to: button_both_single
+  action:
+  - service: light.toggle
+    entity_id: light.gateway_light_7c49eb88e98a
+- id: '1618495688018'
+  alias: Переключение света в зале по тряске
+  trigger:
+  - platform: state
+    entity_id: sensor.0x158d000101f92d_action
+    to: shake
+  action:
+  - service: switch.toggle
+    data: {}
+    target:
+      entity_id:
+      - switch.0x00158d00054eb5cc_channel_2
+- id: '1621171291651'
+  alias: Включение света в спальне (правая клавиша)
+  description: ''
+  trigger:
+  - platform: state
+    to: button_2_single
+    entity_id: sensor.0x158d00034d0a07_action
+  condition: []
+  action:
+  - service: switch.toggle
+    target:
+      entity_id:
+      - switch.0x00158d00034d0a07_channel_1
+    data: {}
+  mode: single
+- id: '1622659814377'
+  alias: Тариф день
+  description: ''
+  trigger:
+  - platform: time
+    at: 07:00:00
+  action:
+  - service: select.select_option
+    target:
+      entity_id: select.energy_daily_kvartira
+    data:
+      option: day
+  - service: select.select_option
+    target:
+      entity_id: select.energy_monthly_kvartira
+    data:
+      option: day
+  - service: select.select_option
+    target:
+      entity_id: select.energy_yearly_kvartira
+    data:
+      option: day
+- id: '1622659927374'
+  alias: Тариф ночь
+  description: ''
+  trigger:
+  - platform: time
+    at: '23:00:00'
+  action:
+  - service: select.select_option
+    target:
+      entity_id: select.energy_daily_kvartira
+    data:
+      option: night
+  - service: select.select_option
+    target:
+      entity_id: select.energy_monthly_kvartira
+    data:
+      option: night
+  - service: select.select_option
+    target:
+      entity_id: select.energy_yearly_kvartira
+    data:
+      option: night
+- id: '1628524322841'
+  alias: Включение света в коридоре
+  description: Автоматически при отсутствии движения 2 минуты и открытии двери
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.0x158d00039c0a59_contact
+    to: 'on'
+  condition:
+  - condition: and
+    conditions:
+    - condition: state
+      entity_id: switch.0x158d0003235546_switch
+      state: 'off'
+    - condition: state
+      entity_id: binary_sensor.0x158d000396635b_motion
+      state: 'off'
+      for: 00:02:00
+  action:
+  - service: switch.toggle
+    entity_id: switch.0x158d0003235546_switch
+  mode: single
+- id: '1628525044344'
+  alias: Выключение света в квартире
+  description: При закрытии второго замка
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.0x158d0003d31de4_contact
+    to: 'off'
+    from: 'on'
+  condition: []
+  action:
+  - service: switch.turn_off
+    data: {}
+    target:
+      entity_id:
+      - switch.0x158d0003235546_switch
+      - switch.0x00124b001ec85b30_switch
+      - switch.0x158d00031de357_channel_1
+      - switch.0x158d00034d0a07_channel_1
+      - switch.0x158d00034d0a07_channel_2
+      - switch.0x00124b001b7976bf
+      - switch.0x04cf8cdf3c8e15d6
+      - switch.0x00158d00031de357_channel_1
+      - switch.0x00158d0006b1fada_channel_1
+      - switch.0x00158d0006b1fada_channel_2
+  - service: light.turn_off
+    data: {}
+    target:
+      entity_id:
+      - light.yeelight_color_0x00000000112cbed7
+      - light.yeelight_color_0x000000000800fcce
+      - light.gateway_light_7c49eb88e98a
+      - light.gyver_lamp_esp_920e37
+      - light.zesp_bulb_00158d00036391d8
+      - light.zesp_bulb_00158d0002ecd55b
+      - light.zesp_bulb_00158d0003f0e83b
+  - service: media_player.turn_off
+    data: {}
+    target:
+      entity_id: media_player.tv_kukhnia
+  mode: single
+- id: '1628525264923'
+  alias: Включение левой кнопкой света в зале
+  description: Свет на правой кнопке
+  trigger:
+  - platform: state
+    entity_id: sensor.0x158d00054eb5cc_action
+    to: button_1_single
+  condition: []
+  action:
+  - service: switch.toggle
+    data: {}
+    target:
+      entity_id:
+      - switch.0x00158d00054eb5cc_channel_2
+  mode: single
+- id: '1628525526681'
+  alias: Включение ночника в коридоре
+  description: При движении в любом месте ночью
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.motion_all
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: light.zesp_bulb_00158d0003f0e83b
+    state: 'off'
+  - condition: time
+    after: '22:00:00'
+    before: 07:00:00
+  - condition: state
+    entity_id: sun.sun
+    state: below_horizon
+  action:
+  - service: light.turn_on
+    data: {}
+    target:
+      entity_id: light.zesp_bulb_00158d0003f0e83b
+  mode: single
+- id: '1628525700991'
+  alias: Выключение ночника в коридоре без движения
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.auto_off_nochnik_koridor
+    to: 'on'
+    for: 0:{{ states('input_number.auto_off_nochnik_koridor') |int }}
+  condition:
+  - condition: state
+    entity_id: light.zesp_bulb_00158d0003f0e83b
+    state: 'on'
+  action:
+  - service: light.turn_off
+    entity_id: light.zesp_bulb_00158d0003f0e83b
+  mode: single
+- id: '1628525823670'
+  alias: Выключение света в коридоре
+  description: Большой
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.auto_off_svet_koridor
+    to: 'on'
+    for: 0:{{ states('input_number.auto_off_svet_koridor') |int }}
+  condition:
+  - condition: state
+    entity_id: switch.0x158d0003235546_switch
+    state: 'on'
+  action:
+  - service: switch.turn_off
+    entity_id: switch.0x158d0003235546_switch
+  mode: single
+- id: '1628525907366'
+  alias: Выключение света в туалете
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.auto_off_svet_koridor_tualet
+    to: 'on'
+    for: 0:{{ states('input_number.tualet_svet_minutes') |int }}
+  condition:
+  - condition: state
+    entity_id: switch.0x00158d00054ce938_channel_1
+    state: 'on'
+  action:
+  - service: switch.turn_off
+    data: {}
+    target:
+      entity_id:
+      - switch.0x158d00054ce938_channel_1
+  mode: single
+- id: '1628526359741'
+  alias: Выключение света в ванной
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.auto_off_svet_koridor_vanna
+    to: 'on'
+    for: 0:{{ states('input_number.auto_off_svet_koridor_vanna') |int }}
+  condition:
+  - condition: state
+    entity_id: switch.0x00158d00054ce938_channel_2
+    state: 'on'
+  action:
+  - service: switch.turn_off
+    entity_id: switch.0x158d00054ce938_channel_2
+  mode: single
+- id: '1628526451582'
+  alias: Выключение света в маленьком коридоре
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.auto_off_svet_koridor_mal
+    to: 'on'
+    for: 0:{{ states('input_number.auto_off_svet_koridor_mal') |int }}
+  condition:
+  - condition: state
+    entity_id: switch.0x158d0005882b0b_switch
+    state: 'on'
+  action:
+  - service: switch.turn_off
+    entity_id: switch.0x158d0005882b0b_switch
+  mode: single
+- id: '1628526947519'
+  alias: Включение подсветки в ванной
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.0x158d0002e6b618_action
+    to: single
+  condition: []
+  action:
+  - service: switch.toggle
+    data: {}
+    target:
+      entity_id: switch.0x00124b001b7976bf
+  mode: single
+- id: '1628527087646'
+  alias: Переключение вентилятора в ванной
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.0x158d0002e6b618_action
+    to: double
+  condition: []
+  action:
+  - service: switch.toggle
+    data: {}
+    target:
+      entity_id: switch.0x04cf8cdf3c8e15d6
+  mode: single
+- id: '1628527172829'
+  alias: Выключение подсветки в ванной
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.auto_off_svet_zerkalo_vannay
+    to: 'on'
+    for: 0:{{ states('input_number.auto_off_svet_zerkalo_vannay') |int }}
+  condition:
+  - condition: state
+    entity_id: switch.0x04cf8cdf3c8e15d6
+    state: 'on'
+  action:
+  - service: switch.turn_off
+    data: {}
+    target:
+      entity_id:
+      - switch.0x00124b001b7976bf
+  mode: single
+- id: '1628527540461'
+  alias: Выключение гиверлампы
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.auto_off_gyverlamp
+    to: 'on'
+    for: 0:{{ states('input_number.auto_off_gyverlamp') |int }}
+  condition:
+  - condition: state
+    entity_id: light.gyver_lamp_esp_920e37
+    state: 'on'
+  action:
+  - service: light.turn_off
+    entity_id: light.gyver_lamp_esp_920e37
+  mode: single
+- id: '1628527615384'
+  alias: Выключение света в детской
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.auto_off_svet_detskay
+    to: 'on'
+    for: 0:{{ states('input_number.auto_off_svet_detskay') |int }}
+  condition:
+  - condition: state
+    entity_id: switch.0x00158d0006b1fada_channel_1
+    state: 'on'
+  action:
+  - service: switch.turn_off
+    data: {}
+    target:
+      entity_id:
+      - switch.0x00158d0006b1fada_channel_1
+  mode: single
+- id: '1628527689592'
+  alias: Выключение подсветки в детской
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.auto_off_svet_detskay_2
+    to: 'on'
+    for: 0:{{ states('input_number.auto_off_svet_detskay_2') |int }}
+  condition:
+  - condition: state
+    entity_id: switch.0x00158d0006b1fada_channel_2
+    state: 'on'
+  action:
+  - service: switch.turn_off
+    data: {}
+    target:
+      entity_id:
+      - switch.0x00158d0006b1fada_channel_2
+  mode: single
+- id: '1628527774951'
+  alias: Переключение света в детской
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.0x158d0003a47ba3_action
+    to: single
+  condition: []
+  action:
+  - service: switch.toggle
+    data: {}
+    target:
+      entity_id:
+      - switch.0x00158d0006b1fada_channel_1
+  mode: single
+- id: '1628527859993'
+  alias: Переключение подсветки в детской
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.0x158d0003a47ba3_action
+    to: double
+  condition: []
+  action:
+  - service: switch.toggle
+    data: {}
+    target:
+      entity_id:
+      - switch.0x00158d0006b1fada_channel_2
+  mode: single
+- id: '1628527968955'
+  alias: Переключение гиверлампы
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.0x158d0003a47ba3_action
+    to: triple
+  condition: []
+  action:
+  - service: light.toggle
+    data: {}
+  mode: single
+- id: '1628528134048'
+  alias: Переключение режимов гиверлампы
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.0x158d0003a47ba3_action
+    to: quadruple
+  condition: []
+  action:
+  - service: input_select.select_next
+    data: {}
+  mode: single
+- id: '1628528310784'
+  alias: Включение гиверлампы
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.0x158d00039db890_motion
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: light.gyver_lamp_esp_920e37
+    state: 'off'
+  - condition: time
+    after: '22:00:00'
+    before: 02:00:00
+  action:
+  - service: light.turn_on
+    entity_id: light.gyver_lamp_esp_920e37
+  initial_state: false
+  mode: single
+- id: '1628529297058'
+  alias: Гиверлампа скорость
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_number.gyverlamp_speed
+  condition: []
+  action:
+  - service: mqtt.publish
+    data:
+      topic: homeassistant/light/ESP-920e37/effect/speed/set
+      payload_template: trigger.to_state.state | int
+  mode: single
+- id: '1628529358400'
+  alias: Гиверлампа масштаб
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_number.gyverlamp_scale
+  condition: []
+  action:
+  - service: mqtt.publish
+    data:
+      topic: homeassistant/light/ESP-920e37/effect/scale/set
+      payload_template: trigger.to_state.state | int
+  mode: single
+- id: '1628529403295'
+  alias: Гиверлампа яркость
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_number.gyverlamp_brightness
+  condition: []
+  action:
+  - service: mqtt.publish
+    data:
+      topic: homeassistant/light/ESP-920e37/brightness/set
+      payload_template: trigger.to_state.state | int
+  mode: single
+- id: '1628529462923'
+  alias: Гиверлампа эффекты
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_select.gyverlamp_effect
+  condition: []
+  action:
+  - service: mqtt.publish
+    data:
+      topic: homeassistant/light/ESP-920e37/effect/set
+      payload_template: states('input_select.gyverlamp_effect')
+  mode: single
+- id: '1628529728870'
+  alias: Гиверлампа яркость синхронизация
+  description: ''
+  trigger:
+  - platform: mqtt
+    topic: homeassistant/light/ESP-920e37/brightness/status
+  condition: []
+  action:
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.gyverlamp_brightness
+      value: '{{ trigger.payload | int }}'
+  mode: single
+- id: '1628529783248'
+  alias: Гиверлампа скорость синхронизация
+  description: ''
+  trigger:
+  - platform: mqtt
+    topic: homeassistant/light/ESP-920e37/effect/speed/status
+  condition: []
+  action:
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.gyverlamp_speed
+      value: '{{ trigger.payload | int }}'
+  mode: single
+- id: '1628529833732'
+  alias: Гиверлампа масштаб синхронизация
+  description: ''
+  trigger:
+  - platform: mqtt
+    topic: homeassistant/light/ESP-920e37/effect/scale/status
+  condition: []
+  action:
+  - service: input_number.set_value
+    data_template:
+      entity_id: input_number.gyverlamp_scale
+      value: '{{ trigger.payload | int }}'
+  mode: single
+- id: '1628530011680'
+  alias: Куб переключение тв 90гр
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.0x158d000101f92d_action
+    to: flip90
+  condition: []
+  action:
+  - service: switch.toggle
+    entity_id: switch.tv_on
+  mode: single
+- id: '1634061555590'
+  alias: Включение ночника в детской по движению
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.0x158d00039db890_motion
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: light.zesp_bulb_00158d00036391d8
+    state: 'off'
+  - condition: time
+    after: '22:30'
+    before: 07:00
+  - condition: state
+    entity_id: sun.sun
+    state: below_horizon
+  action:
+  - service: light.turn_on
+    data:
+      brightness: 30
+    target:
+      entity_id: light.zesp_bulb_00158d00036391d8
+  mode: single
+- id: '1634062346517'
+  alias: Выключение ночника в детской без движения
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.auto_off_svet_detskay
+    to: 'on'
+    for: 0:{{ states('input_number.auto_off_svet_detskay') |int }}
+  condition:
+  - condition: state
+    state: 'on'
+    entity_id: light.zesp_bulb_00158d00036391d8
+  action:
+  - service: light.turn_off
+    target:
+      entity_id: light.zesp_bulb_00158d00036391d8
+    data: {}
+  mode: single
+- id: '1634095100957'
+  alias: Выключение света на кухне без движения
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.auto_off_svet_kuchnya_left
+    to: 'on'
+    for: 0:{{ states('input_number.auto_off_svet_kuchnya_left') |int }}
+  condition: []
+  action:
+  - condition: state
+    entity_id: switch.0x00158d00031de357_channel_1
+    state: 'on'
+  - service: switch.turn_off
+    target:
+      entity_id:
+      - switch.0x00158d00031de357_channel_1
+    data: {}
+  mode: single
+- id: '1634095982423'
+  alias: Выключение без движения ночника на кухне
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.auto_off_rgb_kuchnya
+    to: 'on'
+    for: 0:{{ states('input_number.auto_off_rgb_kuchnya') |int }}
+  condition:
+  - condition: state
+    entity_id: light.yeelight_color_0x00000000112cbed7
+    state: 'on'
+  - condition: state
+    entity_id: light.yeelight_color_0x000000000800fcce
+    state: 'on'
+  action:
+  - service: light.turn_off
+    target:
+      entity_id:
+      - light.yeelight_color_0x00000000112cbed7
+      - light.yeelight_color_0x000000000800fcce
+  mode: single
+- id: '1634096117008'
+  alias: Выключение без движения ночника на кухне
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.auto_off_rgb_kuchnya
+    to: 'on'
+    for: 0:{{ states('input_number.auto_off_rgb_kuchnya') |int }}
+  condition:
+  - condition: state
+    entity_id: light.yeelight_color_0x00000000112cbed7
+    state: 'on'
+  - condition: state
+    entity_id: light.yeelight_color_0x000000000800fcce
+    state: 'on'
+  action:
+  - service: light.turn_off
+    target:
+      entity_id:
+      - light.yeelight_color_0x00000000112cbed7
+      - light.yeelight_color_0x000000000800fcce
+  mode: single
+- id: '1634096229121'
+  alias: Выключение без движения ночника на кухне
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.auto_off_rgb_kuchnya
+    to: 'on'
+    for: 0:{{ states('input_number.auto_off_rgb_kuchnya') |int }}
+  condition:
+  - condition: state
+    entity_id: light.yeelight_color_0x00000000112cbed7
+    state: 'on'
+  - condition: state
+    entity_id: light.yeelight_color_0x000000000800fcce
+    state: 'on'
+  action:
+  - service: light.turn_off
+    target:
+      entity_id:
+      - light.yeelight_color_0x00000000112cbed7
+      - light.yeelight_color_0x000000000800fcce
+  mode: single
+- id: '1634096715422'
+  alias: Выключение ночника на кухне без движения
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.auto_off_rgb_kuchnya
+    to: 'on'
+    for: 0:{{ states('input_number.auto_off_rgb_kuchnya') |int }}
+  condition:
+  - condition: state
+    entity_id: light.yeelight_color_0x00000000112cbed7
+    state: 'on'
+  - condition: state
+    entity_id: light.yeelight_color_0x000000000800fcce
+    state: 'on'
+  action:
+  - service: light.turn_off
+    target:
+      entity_id:
+      - light.yeelight_color_0x00000000112cbed7
+      - light.yeelight_color_0x000000000800fcce
+  mode: single
+- id: '1634097148352'
+  alias: Выключение без движения подсветки на кухне
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.auto_off_podsvetka_kuchnya
+    to: 'on'
+    for: 0:{{ states('input_number.auto_off_podsvetka_kuchnya') |int }}
+  condition:
+  - condition: state
+    entity_id: switch.0x00124b001ec85b30
+    state: 'on'
+  action:
+  - service: switch.turn_off
+    target:
+      entity_id: switch.0x00124b001ec85b30
+  mode: single
+- id: '1634097308577'
+  alias: Выключение без движения ТВ на кухне
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.auto_off_tv_kuchnya
+    to: 'on'
+    for: 0:{{ states('input_number.auto_off_tv_kuchnya') |int }}
+  condition:
+  - condition: state
+    entity_id: media_player.tv_kukhnia
+    state: 'on'
+  - condition: time
+    after: '22:00'
+    before: 07:00
+  action:
+  - service: media_player.turn_off
+    data: {}
+    target:
+      entity_id: media_player.tv_kukhnia
+  mode: single
+- id: '1634097613033'
+  alias: Переключение света на кухне по клику кнопки
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.0x158d0002fa9e5d_action
+    to: single
+  condition: []
+  action:
+  - service: switch.toggle
+    target:
+      entity_id:
+      - switch.0x00158d00031de357_channel_1
+    data: {}
+  mode: single
+- id: '1634098101759'
+  alias: Переключение по двойному клику подсветки на кухне ночью
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.0x158d0002fa9e5d_action
+    to: double
+  condition:
+  - condition: time
+    after: '22:00'
+    before: 07:00
+  action:
+  - service: light.toggle
+    target:
+      entity_id:
+      - light.yeelight_color_0x00000000112cbed7
+      - light.yeelight_color_0x000000000800fcce
+    data:
+      rgb_color:
+      - 255
+      - 126
+      - 0
+  mode: single
+- id: '1634098250533'
+  alias: Переключение по двойному клику подсветки на кухне днем
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.0x158d0002fa9e5d_action
+    to: double
+  condition:
+  - condition: time
+    after: 07:00
+    before: '22:00'
+  action:
+  - service: light.toggle
+    target:
+      entity_id:
+      - light.yeelight_color_0x00000000112cbed7
+      - light.yeelight_color_0x000000000800fcce
+    data:
+      kelvin: 4000
+      brightness_pct: 50
+  mode: single
+- id: '1634099040336'
+  alias: Включение по тройному клику подсветки на кухне
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.0x158d0002fa9e5d_action
+    to: triple
+  condition: []
+  action:
+  - service: switch.toggle
+    target:
+      entity_id: switch.0x00124b001ec85b30
+  mode: single
+- id: '1634099237481'
+  alias: Включение/Выключение ТВ на кухне кнопкой
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.0x158d0002fa9e5d_action
+    to: quadruple
+  condition: []
+  action:
+  - service: wake_on_lan.send_magic_packet
+    data:
+      mac: 20:17:42:76:93:C1
+  mode: single
+- id: '1634099407532'
+  alias: Переключение правой клавишей ночью ночника на кухне ночью
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.0x158d00031de357_action
+    to: button_2_single
+  condition:
+  - condition: time
+    after: '22:00'
+    before: 07:00
+  action:
+  - service: light.toggle
+    target:
+      entity_id:
+      - light.yeelight_color_0x00000000112cbed7
+      - light.yeelight_color_0x000000000800fcce
+    data:
+      rgb_color:
+      - 255
+      - 126
+      - 0
+  mode: single
+- id: '1634099506996'
+  alias: Переключение правой клавишей ночью ночника на кухне днем
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.0x158d00031de357_action
+    to: button_2_single
+  condition:
+  - condition: time
+    after: 07:00
+    before: '22:00'
+  action:
+  - service: light.toggle
+    target:
+      entity_id:
+      - light.yeelight_color_0x00000000112cbed7
+      - light.yeelight_color_0x000000000800fcce
+    data:
+      kelvin: 4000
+      brightness_pct: 50
+  mode: single
+- id: '1634099669197'
+  alias: Переключение подсветки по двойному клику правой кнопки на кухне
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.0x158d00031de357_action
+    to: button_2_double
+  condition: []
+  action:
+  - service: switch.toggle
+    target:
+      entity_id: switch.0x00124b001ec85b30
+  mode: single
+- id: '1634099849191'
+  alias: Переключение подсветки на кухне беспроводной выключатель
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.0x158d0002c9db62_action
+    to: single
+  condition: []
+  action:
+  - service: switch.toggle
+    target:
+      entity_id: switch.0x00124b001ec85b30
+  mode: single
+- id: '1634099923043'
+  alias: Выключение ТВ на кухне беспроводной выключатель
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.0x158d0002c9db62_action
+    to: double
+  condition:
+  - condition: state
+    entity_id: media_player.tv_kukhnia
+    state: 'on'
+  action:
+  - service: media_player.turn_off
+    data: {}
+    target:
+      entity_id: media_player.tv_kukhnia
+  mode: single
+- id: '1634100058597'
+  alias: Выключение света в спальне без движения
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.auto_off_svet_spalnya
+    to: 'on'
+    for: 0:{{ states('input_number.auto_off_svet_spalnya') |int }}
+  condition:
+  - condition: state
+    entity_id: switch.0x00158d00034d0a07_channel_1
+    state: 'on'
+  action:
+  - service: switch.turn_off
+    data: {}
+    target:
+      entity_id: switch.0x00158d00034d0a07_channel_1
+  mode: single
+- id: '1634103355301'
+  alias: Включение ночника в туалете
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.0x158d0002583b1a_motion
+    to: 'on'
+  condition:
+  - condition: state
+    state: 'off'
+    entity_id: light.zesp_bulb_00158d0002ecd55b
+  - condition: numeric_state
+    entity_id: sensor.0x158d0002583b1a_illuminance
+    below: '10'
+  action:
+  - service: light.turn_on
+    target:
+      entity_id: light.zesp_bulb_00158d0002ecd55b
+    data:
+      brightness_pct: 100
+  mode: single
+- id: '1634103572570'
+  alias: Выключение ночника в туалете при включении света
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: switch.0x00158d00054ce938_channel_1
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: light.zesp_bulb_00158d0002ecd55b
+    state: 'on'
+  action:
+  - service: light.turn_off
+    target:
+      entity_id: light.zesp_bulb_00158d0002ecd55b
+    data: {}
+  mode: single
+- id: '1634103766598'
+  alias: Выключение подсветки в туалете без движения
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.auto_off_aqara_hub_tualet
+    to: 'on'
+    for: 0:{{ states('input_number.tualet_nochnik_minutes') |int }}
+  condition:
+  - condition: state
+    entity_id: light.zesp_bulb_00158d0002ecd55b
+    state: 'on'
+  action:
+  - service: light.turn_off
+    target:
+      entity_id: light.zesp_bulb_00158d0002ecd55b
+  mode: single
+- id: '1634104621807'
+  alias: Задержка включение HomeKit
+  description: ''
+  trigger:
+  - platform: homeassistant
+    event: start
+  condition: []
+  action:
+  - delay:
+      hours: 0
+      minutes: 2
+      seconds: 0
+      milliseconds: 0
+  - service: homekit.start
+  mode: single
+- id: '1634104773463'
+  alias: Выключение ночников при рассвете
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunrise
+  condition: []
+  action:
+  - service: light.turn_off
+    target:
+      entity_id:
+      - light.gateway_light_7c49eb88e98a
+      - light.zesp_bulb_00158d0003f0e83b
+      - light.zesp_bulb_00158d00036391d8
+  mode: single
+- id: '1634108894043'
+  alias: Входная дверь открыта, уведомление об открытии
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.0x158d00039c0a59_contact
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: person.igor
+    state: not_home
+  - condition: state
+    entity_id: person.marina
+    state: not_home
+  action:
+  - service: notify.mobile_app_iphone_igor
+    data:
+      message: Входная дверь открыта
+  mode: single
+- id: '1634108970221'
+  alias: Входная дверь закрыта, уведомление о закрытии
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.0x158d00039c0a59_contact
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: person.igor
+    state: not_home
+  - condition: state
+    entity_id: person.marina
+    state: not_home
+  action:
+  - service: notify.mobile_app_iphone_igor
+    data:
+      message: Входная дверь закрыта
+  mode: single
+- id: '1634109198843'
+  alias: Гараж, уведомление об открытии
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.zavod_0x00158d00054480be_contact
+    from: 'on'
+    to: 'off'
+  condition: []
+  action:
+  - service: notify.mobile_app_iphone_igor
+    data:
+      message: Гараж открыт
+  mode: single
+- id: '1634109320901'
+  alias: Гараж, уведомление о закрытии
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.zavod_0x00158d0005448590_contact
+    from: 'on'
+    to: 'off'
+  condition: []
+  action:
+  - service: notify.mobile_app_iphone_igor
+    data:
+      message: Гараж закрыт
+  mode: single
+- id: '1634109655627'
+  alias: Стиральная машина осталось 5 минут
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.stiralnaia_mashina
+    attribute: remain_time
+    from: 0:06:00
+    to: 0:05:00
+  condition: []
+  action:
+  - service: notify.mobile_app_iphone_igor
+    data:
+      message: Стиральная машина почти закончила! Осталось 5 минут
+  mode: single
+- id: '1634109726614'
+  alias: Стиральная машина - стирка завершена
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.stiralnaia_mashina
+    attribute: remain_time
+    from: 0:01:00
+    to: 0:00:00
+  condition: []
+  action:
+  - service: notify.mobile_app_iphone_igor
+    data:
+      message: Стиральная машина закончила! Достаньте белье
+  mode: single
+- id: '1634109818336'
+  alias: Стиральная машина - ошибка
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.stiralnaia_mashina_error_state
+    to: 'on'
+  condition: []
+  action:
+  - service: notify.mobile_app_iphone_igor
+    data:
+      message: Стиральная машина ошибка! Проверьте стиральную машину
+  mode: single
+- id: '1641826168184'
+  alias: Уведомление о состоянии котла
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.zavod_sp3_current_power
+    below: '10'
+  condition:
+  - condition: numeric_state
+    entity_id: weather.home_assistant
+    attribute: temperature
+    above: '5'
+  action:
+  - service: notify.mobile_app_iphone_igor
+    data:
+      message: Проверьте состояние котла!
+  mode: single
+- id: '1643974902899'
+  alias: Включение ТВ на кухне беспроводной выключатель
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.0x158d0002c9db62_action
+    to: double
+  condition:
+  - condition: state
+    entity_id: media_player.tv_kukhnia
+    state: 'off'
+  action:
+  - service: wake_on_lan.send_magic_packet
+    data:
+      mac: 20:17:42:76:93:C1
+  mode: single
+- id: '1647360938248'
+  alias: 'Телеграм: Управление'
+  description: ''
+  trigger:
+  - platform: event
+    event_type: telegram_command
+    event_data:
+      command: /start
+  condition: []
+  action:
+  - service: telegram_bot.send_message
+    data:
+      inline_keyboard: Домофон:/domofon, Отчет:/report
+      message: Умный дом.
+  mode: restart
+- id: '1647369197656'
+  alias: Telegram start
+  description: ''
+  trigger:
+  - platform: event
+    event_type: telegram_command
+    event_data:
+      command: /start
+  condition: []
+  action:
+  - service: telegram_bot.send_message
+    data:
+      keyboard: /start
+  mode: single
+- id: '1659364271570'
+  alias: Уведомление домофон
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.smartintercom_e8db849c6ee5_line_detect
+    to: 'on'
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: select.smartintercom_e8db849c6ee5_modes
+        state: Открывать всегда
+      sequence:
+      - service: notify.mobile_app_iphone_igor
+        data:
+          message: Звонок в домофон (откроется автоматически)
+      - service: notify.mobile_app_iphone_marina
+        data:
+          message: Звонок в домофон (откроется автоматически)
+    - conditions:
+      - condition: state
+        entity_id: select.smartintercom_e8db849c6ee5_modes
+        state: Сброс вызова
+      sequence:
+      - service: notify.mobile_app_iphone_igor
+        data:
+          message: Звонок в домофон (отклонится автоматически)
+      - service: notify.mobile_app_iphone_marina
+        data:
+          message: Звонок в домофон (отклонится автоматически)
+    default:
+    - service: notify.mobile_app_iphone_igor
+      data:
+        message: Звонок в домофон
+        data:
+          actions:
+          - action: domofon_open
+            title: Открыть
+          - action: domofon_reject
+            title: Отклонить
+    - service: notify.mobile_app_iphone_marina
+      data:
+        message: Звонок в домофон
+        data:
+          actions:
+          - action: domofon_open
+            title: Открыть
+          - action: domofon_reject
+            title: Отклонить
+    - delay:
+        hours: 0
+        minutes: 0
+        seconds: 10
+        milliseconds: 0
+  mode: single
+- id: '1659374858979'
+  alias: Домофон открыть уведомление
+  description: ''
+  trigger:
+  - platform: event
+    event_type: mobile_app_notification_action
+    event_data:
+      action: domofon_open
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: binary_sensor.smartintercom_e8db849c6ee5_line_detect
+        state: 'on'
+      sequence:
+      - service: notify.mobile_app_iphone_igor
+        data:
+          message: Открываю...
+      - service: switch.turn_on
+        data: {}
+        target:
+          entity_id: switch.smartintercom_e8db849c6ee5_accept_call
+    default:
+    - service: notify.mobile_app_iphone_igor
+      data:
+        message: Нет входящего звонка
+  mode: single
+- id: '1659374924719'
+  alias: Домофон отклонить уведомление
+  description: ''
+  trigger:
+  - platform: event
+    event_type: mobile_app_notification_action
+    event_data:
+      action: domofon_reject
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: binary_sensor.smartintercom_e8db849c6ee5_line_detect
+        state: 'on'
+      sequence:
+      - service: notify.mobile_app_iphone_igor
+        data:
+          message: Отклоняю...
+      - service: switch.turn_on
+        data: {}
+        target:
+          entity_id: switch.smartintercom_e8db849c6ee5_reject_call
+    default:
+    - service: notify.mobile_app_iphone_igor
+      data:
+        message: Нет входящего звонка
+  mode: single
+- id: '1659447042826'
+  alias: Открытие домофона один раз
+  description: ''
+  trigger:
+  - platform: zone
+    entity_id:
+    - person.igor
+    - person.marina
+    zone: zone.domofon
+    event: enter
+  condition: []
+  action:
+  - service: select.select_option
+    data:
+      option: Открывать всегда
+    target:
+      entity_id: select.smartintercom_e8db849c6ee5_modes
+  - service: switch.turn_on
+    data: {}
+    target:
+      entity_id: switch.smartintercom_e8db849c6ee5_mute
+  - service: notify.mobile_app_iphone_igor
+    data:
+      message: 'Домофон: включен режим однократного авто-открытия.'
+  - wait_for_trigger:
+    - platform: state
+      entity_id:
+      - binary_sensor.0x158d00039c0a59_contact
+      to: 'on'
+      from: 'off'
+    timeout: 00:10:00
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: select.smartintercom_e8db849c6ee5_modes
+        state: Открывать всегда
+      sequence:
+      - service: select.select_option
+        data:
+          option: Не активен
+        target:
+          entity_id: select.smartintercom_e8db849c6ee5_modes
+      - service: switch.turn_off
+        data: {}
+        target:
+          entity_id: switch.smartintercom_e8db849c6ee5_mute
+      - service: notify.mobile_app_iphone_igor
+        data:
+          message: 'Домофон: отключен режим однократного авто-открытия.'
+    default: []
+  mode: single
+- id: '1663938626283'
+  trigger:
+  - platform: time
+    at: 07:00:00
+    variables:
+      tariff: day
+  - platform: time
+    at: '23:00:00'
+    variables:
+      tariff: night
+  action:
+  - service: select.select_option
+    target:
+      entity_id: select.energy_daily_kvartira
+    data:
+      option: '{{ tariff }}'
+  - service: select.select_option
+    target:
+      entity_id: select.energy_monthly_kvartira
+    data:
+      option: '{{ tariff }}'
+  - service: select.select_option
+    target:
+      entity_id: select.energy_yearly_kvartira
+    data:
+      option: '{{ tariff }}'

@@ -1,0 +1,12 @@
+# Телеграм 
+- name: telegram_id_1
+  platform: telegram
+  chat_id: !secret telegram_bot_allowed_chat_id1
+  
+- name: telegram_id_2
+  platform: telegram
+  chat_id: !secret telegram_bot_allowed_chat_id2
+  
+- name: telegram_id_3
+  platform: telegram
+  chat_id: !secret telegram_bot_allowed_chat_id3 

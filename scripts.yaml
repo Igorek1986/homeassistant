@@ -1,0 +1,26 @@
+'1659372596234':
+  alias: Домофон открыть
+  sequence:
+  - wait_for_trigger:
+    - platform: event
+      event_type: mobile_app_notification_action
+      event_data:
+        action: domofon_open
+  - service: switch.turn_on
+    data: {}
+    target:
+      entity_id: switch.0x00158d00054eb5cc_channel_2
+  mode: single
+'1659372635559':
+  alias: Домофон отклонить
+  sequence:
+  - wait_for_trigger:
+    - platform: event
+      event_type: mobile_app_notification_action
+      event_data:
+        action: domofon_reject
+  - service: switch.turn_off
+    data: {}
+    target:
+      entity_id: switch.0x00158d00054eb5cc_channel_2
+  mode: single
