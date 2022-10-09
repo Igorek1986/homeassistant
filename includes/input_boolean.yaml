@@ -11,6 +11,6 @@
     # name: Гаражные ворота направление # ON вверх OFF вниз
     # icon: mdi:sign-direction
     
-  svet_zal_on:
-    name: Свет
+  # svet_zal_on:
+  #   name: Свет
     
