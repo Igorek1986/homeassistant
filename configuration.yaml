@@ -154,10 +154,6 @@ yandex_station:
     - media_player.samsung_tv_zal
     - media_player.tv_kukhnia
 
-shell_command:
-  git_pushha: bash /config/ha_gitpush.sh
-
-
 wake_on_lan:
 
 # life360:

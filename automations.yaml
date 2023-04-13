@@ -1525,17 +1525,6 @@
       entity_id: select.energy_yearly_kvartira
     data:
       option: '{{ tariff }}'
-- id: '1665312655648'
-  alias: Push HA Config to Github
-  description: ''
-  trigger:
-  - platform: time_pattern
-    hours: '6'
-  condition: []
-  action:
-  - service: shell_command.git_pushha
-    data: {}
-  mode: single
 - id: '1669644331218'
   alias: Запуск двигателя
   description: ''
