@@ -29,7 +29,6 @@ websocket_api:
 
 mobile_app:
 
-
 http:
   use_x_forwarded_for: true
   trusted_proxies:
@@ -105,7 +104,6 @@ binary_sensor: !include_dir_merge_list includes/binary_sensor
 utility_meter: !include includes/utility_meter.yaml
 
 
-
 # xiaomi_aqara:
 #   discovery_retry: 10
 #   gateways:
@@ -155,6 +153,9 @@ yandex_station:
   include:
     - media_player.samsung_tv_zal
     - media_player.tv_kukhnia
+
+shell_command:
+  git_pushha: bash /config/ha_gitpush.sh
 
 
 wake_on_lan:

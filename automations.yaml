@@ -1526,17 +1526,15 @@
     data:
       option: '{{ tariff }}'
 - id: '1665312655648'
-  alias: push HA config ti GitHub
+  alias: Push HA Config to Github
   description: ''
   trigger:
   - platform: time_pattern
-    hours: /6
+    hours: '6'
   condition: []
   action:
-  - service: hassio.addon_stdin
-    data:
-      addon: a0d7b954_ssh
-      input: /config/ha_gitpush.sh
+  - service: shell_command.git_pushha
+    data: {}
   mode: single
 - id: '1669644331218'
   alias: Запуск двигателя
