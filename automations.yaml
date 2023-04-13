@@ -381,7 +381,7 @@
     data: {}
     target:
       entity_id:
-      - switch.0x158d00054ce938_channel_1
+      - switch.0x00158d00054ce938_channel_1
   mode: single
 - id: '1628526359741'
   alias: Выключение света в ванной
@@ -397,7 +397,8 @@
     state: 'on'
   action:
   - service: switch.turn_off
-    entity_id: switch.0x158d00054ce938_channel_2
+    data:
+      entity_id: switch.0x00158d00054ce938_channel_2
   mode: single
 - id: '1628526451582'
   alias: Выключение света в маленьком коридоре
@@ -807,10 +808,7 @@
     for: 0:{{ states('input_number.auto_off_rgb_kuchnya') |int }}
   condition:
   - condition: state
-    entity_id: light.yeelight_color_0x00000000112cbed7
-    state: 'on'
-  - condition: state
-    entity_id: light.yeelight_color_0x000000000800fcce
+    entity_id: binary_sensor.yeelink_rgb
     state: 'on'
   action:
   - service: light.turn_off
@@ -818,6 +816,7 @@
       entity_id:
       - light.yeelight_color_0x00000000112cbed7
       - light.yeelight_color_0x000000000800fcce
+    data: {}
   mode: single
 - id: '1634096715422'
   alias: Выключение ночника на кухне без движения
@@ -952,17 +951,21 @@
       entity_id: switch.0x00124b001ec85b30
   mode: single
 - id: '1634099237481'
-  alias: Включение/Выключение ТВ на кухне кнопкой
+  alias: Включение ТВ на кухне кнопка
   description: ''
   trigger:
   - platform: state
     entity_id: sensor.0x158d0002fa9e5d_action
     to: quadruple
-  condition: []
+  condition:
+  - condition: state
+    entity_id: media_player.tv_kukhnia
+    state: 'off'
   action:
-  - service: wake_on_lan.send_magic_packet
-    data:
-      mac: 20:17:42:76:93:C1
+  - service: media_player.turn_on
+    data: {}
+    target:
+      entity_id: media_player.tv_kukhnia
   mode: single
 - id: '1634099407532'
   alias: Переключение правой клавишей ночью ночника на кухне ночью
@@ -1227,7 +1230,7 @@
   trigger:
   - platform: state
     entity_id:
-    - sensor.stiralnaia_mashina
+    - sensor.stiralnaia_mashina_s_gorizontalnoi_zagruzkoi
     attribute: remain_time
     from: 0:06:00
     to: 0:05:00
@@ -1243,7 +1246,7 @@
   trigger:
   - platform: state
     entity_id:
-    - sensor.stiralnaia_mashina
+    - sensor.stiralnaia_mashina_s_gorizontalnoi_zagruzkoi
     attribute: remain_time
     from: 0:01:00
     to: 0:00:00
@@ -1258,7 +1261,8 @@
   description: ''
   trigger:
   - platform: state
-    entity_id: binary_sensor.stiralnaia_mashina_error_state
+    entity_id:
+    - binary_sensor.stiralnaia_mashina_s_gorizontalnoi_zagruzkoi_error_state
     to: 'on'
   condition: []
   action:
@@ -1273,11 +1277,7 @@
   - platform: numeric_state
     entity_id: sensor.zavod_sp3_current_power
     below: '10'
-  condition:
-  - condition: numeric_state
-    entity_id: weather.home_assistant
-    attribute: temperature
-    above: '5'
+  condition: []
   action:
   - service: notify.mobile_app_iphone_igor
     data:
@@ -1334,14 +1334,14 @@
   trigger:
   - platform: state
     entity_id:
-    - binary_sensor.smartintercom_e8db849c6ee5_line_detect
+    - binary_sensor.smartintercom_line_detect
     to: 'on'
   condition: []
   action:
   - choose:
     - conditions:
       - condition: state
-        entity_id: select.smartintercom_e8db849c6ee5_modes
+        entity_id: select.smartintercom_modes
         state: Открывать всегда
       sequence:
       - service: notify.mobile_app_iphone_igor
@@ -1352,7 +1352,7 @@
           message: Звонок в домофон (откроется автоматически)
     - conditions:
       - condition: state
-        entity_id: select.smartintercom_e8db849c6ee5_modes
+        entity_id: select.smartintercom_modes
         state: Сброс вызова
       sequence:
       - service: notify.mobile_app_iphone_igor
@@ -1399,7 +1399,7 @@
   - choose:
     - conditions:
       - condition: state
-        entity_id: binary_sensor.smartintercom_e8db849c6ee5_line_detect
+        entity_id: binary_sensor.smartintercom_line_detect
         state: 'on'
       sequence:
       - service: notify.mobile_app_iphone_igor
@@ -1408,7 +1408,8 @@
       - service: switch.turn_on
         data: {}
         target:
-          entity_id: switch.smartintercom_e8db849c6ee5_accept_call
+          entity_id:
+          - switch.smartintercom_accept_call
     default:
     - service: notify.mobile_app_iphone_igor
       data:
@@ -1427,7 +1428,7 @@
   - choose:
     - conditions:
       - condition: state
-        entity_id: binary_sensor.smartintercom_e8db849c6ee5_line_detect
+        entity_id: binary_sensor.smartintercom_line_detect
         state: 'on'
       sequence:
       - service: notify.mobile_app_iphone_igor
@@ -1436,7 +1437,8 @@
       - service: switch.turn_on
         data: {}
         target:
-          entity_id: switch.smartintercom_e8db849c6ee5_reject_call
+          entity_id:
+          - switch.smartintercom_reject_call
     default:
     - service: notify.mobile_app_iphone_igor
       data:
@@ -1458,11 +1460,13 @@
     data:
       option: Открывать всегда
     target:
-      entity_id: select.smartintercom_e8db849c6ee5_modes
+      entity_id:
+      - select.smartintercom_modes
   - service: switch.turn_on
     data: {}
     target:
-      entity_id: switch.smartintercom_e8db849c6ee5_mute
+      entity_id:
+      - switch.smartintercom_mute
   - service: notify.mobile_app_iphone_igor
     data:
       message: 'Домофон: включен режим однократного авто-открытия.'
@@ -1476,18 +1480,20 @@
   - choose:
     - conditions:
       - condition: state
-        entity_id: select.smartintercom_e8db849c6ee5_modes
+        entity_id: select.smartintercom_modes
         state: Открывать всегда
       sequence:
       - service: select.select_option
         data:
           option: Не активен
         target:
-          entity_id: select.smartintercom_e8db849c6ee5_modes
+          entity_id:
+          - select.smartintercom_modes
       - service: switch.turn_off
         data: {}
         target:
-          entity_id: switch.smartintercom_e8db849c6ee5_mute
+          entity_id:
+          - switch.smartintercom_mute
       - service: notify.mobile_app_iphone_igor
         data:
           message: 'Домофон: отключен режим однократного авто-открытия.'
@@ -1519,3 +1525,281 @@
       entity_id: select.energy_yearly_kvartira
     data:
       option: '{{ tariff }}'
+- id: '1665312655648'
+  alias: push HA config ti GitHub
+  description: ''
+  trigger:
+  - platform: time_pattern
+    hours: /6
+  condition: []
+  action:
+  - service: hassio.addon_stdin
+    data:
+      addon: a0d7b954_ssh
+      input: /config/ha_gitpush.sh
+  mode: single
+- id: '1669644331218'
+  alias: Запуск двигателя
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.1074058304_engine_temperature
+    below: -14
+  condition:
+  - condition: state
+    entity_id: binary_sensor.1074058304_lock
+    state: 'off'
+  action:
+  - service: switch.turn_on
+    entity_id: switch.engine
+  - service: notify.mobile_app_iphone_igor
+    data:
+      message: Запуск двигателя по температуре
+  mode: single
+- id: '1678119273823'
+  alias: LG webOS Smart TV - Turn On Action
+  description: ''
+  use_blueprint:
+    path: homeassistant/webostv_turn_on.yaml
+    input:
+      webostv: media_player.tv_kukhnia
+      webostv_mac: 20:17:42:76:93:C1
+- id: '1678120351736'
+  alias: Включение ТВ на кухне беспроводной выключатель
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.0x158d0002c9db62_action
+    to: double
+  condition:
+  - condition: state
+    entity_id: media_player.tv_kukhnia
+    state: 'off'
+  action:
+  - service: media_player.turn_on
+    data: {}
+    target:
+      entity_id: media_player.tv_kukhnia
+  mode: single
+- id: '1678120580632'
+  alias: Выключение ТВ на кухне кнопка
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.0x158d0002fa9e5d_action
+    to: quadruple
+  condition:
+  - condition: state
+    entity_id: media_player.tv_kukhnia
+    state: 'on'
+  action:
+  - service: media_player.turn_off
+    data: {}
+    target:
+      entity_id: media_player.tv_kukhnia
+  mode: single
+- id: '1680171905713'
+  alias: 'Телеграм: Домофон. Управление2'
+  description: Управление домофоном через телеграм
+  trigger:
+  - platform: event
+    event_type: telegram_callback
+    event_data: {}
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.event.data.command == ''/domofon'' }}'
+      sequence:
+      - service: telegram_bot.send_message
+        data:
+          target: '{{ trigger.event.data.chat_id }}'
+          message: '{{''\U00002699''}} **Режим работы домофона**
+
+            '
+          inline_keyboard:
+          - "{% set domofon_modes = states(\"select.smartintercom_modes\") %} {% if
+            domofon_modes == \"Не активен\" %} {{\"\U0001F7E2\"}} {% else %} {{\"\U0001F534\"}}
+            {% endif %} Не активен:/domofon_not_active, {% set domofon_modes = states(\"select.smartintercom_modes\")
+            %} {% if domofon_modes == \"Открывать всегда\" %} {{\"\U0001F7E2\"}} {%
+            else %} {{\"\U0001F534\"}} {% endif %} Открывать всегда:/domofon_open_always"
+          - "{% if is_state(\"switch.smartintercom_mute\", \"on\") %} {{\"\U0001F7E2\"}}
+            {% else %} {{\"\U0001F534\"}} {% endif %} Беззвучный режим:/domofon_mute,
+            {% set domofon_modes = states(\"select.smartintercom_modes\") %} {% if
+            domofon_modes == \"Сброс вызова\" %} {{\"\U0001F7E2\"}} {% else %} {{\"\U0001F534\"}}
+            {% endif %} Сброс вызова:/domofon_reset_call"
+          - "{% set domofon_modes = states(\"select.smartintercom_modes\") %} {% if
+            domofon_modes == \"Сброс вызова если нет ответа\" %} {{\"\U0001F7E2\"}}
+            {% else %} {{\"\U0001F534\"}} {% endif %} Сброс вызова если нет ответа:/domofon_resetting_call_no_response"
+          - Назад:/backhome
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.event.data.command == "/domofon_not_active" }}'
+      sequence:
+      - service: select.select_option
+        data:
+          option: Не активен
+        target:
+          entity_id: select.smartintercom_modes
+      - delay:
+          milliseconds: 300
+      - service: telegram_bot.edit_message
+        data:
+          message_id: '{{ trigger.event.data.message.message_id }}'
+          chat_id: '{{ trigger.event.data.user_id }}'
+          callback_query_id: '{{ trigger.event.data.id }}'
+          message: '{{''\U00002699''}} **Режим работы домофона**
+
+            '
+          inline_keyboard:
+          - "{% set domofon_modes = states(\"select.smartintercom_modes\") %} {% if
+            domofon_modes == \"Не активен\" %} {{\"\U0001F7E2\"}} {% else %} {{\"\U0001F534\"}}
+            {% endif %} Не активен:/domofon_not_active, {% set domofon_modes = states(\"select.smartintercom_modes\")
+            %} {% if domofon_modes == \"Открывать всегда\" %} {{\"\U0001F7E2\"}} {%
+            else %} {{\"\U0001F534\"}} {% endif %} Открывать всегда:/domofon_open_always"
+          - "{% if is_state(\"switch.smartintercom_mute\", \"on\") %} {{\"\U0001F7E2\"}}
+            {% else %} {{\"\U0001F534\"}} {% endif %} Беззвучный режим:/domofon_mute,
+            {% set domofon_modes = states(\"select.smartintercom_modes\") %} {% if
+            domofon_modes == \"Сброс вызова\" %} {{\"\U0001F7E2\"}} {% else %} {{\"\U0001F534\"}}
+            {% endif %} Сброс вызова:/domofon_reset_call"
+          - "{% set domofon_modes = states(\"select.smartintercom_modes\") %} {% if
+            domofon_modes == \"Сброс вызова если нет ответа\" %} {{\"\U0001F7E2\"}}
+            {% else %} {{\"\U0001F534\"}} {% endif %} Сброс вызова если нет ответа:/domofon_resetting_call_no_response"
+          - Назад:/backhome
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.event.data.command == "/domofon_open_always" }}'
+      sequence:
+      - service: select.select_option
+        data:
+          option: Открывать всегда
+        target:
+          entity_id: select.smartintercom_modes
+      - delay:
+          milliseconds: 300
+      - service: telegram_bot.edit_message
+        data:
+          message_id: '{{ trigger.event.data.message.message_id }}'
+          chat_id: '{{ trigger.event.data.user_id }}'
+          callback_query_id: '{{ trigger.event.data.id }}'
+          message: '{{''\U00002699''}} **Режим работы домофона**
+
+            '
+          inline_keyboard:
+          - "{% set domofon_modes = states(\"select.smartintercom_modes\") %} {% if
+            domofon_modes == \"Не активен\" %} {{\"\U0001F7E2\"}} {% else %} {{\"\U0001F534\"}}
+            {% endif %} Не активен:/domofon_not_active, {% set domofon_modes = states(\"select.smartintercom_modes\")
+            %} {% if domofon_modes == \"Открывать всегда\" %} {{\"\U0001F7E2\"}} {%
+            else %} {{\"\U0001F534\"}} {% endif %} Открывать всегда:/domofon_open_always"
+          - "{% if is_state(\"switch.smartintercom_mute\", \"on\") %} {{\"\U0001F7E2\"}}
+            {% else %} {{\"\U0001F534\"}} {% endif %} Беззвучный режим:/domofon_mute,
+            {% set domofon_modes = states(\"select.smartintercom_modes\") %} {% if
+            domofon_modes == \"Сброс вызова\" %} {{\"\U0001F7E2\"}} {% else %} {{\"\U0001F534\"}}
+            {% endif %} Сброс вызова:/domofon_reset_call"
+          - "{% set domofon_modes = states(\"select.smartintercom_modes\") %} {% if
+            domofon_modes == \"Сброс вызова если нет ответа\" %} {{\"\U0001F7E2\"}}
+            {% else %} {{\"\U0001F534\"}} {% endif %} Сброс вызова если нет ответа:/domofon_resetting_call_no_response"
+          - Назад:/backhome
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.event.data.command == "/domofon_mute" }}'
+      sequence:
+      - service: switch.toggle
+        entity_id: switch.smartintercom_mute
+      - delay:
+          milliseconds: 300
+      - service: telegram_bot.edit_message
+        data:
+          message_id: '{{ trigger.event.data.message.message_id }}'
+          chat_id: '{{ trigger.event.data.user_id }}'
+          callback_query_id: '{{ trigger.event.data.id }}'
+          message: '{{''\U00002699''}} **Режим работы домофона**
+
+            '
+          inline_keyboard:
+          - "{% set domofon_modes = states(\"select.smartintercom_modes\") %} {% if
+            domofon_modes == \"Не активен\" %} {{\"\U0001F7E2\"}} {% else %} {{\"\U0001F534\"}}
+            {% endif %} Не активен:/domofon_not_active, {% set domofon_modes = states(\"select.smartintercom_modes\")
+            %} {% if domofon_modes == \"Открывать всегда\" %} {{\"\U0001F7E2\"}} {%
+            else %} {{\"\U0001F534\"}} {% endif %} Открывать всегда:/domofon_open_always"
+          - "{% if is_state(\"switch.smartintercom_mute\", \"on\") %} {{\"\U0001F7E2\"}}
+            {% else %} {{\"\U0001F534\"}} {% endif %} Беззвучный режим:/domofon_mute,
+            {% set domofon_modes = states(\"select.smartintercom_modes\") %} {% if
+            domofon_modes == \"Сброс вызова\" %} {{\"\U0001F7E2\"}} {% else %} {{\"\U0001F534\"}}
+            {% endif %} Сброс вызова:/domofon_reset_call"
+          - "{% set domofon_modes = states(\"select.smartintercom_modes\") %} {% if
+            domofon_modes == \"Сброс вызова если нет ответа\" %} {{\"\U0001F7E2\"}}
+            {% else %} {{\"\U0001F534\"}} {% endif %} Сброс вызова если нет ответа:/domofon_resetting_call_no_response"
+          - Назад:/backhome
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.event.data.command == "/domofon_reset_call" }}'
+      sequence:
+      - service: select.select_option
+        target:
+          entity_id: select.smartintercom_modes
+        data:
+          option: Сброс вызова
+      - delay:
+          milliseconds: 300
+      - service: telegram_bot.edit_message
+        data:
+          message_id: '{{ trigger.event.data.message.message_id }}'
+          chat_id: '{{ trigger.event.data.user_id }}'
+          callback_query_id: '{{ trigger.event.data.id }}'
+          message: '{{''\U00002699''}} **Режим работы домофона**
+
+            '
+          inline_keyboard:
+          - "{% set domofon_modes = states(\"select.smartintercom_modes\") %} {% if
+            domofon_modes == \"Не активен\" %} {{\"\U0001F7E2\"}} {% else %} {{\"\U0001F534\"}}
+            {% endif %} Не активен:/domofon_not_active, {% set domofon_modes = states(\"select.smartintercom_modes\")
+            %} {% if domofon_modes == \"Открывать всегда\" %} {{\"\U0001F7E2\"}} {%
+            else %} {{\"\U0001F534\"}} {% endif %} Открывать всегда:/domofon_open_always"
+          - "{% if is_state(\"switch.smartintercom_mute\", \"on\") %} {{\"\U0001F7E2\"}}
+            {% else %} {{\"\U0001F534\"}} {% endif %} Беззвучный режим:/domofon_mute,
+            {% set domofon_modes = states(\"select.smartintercom_modes\") %} {% if
+            domofon_modes == \"Сброс вызова\" %} {{\"\U0001F7E2\"}} {% else %} {{\"\U0001F534\"}}
+            {% endif %} Сброс вызова:/domofon_reset_call"
+          - "{% set domofon_modes = states(\"select.smartintercom_modes\") %} {% if
+            domofon_modes == \"Сброс вызова если нет ответа\" %} {{\"\U0001F7E2\"}}
+            {% else %} {{\"\U0001F534\"}} {% endif %} Сброс вызова если нет ответа:/domofon_resetting_call_no_response"
+          - Назад:/backhome
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.event.data.command == "/domofon_resetting_call_no_response"
+          }}'
+      sequence:
+      - service: select.select_option
+        target:
+          entity_id: select.smartintercom_modes
+        data:
+          option: Сброс вызова если нет ответа
+      - delay:
+          milliseconds: 300
+      - service: telegram_bot.edit_message
+        data:
+          message_id: '{{ trigger.event.data.message.message_id }}'
+          chat_id: '{{ trigger.event.data.user_id }}'
+          callback_query_id: '{{ trigger.event.data.id }}'
+          message: '{{''\U00002699''}} **Режим работы домофона**
+
+            '
+          inline_keyboard:
+          - "{% set domofon_modes = states(\"select.smartintercom_modes\") %} {% if
+            domofon_modes == \"Не активен\" %} {{\"\U0001F7E2\"}} {% else %} {{\"\U0001F534\"}}
+            {% endif %} Не активен:/domofon_not_active, {% set domofon_modes = states(\"select.smartintercom_modes\")
+            %} {% if domofon_modes == \"Открывать всегда\" %} {{\"\U0001F7E2\"}} {%
+            else %} {{\"\U0001F534\"}} {% endif %} Открывать всегда:/domofon_open_always"
+          - "{% if is_state(\"switch.smartintercom_mute\", \"on\") %} {{\"\U0001F7E2\"}}
+            {% else %} {{\"\U0001F534\"}} {% endif %} Беззвучный режим:/domofon_mute,
+            {% set domofon_modes = states(\"select.smartintercom_modes\") %} {% if
+            domofon_modes == \"Сброс вызова\" %} {{\"\U0001F7E2\"}} {% else %} {{\"\U0001F534\"}}
+            {% endif %} Сброс вызова:/domofon_reset_call"
+          - "{% set domofon_modes = states(\"select.smartintercom_modes\") %} {% if
+            domofon_modes == \"Сброс вызова если нет ответа\" %} {{\"\U0001F7E2\"}}
+            {% else %} {{\"\U0001F534\"}} {% endif %} Сброс вызова если нет ответа:/domofon_resetting_call_no_response"
+          - Назад:/backhome
+    default: []
+  mode: restart

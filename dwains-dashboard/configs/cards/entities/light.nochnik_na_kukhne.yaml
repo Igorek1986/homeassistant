@@ -1,0 +1,6 @@
+entity: light.nochnik_na_kukhne
+show_icon: true
+show_name: true
+tap_action:
+  action: toggle
+type: button

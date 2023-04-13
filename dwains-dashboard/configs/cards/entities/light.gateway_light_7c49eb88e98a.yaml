@@ -1,0 +1,6 @@
+entity: light.gateway_light_7c49eb88e98a
+show_icon: true
+show_name: true
+tap_action:
+  action: toggle
+type: button

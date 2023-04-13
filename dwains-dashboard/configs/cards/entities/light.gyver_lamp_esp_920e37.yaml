@@ -1,0 +1,6 @@
+entity: light.gyver_lamp_esp_920e37
+show_icon: true
+show_name: true
+tap_action:
+  action: toggle
+type: button

@@ -1,0 +1,7 @@
+entity: light.led_light_3_right
+name: "\u041F\u043E\u0434\u0441\u0432\u0435\u0442\u043A\u0430"
+show_icon: true
+show_name: true
+tap_action:
+  action: toggle
+type: button

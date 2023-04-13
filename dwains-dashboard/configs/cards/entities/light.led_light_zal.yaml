@@ -1,0 +1,6 @@
+entity: light.led_light_zal
+show_icon: true
+show_name: true
+tap_action:
+  action: toggle
+type: button

@@ -1,0 +1,6 @@
+entity: light.zesp_bulb_00158d0003f0e83b
+show_icon: true
+show_name: true
+tap_action:
+  action: toggle
+type: button

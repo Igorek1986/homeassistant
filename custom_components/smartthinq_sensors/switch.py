@@ -6,17 +6,6 @@ from dataclasses import dataclass
 import logging
 from typing import Any, Awaitable, Callable, Tuple
 
-from .wideq import (
-    FEAT_ECOFRIENDLY,
-    FEAT_EXPRESSFRIDGE,
-    FEAT_EXPRESSMODE,
-    FEAT_ICEPLUS,
-    FEAT_LIGHTING_DISPLAY,
-    FEAT_MODE_JET,
-    WM_DEVICE_TYPES,
-    DeviceType,
-)
-
 from homeassistant.components.switch import (
     SwitchDeviceClass,
     SwitchEntity,
@@ -37,9 +26,15 @@ from .device_helpers import (
     get_entity_name,
     get_multiple_devices_types,
 )
+from .wideq import (
+    WM_DEVICE_TYPES,
+    AirConditionerFeatures,
+    DeviceType,
+    RefrigeratorFeatures,
+)
 
 # general sensor attributes
-ATTR_POWER_OFF = "power_off"
+ATTR_POWER = "power"
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -56,16 +51,17 @@ class ThinQSwitchEntityDescription(SwitchEntityDescription):
 
 WASH_DEV_SWITCH: Tuple[ThinQSwitchEntityDescription, ...] = (
     ThinQSwitchEntityDescription(
-        key=ATTR_POWER_OFF,
-        name="Power off",
-        value_fn=lambda x: x.is_power_on,
+        key=ATTR_POWER,
+        name="Power",
+        value_fn=lambda x: x.is_power_on and not x.device.stand_by,
         turn_off_fn=lambda x: x.device.power_off(),
-        available_fn=lambda x: x.is_power_on,
+        turn_on_fn=lambda x: x.device.wake_up(),
+        available_fn=lambda x: x.is_power_on or x.device.stand_by,
     ),
 )
 REFRIGERATOR_SWITCH: Tuple[ThinQSwitchEntityDescription, ...] = (
     ThinQSwitchEntityDescription(
-        key=FEAT_ECOFRIENDLY,
+        key=RefrigeratorFeatures.ECOFRIENDLY,
         name="Eco friendly",
         icon="mdi:gauge-empty",
         turn_off_fn=lambda x: x.device.set_eco_friendly(False),
@@ -73,7 +69,7 @@ REFRIGERATOR_SWITCH: Tuple[ThinQSwitchEntityDescription, ...] = (
         available_fn=lambda x: x.is_power_on,
     ),
     ThinQSwitchEntityDescription(
-        key=FEAT_EXPRESSFRIDGE,
+        key=RefrigeratorFeatures.EXPRESSFRIDGE,
         name="Express fridge",
         icon="mdi:coolant-temperature",
         turn_off_fn=lambda x: x.device.set_express_fridge(False),
@@ -81,7 +77,7 @@ REFRIGERATOR_SWITCH: Tuple[ThinQSwitchEntityDescription, ...] = (
         available_fn=lambda x: x.device.set_values_allowed,
     ),
     ThinQSwitchEntityDescription(
-        key=FEAT_EXPRESSMODE,
+        key=RefrigeratorFeatures.EXPRESSMODE,
         name="Express mode",
         icon="mdi:snowflake",
         turn_off_fn=lambda x: x.device.set_express_mode(False),
@@ -89,7 +85,7 @@ REFRIGERATOR_SWITCH: Tuple[ThinQSwitchEntityDescription, ...] = (
         available_fn=lambda x: x.device.set_values_allowed,
     ),
     ThinQSwitchEntityDescription(
-        key=FEAT_ICEPLUS,
+        key=RefrigeratorFeatures.ICEPLUS,
         name="Ice plus",
         icon="mdi:snowflake",
         turn_off_fn=lambda x: x.device.set_ice_plus(False),
@@ -99,7 +95,14 @@ REFRIGERATOR_SWITCH: Tuple[ThinQSwitchEntityDescription, ...] = (
 )
 AC_SWITCH: Tuple[ThinQSwitchEntityDescription, ...] = (
     ThinQSwitchEntityDescription(
-        key=FEAT_MODE_JET,
+        key=AirConditionerFeatures.MODE_AIRCLEAN,
+        name="Ionizer",
+        icon="mdi:pine-tree",
+        turn_off_fn=lambda x: x.device.set_mode_airclean(False),
+        turn_on_fn=lambda x: x.device.set_mode_airclean(True),
+    ),
+    ThinQSwitchEntityDescription(
+        key=AirConditionerFeatures.MODE_JET,
         name="Jet mode",
         icon="mdi:turbine",
         turn_off_fn=lambda x: x.device.set_mode_jet(False),
@@ -107,11 +110,19 @@ AC_SWITCH: Tuple[ThinQSwitchEntityDescription, ...] = (
         available_fn=lambda x: x.device.is_mode_jet_available,
     ),
     ThinQSwitchEntityDescription(
-        key=FEAT_LIGHTING_DISPLAY,
+        key=AirConditionerFeatures.LIGHTING_DISPLAY,
         name="Display light",
         icon="mdi:wall-sconce-round",
         turn_off_fn=lambda x: x.device.set_lighting_display(False),
         turn_on_fn=lambda x: x.device.set_lighting_display(True),
+    ),
+    ThinQSwitchEntityDescription(
+        key=AirConditionerFeatures.MODE_AWHP_SILENT,
+        name="Silent mode",
+        icon="mdi:ear-hearing-off",
+        turn_off_fn=lambda x: x.device.set_mode_awhp_silent(False),
+        turn_on_fn=lambda x: x.device.set_mode_awhp_silent(True),
+        available_fn=lambda x: x.is_power_on,
     ),
 )
 
@@ -121,7 +132,9 @@ AC_DUCT_SWITCH = ThinQSwitchEntityDescription(
 )
 
 
-def _switch_exist(lge_device: LGEDevice, switch_desc: ThinQSwitchEntityDescription) -> bool:
+def _switch_exist(
+    lge_device: LGEDevice, switch_desc: ThinQSwitchEntityDescription
+) -> bool:
     """Check if a switch exist for device."""
     if switch_desc.value_fn is not None:
         return True
@@ -156,7 +169,9 @@ async def async_setup_entry(
             [
                 LGESwitch(lge_device, switch_desc)
                 for switch_desc in WASH_DEV_SWITCH
-                for lge_device in get_multiple_devices_types(lge_devices, WM_DEVICE_TYPES)
+                for lge_device in get_multiple_devices_types(
+                    lge_devices, WM_DEVICE_TYPES
+                )
                 if _switch_exist(lge_device, switch_desc)
             ]
         )
@@ -202,12 +217,12 @@ async def async_setup_entry(
 class LGESwitch(CoordinatorEntity, SwitchEntity):
     """Class to control switches for LGE device"""
 
-    entity_description = ThinQSwitchEntityDescription
+    entity_description: ThinQSwitchEntityDescription
 
     def __init__(
-            self,
-            api: LGEDevice,
-            description: ThinQSwitchEntityDescription,
+        self,
+        api: LGEDevice,
+        description: ThinQSwitchEntityDescription,
     ):
         """Initialize the switch."""
         super().__init__(api.coordinator)
@@ -271,11 +286,7 @@ class LGESwitch(CoordinatorEntity, SwitchEntity):
 class LGEDuctSwitch(LGESwitch):
     """Class to control switches for LGE AC duct device"""
 
-    def __init__(
-            self,
-            api: LGEDevice,
-            duct_zone: str
-    ):
+    def __init__(self, api: LGEDevice, duct_zone: str):
         """Initialize the switch."""
         super().__init__(api, AC_DUCT_SWITCH)
         self._attr_name += f" {duct_zone}"
@@ -298,7 +309,9 @@ class LGEDuctSwitch(LGESwitch):
     async def async_turn_off(self, **kwargs):
         """Turn the entity off."""
         self._wrap_device.device.set_duct_zone(self._zone, False)
+        self._api.async_set_updated()
 
     async def async_turn_on(self, **kwargs):
         """Turn the entity on."""
         self._wrap_device.device.set_duct_zone(self._zone, True)
+        self._api.async_set_updated()

@@ -1,0 +1,29 @@
+  - platform: template
+    sensors: 
+      t1_online:
+        friendly_name: T1 Online
+        unit_of_measurement: kWh
+        value_template: "{{ ((states('sensor.t1')) | float + states('sensor.energy_daily_kvartira_day')|float/1 )|round(2) }}"
+        
+  - platform: template
+    sensors: 
+      t2_online:
+        friendly_name: T2 Online
+        unit_of_measurement: kWh
+        value_template: "{{ ((states('sensor.t2')) | float + states('sensor.energy_daily_kvartira_night')|float/1 )|round(2) }}"
+        
+#   - platform: template
+#     sensors:
+#       t3_online:
+#         friendly_name: T3 Online
+#         unit_of_measurement: kWh
+#         value_template: >
+#             {% if states('sensor.energy_daily_kvartira_night')|float > 0 %}
+#             {{ ((states('sensor.t3_online')) | float + states('sensor.energy_daily_kvartira_night')|float/1 )|round(2) }}
+#             {% endif %}
+                
+#             {% if states('sensor.energy_daily_kvartira_night')|float == 0 %}
+                
+#             {% set sensor.t3_online = ((states('sensor.t3_online')) | float + state_attr('sensor.energy_daily_kvartira_night', 'last_period')|float/1 )|round(2) %}
+#             {% endif %}
+            

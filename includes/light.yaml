@@ -7,10 +7,10 @@
     name: led_light_1_left
     entity_id: switch.0x00158d00031de357_channel_1
     
-#Выключатель правая клавиша (Кухня) zigbee2mqtt
-  - platform: switch
-    name: led_light_1_right
-    entity_id: switch.0x00158d00031de357_channel_2
+# #Выключатель правая клавиша (Кухня) zigbee2mqtt
+#   - platform: switch
+#     name: led_light_1_right
+#     entity_id: switch.0x00158d00031de357_channel_2
 
 # Выключатель (Коридор)
   - platform: switch
@@ -62,8 +62,8 @@
     entity_id: switch.0x00158d00054eb5cc_channel_2
     
 #Ночник кухня
-  - platform: group
-    name: Kitchen_nochnik
-    entities:
-      - light.yeelight_color_0x00000000112cbed7
-      - light.yeelight_color_0x000000000800fcce
+#   - platform: group
+#     name: Kitchen_nochnik
+#     entities:
+#       - light.yeelight_color_0x00000000112cbed7
+#       - light.yeelight_color_0x000000000800fcce

@@ -1,0 +1,385 @@
+light.led_light_4_left:
+  sort_order: 1
+  hidden: false
+  excluded: false
+  disabled: false
+  friendly_name: ''
+  col_span: '1'
+  row_span: '1'
+  col_span_lg: '1'
+  row_span_lg: '1'
+  col_span_xl: '1'
+  row_span_xl: '1'
+  custom_card: true
+  custom_popup: false
+alarm_control_panel.54ef44cde541_alarm:
+  sort_order: 2
+  hidden: true
+automation.vkliuchenie_sveta_v_spalne_pravaia_klavisha:
+  sort_order: 3
+  hidden: true
+automation.vykliuchenie_sveta_v_spalne_bez_dvizheniia:
+  sort_order: 4
+  hidden: true
+binary_sensor.54ef44cde541_gateway:
+  sort_order: 5
+  hidden: true
+media_player.android_tv_192_168_88_28:
+  sort_order: 6
+  hidden: true
+select.54ef44cde541_command:
+  sort_order: 7
+  hidden: true
+select.54ef44cde541_data:
+  sort_order: 8
+  hidden: true
+alarm_control_panel.54ef44cd9aa5_alarm:
+  sort_order: 3
+  hidden: true
+automation.vykliuchenie_sveta_na_kukhne_bez_dvizheniia:
+  sort_order: 4
+  hidden: true
+automation.vykliuchenie_nochnika_na_kukhne_bez_dvizheniia_3:
+  sort_order: 5
+  hidden: true
+automation.vykliuchenie_bez_dvizheniia_podsvetki_na_kukhne:
+  sort_order: 6
+  hidden: true
+automation.vykliuchenie_bez_dvizheniia_tv_na_kukhne:
+  sort_order: 7
+  hidden: true
+automation.perekliuchenie_sveta_na_kukhne_po_kliku_knopki:
+  sort_order: 8
+  hidden: true
+automation.perekliuchenie_po_dvoinomu_kliku_podsvetki_na_kukhne_dnem:
+  sort_order: 9
+  hidden: true
+automation.perekliuchenie_po_dvoinomu_kliku_podsvetki_na_kukhne_dnem_2:
+  sort_order: 10
+  hidden: true
+automation.vkliuchenie_po_troinomu_kliku_podsvetki_na_kukhne:
+  sort_order: 11
+  hidden: true
+automation.vkliuchenie_vykliuchenie_tv_na_kukhne_knopkoi:
+  sort_order: 6
+  hidden: true
+light.led_light_1_left:
+  sort_order: 1
+  custom_card: true
+automation.perekliuchenie_pravoi_klavishei_nochiu_nochnika_na_kukhne_nochiu:
+  sort_order: 13
+  hidden: true
+automation.perekliuchenie_pravoi_klavishei_nochiu_nochnika_na_kukhne_dnem:
+  sort_order: 14
+  hidden: true
+automation.perekliuchenie_podsvetki_po_dvoinomu_kliku_pravoi_knopki_na_kukhne:
+  sort_order: 15
+  hidden: true
+automation.perekliuchenie_podsvetki_na_kukhne_besprovodnoi_vykliuchatel:
+  sort_order: 16
+  hidden: true
+automation.perekliuchenie_tv_na_kukhne_besprovodnoi_vykliuchatel:
+  sort_order: 17
+  hidden: true
+binary_sensor.54ef44cd9aa5_gateway:
+  sort_order: 18
+  hidden: true
+light.yeelight_color_0x00000000112cbed7:
+  sort_order: 5
+light.yeelight_color_0x000000000800fcce:
+  sort_order: 6
+media_player.android_tv_192_168_88_26:
+  sort_order: 9
+media_player.tv_kukhnia:
+  sort_order: 4
+  custom_card: true
+number.0x00124b0024431c4d_l3:
+  sort_order: 14
+number.0x00124b0024431c4d_l5:
+  sort_order: 13
+select.54ef44cd9aa5_command:
+  sort_order: 24
+  hidden: true
+select.54ef44cd9aa5_data:
+  sort_order: 25
+  hidden: true
+sensor.0x00124b0024431c4d_battery:
+  sort_order: 12
+sensor.0x00124b0024431c4d_l3:
+  sort_order: 10
+sensor.0x00124b0024431c4d_l5:
+  sort_order: 11
+switch.0x00124b0024431c4d_l6:
+  sort_order: 3
+  hidden: true
+switch.0x00158d00031de357_channel_1:
+  sort_order: 30
+  hidden: true
+light.led_light:
+  sort_order: 2
+  hidden: false
+  excluded: false
+  disabled: false
+  friendly_name: ''
+  col_span: '1'
+  row_span: '1'
+  col_span_lg: '1'
+  row_span_lg: '1'
+  col_span_xl: '1'
+  row_span_xl: '1'
+  custom_card: true
+  custom_popup: false
+binary_sensor.0x158d000398f96c_motion:
+  sort_order: 7
+binary_sensor.0x00158d0003f245e5_motion:
+  sort_order: 8
+light.nochnik_na_kukhne:
+  sort_order: 3
+  hidden: false
+  excluded: false
+  disabled: false
+  friendly_name: ''
+  col_span: '2'
+  row_span: '1'
+  col_span_lg: '1'
+  row_span_lg: '1'
+  col_span_xl: '1'
+  row_span_xl: '1'
+  custom_card: true
+  custom_popup: false
+media_player.lg_tv_spalnya:
+  hidden: false
+  excluded: false
+  disabled: false
+  friendly_name: ''
+  col_span: '1'
+  row_span: '1'
+  col_span_lg: '1'
+  row_span_lg: '1'
+  col_span_xl: '1'
+  row_span_xl: '1'
+  custom_card: true
+  custom_popup: false
+automation.vykliuchenie_sveta_v_vannoi:
+  hidden: true
+automation.vkliuchenie_podsvetki_v_vannoi:
+  hidden: true
+automation.perekliuchenie_ventiliatora_v_vannoi:
+  hidden: true
+automation.vykliuchenie_podsvetki_v_vannoi:
+  hidden: true
+automation.stiralnaia_mashina_ostalos_5_minut:
+  hidden: true
+automation.stiralnaia_mashina_stirka_zavershena:
+  hidden: true
+automation.stiralnaia_mashina_oshibka:
+  hidden: true
+binary_sensor.0x158d0003f12cf9_motion:
+  hidden: true
+switch.0x00124b002443190c_l6:
+  hidden: true
+binary_sensor.0x158d000374590a_contact:
+  hidden: false
+  excluded: false
+  disabled: false
+  friendly_name: ''
+  col_span: '1'
+  row_span: '1'
+  col_span_lg: '1'
+  row_span_lg: '1'
+  col_span_xl: '1'
+  row_span_xl: '1'
+  custom_card: true
+  custom_popup: false
+automation.vkliuchenie_nochnika_v_zale:
+  hidden: true
+automation.vykliuchenie_nochnika_shliuza_bez_dvizheniia:
+  hidden: true
+automation.vykliuchenie_sveta_v_zale_bez_dvizheniia:
+  hidden: true
+automation.vykliuchenie_tv_v_zale_bez_dvizheniia:
+  hidden: true
+automation.vykliuchenie_kompiutera_v_zale_bez_dvizheniia:
+  hidden: true
+automation.vkliuchenie_sveta_levoi_klavishei_v_zale:
+  hidden: true
+automation.vkliuchenie_vykliuchenie_tv_besprovodnoi_vykliuchatel_pravaia_knopka:
+  hidden: true
+automation.vkliuchenie_vykliuchenie_nochnika_besprovodnoi_vykliuchatel_dve_knopki:
+  hidden: true
+automation.perekliuchenie_sveta_v_zale_po_triaske:
+  hidden: true
+automation.vkliuchenie_levoi_knopkoi_sveta_v_zale:
+  hidden: true
+automation.kub_perekliuchenie_tv_90gr:
+  hidden: true
+light.led_light_zal:
+  sort_order: 1
+  hidden: false
+  excluded: false
+  disabled: false
+  friendly_name: ''
+  col_span: '1'
+  row_span: '1'
+  col_span_lg: '1'
+  row_span_lg: '1'
+  col_span_xl: '1'
+  row_span_xl: '1'
+  custom_card: true
+  custom_popup: false
+binary_sensor.0x158d0003966333_motion:
+  sort_order: 4
+binary_sensor.0x158d0003a33237_contact:
+  sort_order: 5
+light.gateway_light_7c49eb88e98a:
+  sort_order: 2
+  custom_card: true
+media_player.samsung_tv_zal:
+  sort_order: 3
+  custom_card: true
+sensor.illumination_7c49eb88e98a:
+  sort_order: 6
+automation.vykliuchenie_giverlampy:
+  hidden: true
+automation.vykliuchenie_sveta_v_detskoi:
+  hidden: true
+automation.vykliuchenie_podsvetki_v_detskoi:
+  hidden: true
+automation.perekliuchenie_sveta_v_detskoi:
+  hidden: true
+automation.perekliuchenie_podsvetki_v_detskoi:
+  hidden: true
+automation.perekliuchenie_giverlampy:
+  hidden: true
+automation.perekliuchenie_rezhimov_giverlampy:
+  hidden: true
+automation.vkliuchenie_giverlampy:
+  hidden: true
+automation.giverlampa_skorost:
+  hidden: true
+automation.giverlampa_mashtab:
+  hidden: true
+automation.giverlampa_iarkost:
+  hidden: true
+automation.giverlampa_effekty:
+  hidden: true
+automation.giverlampa_iarkost_sinkhronizatsiia:
+  hidden: true
+automation.giverlampa_skorost_sinkhronizatsiia:
+  hidden: true
+automation.vkliuchenie_nochnika_v_detskoi:
+  hidden: true
+automation.vykliuchenie_nochnika_v_detskoi_bez_dvizheniia:
+  hidden: true
+light.led_light_3_left:
+  custom_card: true
+  sort_order: 1
+light.gyver_lamp_esp_920e37:
+  custom_card: true
+  sort_order: 3
+light.led_light_3_right:
+  custom_card: true
+  sort_order: 2
+binary_sensor.0x158d000396675c_contact:
+  sort_order: 4
+binary_sensor.0x158d00039db890_motion:
+  sort_order: 5
+alarm_control_panel.54ef44c8466e_alarm:
+  hidden: true
+automation.vkliuchenie_sveta_v_koridore:
+  hidden: true
+automation.vkliuchenie_nochnika_v_koridore:
+  hidden: true
+automation.vykliuchenie_nochnika_v_koridore_bez_dvizheniia:
+  hidden: true
+automation.vykliuchenie_sveta_v_koridore:
+  hidden: true
+binary_sensor.54ef44c8466e_gateway:
+  hidden: true
+select.54ef44c8466e_command:
+  hidden: true
+select.54ef44c8466e_data:
+  hidden: true
+sensor.ups_load_restart_delay:
+  hidden: true
+sensor.ups_ups_shutdown_delay:
+  hidden: true
+sensor.ups_beeper_status:
+  hidden: true
+sensor.ups_ups_type:
+  hidden: true
+sensor.ups_battery_charge:
+  hidden: true
+sensor.ups_battery_voltage:
+  hidden: true
+sensor.ups_nominal_battery_voltage:
+  hidden: true
+sensor.ups_low_battery_voltage:
+  hidden: true
+sensor.ups_high_battery_voltage:
+  hidden: true
+sensor.ups_input_voltage:
+  hidden: true
+sensor.ups_nominal_input_voltage:
+  hidden: true
+sensor.ups_input_line_frequency:
+  hidden: true
+sensor.ups_nominal_input_line_frequency:
+  hidden: true
+sensor.ups_output_voltage:
+  hidden: true
+sensor.ups_status:
+  hidden: true
+sensor.ups_status_data:
+  hidden: true
+light.led_light_5_tualet_svet2:
+  custom_card: true
+  sort_order: 2
+light.zesp_bulb_00158d0003f0e83b:
+  custom_card: true
+  sort_order: 3
+light.led_light_2:
+  custom_card: true
+  sort_order: 1
+binary_sensor.0x158d000396635b_motion:
+  sort_order: 4
+binary_sensor.0x158d00039c0a59_contact:
+  sort_order: 5
+binary_sensor.0x158d0003d31f07_contact:
+  sort_order: 6
+binary_sensor.0x158d0003d31de4_contact:
+  sort_order: 7
+sensor.ups_ups_temperature:
+  sort_order: 8
+sensor.ups_load:
+  sort_order: 9
+light.led_light_5_vanna_svet:
+  sort_order: 1
+light.led_light_5_vanna:
+  sort_order: 2
+number.0x00124b002443190c_l3:
+  sort_order: 6
+number.0x00124b002443190c_l5:
+  sort_order: 7
+sensor.0x00124b002443190c_battery:
+  sort_order: 3
+sensor.0x00124b002443190c_l3:
+  sort_order: 4
+sensor.0x00124b002443190c_l5:
+  sort_order: 5
+automation.vykliuchenie_sveta_v_tualete:
+  hidden: true
+automation.vkliuchenie_nochnika_v_tualete:
+  hidden: true
+automation.vykliuchenie_nochnika_v_tualete_pri_vkliuchenii_sveta:
+  hidden: true
+automation.vykliuchenie_podsvetki_v_tualete_bez_dvizheniia:
+  hidden: true
+light.zesp_bulb_00158d0002ecd55b:
+  custom_card: true
+  sort_order: 1
+light.led_light_5_tualet_svet:
+  custom_card: true
+  sort_order: 2
+binary_sensor.0x158d0002583b1a_motion:
+  sort_order: 3

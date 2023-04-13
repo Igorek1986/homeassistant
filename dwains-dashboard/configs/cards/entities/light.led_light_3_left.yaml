@@ -1,0 +1,7 @@
+entity: light.led_light_3_left
+name: "\u0421\u0432\u0435\u0442"
+show_icon: true
+show_name: true
+tap_action:
+  action: toggle
+type: button
