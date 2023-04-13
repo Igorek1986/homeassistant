@@ -29,6 +29,7 @@ websocket_api:
 
 mobile_app:
 
+
 http:
   use_x_forwarded_for: true
   trusted_proxies:
