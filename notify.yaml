@@ -10,3 +10,13 @@
 - name: telegram_id_3
   platform: telegram
   chat_id: !secret telegram_bot_allowed_chat_id3 
+
+- name: alice_alert  # любое название
+  platform: yandex_station
+  data:
+    entity_id: 
+      - media_player.yandex_station_ff98f0299947cb18e9407ac0  # замените на вашу колонку
+      - media_player.yandex_station_m00q4010082fxk
+    media_content_id: >-
+      {% if title is defined %}<speaker effect="megaphone">{{ title }}<speaker effect="-"> sil <[200]>{% endif %}{{ message }}
+    media_content_type: dialog

@@ -1790,3 +1790,22 @@
           - Назад:/backhome
     default: []
   mode: restart
+- id: '1681481082629'
+  alias: Открыто окно
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.0x158d000374590a_contact
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 10
+    from: 'on'
+    to: 'off'
+  condition: []
+  action:
+  - service: notify.mobile_app_iphone_igor
+    data:
+      message: sadasda
+  mode: single

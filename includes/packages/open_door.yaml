@@ -1,0 +1,31 @@
+# open_door:
+#     notify:
+#       - name: door_alert  # любое название
+#         platform: yandex_station
+#         data:
+#           entity_id: media_player.yandex_station_ff98f0299947cb18e9407ac0  # замените на вашу колонку
+#           media_content_id: Внимание! Важное сообщение...
+#           media_content_type: text
+#           extra:
+#             volume_level: 0.8
+#         #   media_content_id: >-
+#         #     {% if title is defined %}<speaker effect="megaphone">{{ title }}<speaker effect="-"> sil <[200]>{% endif %}{{ message }}
+          
+    
+#     input_boolean: # просто для примера
+#       home_door:
+#         name: Дверь дома
+    
+#     alert:
+#       home_door:
+#         name: Дверь открыта
+#         done_message: Дверь закрыта
+#         message: Дверь открыта
+#         entity_id: input_boolean.garage_door
+#         state: "on"  # опционально, потому что "on" это значение по умолчанию
+#         repeat: 1  # как часто повторять, в минутах
+#         can_acknowledge: true  # разрешить выключить уведомления вручную
+#         skip_first: false  # пропустить первое (мгновенное) уведомление
+#         notifiers:
+#         #   - door_alert  # название, которые указали выше
+#           - mobile_app_iphone_igor
