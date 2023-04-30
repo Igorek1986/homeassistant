@@ -1,0 +1,5 @@
+detail: 1
+entity: sensor.0x00124b0024431c4d_l5
+graph: line
+hours_to_show: 24
+type: sensor

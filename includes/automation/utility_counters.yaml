@@ -22,12 +22,12 @@
     data:
       topic: 'utility/main/energy/day'
       payload: "{{ ((states('sensor.t1')) | float + state_attr('sensor.energy_daily_kvartira_day', 'last_period')|float/1 )|round(2) }}"
-    #   retain: true
+      retain: true
   - service: mqtt.publish
     data:
       topic: 'utility/main/energy/night'
       payload: "{{ ((states('sensor.t2')) | float + state_attr('sensor.energy_daily_kvartira_night', 'last_period')|float/1 )|round(2) }}"
-    #   retain: true
+      retain: true
   - service: notify.telegram_id_1
     data:
       message: '"\U0001f50c Данные счетчика электричества обновлены!"'

@@ -1,0 +1,3 @@
+entity: sensor.waterius_11110046_ch1
+graph: line
+type: sensor

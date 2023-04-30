@@ -250,32 +250,32 @@
     unit_of_measurement: min
     mode: slider
 
-  power_meter_last_month_t1:
-    name: Power Meter Last Month/T1
-    mode: box
-    min: 0
-    max: 1000000
-    step: 0.01
-  power_meter_last_month_t2:
-    name: Power Meter Last Month/T2
-    mode: box
-    min: 0
-    max: 1000000
-    step: 0.01
+#   power_meter_last_month_t1:
+#     name: Power Meter Last Month/T1
+#     mode: box
+#     min: 0
+#     max: 1000000
+#     step: 0.01
+#   power_meter_last_month_t2:
+#     name: Power Meter Last Month/T2
+#     mode: box
+#     min: 0
+#     max: 1000000
+#     step: 0.01
 
-# New
-  power_meter_t1:
-    name: Power meter T1
-    mode: box
-    min: 0
-    max: 100000000
-    step: 0.01
-  power_meter_t2:
-    name: Power meter T2
-    mode: box
-    min: 0
-    max: 100000000
-    step: 0.01
+# # New
+#   power_meter_t1:
+#     name: Power meter T1
+#     mode: box
+#     min: 0
+#     max: 100000000
+#     step: 0.01
+#   power_meter_t2:
+#     name: Power meter T2
+#     mode: box
+#     min: 0
+#     max: 100000000
+#     step: 0.01
     
   # auto_off_svet_marina_zavod:
     # name: Таймер выключения света (Марина)

@@ -37,40 +37,21 @@ http:
     - 172.22.0.0/24
 #    - 127.0.0.1
 
-# lovelace:
-#   mode: yaml
-  
-# Text to speech
-# tts:
-#   - platform: google_translate
-
 mqtt:
-#   broker: core-mosquitto
-#   discovery: true
-#   discovery_prefix: homeassistant  
-#   username: mqtt
-#   password: !secret mqtt_broker
   sensor:
     - name: t1
-      state_topic: 'utility/main/energy/day'
+      state_topic: "utility/main/energy/day"
       unit_of_measurement: "кВт"
-    #   retain: true
-    - name: t2  
-      state_topic: 'utility/main/energy/night'
-      unit_of_measurement: "кВт" 
-    #   retain: true
+      device_class: energy
+      # retain: true
+    - name: t2
+      state_topic: "utility/main/energy/night"
+      unit_of_measurement: "кВт"
+      device_class: energy
+      # retain: true
     - name: Bridge state
       state_topic: "zigbee2mqtt/bridge/state"
       icon: mdi:router-wireless
-    
-
-panel_iframe:
-  vscode:
-    title: 'vscode'
-    url: https://vscode.igorek1986.ru
-    #url: 'http://192.168.88.12:8080'
-    icon: mdi:bug
-
 
 hacs:
   token: !secret hacs_token
@@ -97,56 +78,14 @@ automation old: !include automations.yaml
 switch: !include includes/switch.yaml
 #klipper: !include includes/klipper.yaml
 alert: !include includes/alert.yaml
+utility_meter: !include includes/utility_meter.yaml
 
 #Вынос во внешние папки
 sensor: !include_dir_merge_list includes/sensor
 automation: !include_dir_merge_list includes/automation
 binary_sensor: !include_dir_merge_list includes/binary_sensor
-utility_meter: !include includes/utility_meter.yaml
+template: !include_dir_merge_list includes/templates
 
-
-# xiaomi_aqara:
-#   discovery_retry: 10
-#   gateways:
-#     - mac: 7C:49:EB:88:E9:8A
-#       key: wzzs97r1nr5gleuu
-#       host: 192.168.88.49
-      
-remote:
-  - platform: xiaomi_miio
-    name: mi_remote
-    host: 192.168.88.40
-    token: 86cce819993f3bc5074c841e53fac3ce
-#    slot: 3
-#    timeout: 30
-#    hidden: false
-
-# webostv:
-# #   - name: Телевизор Кухня
-# #     host: 192.168.88.36
-#   #other settings
-#     turn_on_action:
-#       service: wake_on_lan.send_magic_packet
-#       data:
-#         "mac": "20:17:42:76:93:C1"
-# # #  - name: Телевизор Заводоуковск
-# # #    host: 192.168.88.180
-# # #    turn_on_action:
-# # #      service: wake_on_lan.send_magic_packet
-# # #      data:
-# # #        "mac": "64:95:6C:38:48:58"
-# # #      broadcast_address: 11.22.33.44
-      
-
-
-# google_assistant:
-  # project_id: home-assistant-697ea
-  # service_account: !include Home assistant-2a283551c337.json
-# #  api_key: AIzaSyA_bXa2W_N1zPIZJPD-jiqhaJFOms4myhQ
-#   exposed_domains:
-#     - switch
-#     - light
-#     - media_player
 
 yandex_station:
   username: igorponomarev1986
@@ -157,49 +96,23 @@ yandex_station:
 
 wake_on_lan:
 
-# life360:
-#   interval_seconds: 10
-#   show_as_state:
-#     - driving
-#     - moving
-
 smartir:
-
 
 #Media Players
 media_player:
-#   - platform: androidtv
-#     name: Ugoos_X3_Cube
-#     host: 192.168.88.70
+  - platform: smartir
+    name: Samsung tv zal
+    unique_id: samsung_tv_zal
+    device_code: 2000
+    controller_data: remote.mi_remote
+    power_sensor: binary_sensor.tv_zal_status #откуда считывать состояния устройства, например с умной розетки
 
-   - platform: smartir
-     name: Samsung tv zal
-     unique_id: samsung_tv_zal
-     device_code: 2000
-     controller_data: remote.mi_remote
-     power_sensor: binary_sensor.tv_zal_status #откуда считывать состояния устройства, например с умной розетки
-
-   - platform: smartir
-     name: LG tv spalnya
-     unique_id: lg_tv_spalnya
-     device_code: 1040
-     controller_data: remote.ir_broadlink_remote
-     power_sensor: binary_sensor.tv_spalnya_status #откуда считывать состояния устройства, например с умной розетки
-    
-  # - platform: androidtv
-    # name: Android TV zal
-    # host: 192.168.88.20
-#   - name: Mi box S
-#     host: 192.168.88.130
-
-# weather:
-#   - platform: gismeteo
-  
-
-# pandora_cas:
-#   username: !secret pandora_e_mail
-#   password: !secret pandora_password
-    
+  - platform: smartir
+    name: LG tv spalnya
+    unique_id: lg_tv_spalnya
+    device_code: 1040
+    controller_data: remote.ir_broadlink_remote
+    power_sensor: binary_sensor.tv_spalnya_status #откуда считывать состояния устройства, например с умной розетки
 
 telegram_bot:
   - platform: polling
@@ -208,9 +121,7 @@ telegram_bot:
       - !secret telegram_bot_allowed_chat_id1
       - !secret telegram_bot_allowed_chat_id2
       - !secret telegram_bot_allowed_chat_id3
-# updater:
-#   include_used_components: true
-      
+
 counter:
 #  garage_counter:
 #    initial: 0
@@ -275,501 +186,41 @@ xiaomi_gateway3:
   buzzer: off
   debug: true
   devices:
-    '0x158d00039db890':
-      occupancy_timeout: 10 
-    '0x158d0003983bf4':
-      occupancy_timeout: 10 
-    '0x158d0003966333':
-      occupancy_timeout: 10 
-    '0x158d000396635b':
-      occupancy_timeout: 10       
-    '0x158d0002583b1a':
-      occupancy_timeout: 10    
-    '0x158d0003f12cf9':
-      occupancy_timeout: 10   
-    '0x158d000398f96c':
-      occupancy_timeout: 10  
- 
+    "0x158d00039db890":
+      occupancy_timeout: 10
+    "0x158d0003983bf4":
+      occupancy_timeout: 10
+    "0x158d0003966333":
+      occupancy_timeout: 10
+    "0x158d000396635b":
+      occupancy_timeout: 10
+    "0x158d0002583b1a":
+      occupancy_timeout: 10
+    "0x158d0003f12cf9":
+      occupancy_timeout: 10
+    "0x158d000398f96c":
+      occupancy_timeout: 10
+
 remote_homeassistant:
   instances:
-  - host: 192.168.88.128
-    port: 8123
-    secure: false
-    verify_ssl: true
-    access_token: !secret access_token_ha_128
-    entity_prefix: "zavod_"
-    include:
-      domains:
-      - sensor
-      - switch
-      - binary_sensor
-      - media_player
-      - remote
-      entities:
-       - script.garagescript
-       - counter.garage_counter
-       - input_boolean.garage_door_direction
-       - input_boolean.garage_door_motion
-       - script.garage_counter_decrement
-       - script.garage_counter_increment
-       - script.garage_door_direction
-#       - 
-#      - zwave.controller
-#      - zwave.desk_light
-#    exclude:
-#      domains:
-#      - persistent_notification
-#      entities:
-#      - group.all_switches
-
-# influxdb:
-#   host: localhost
-#   username: homeassistant
-#   password: !secret influxdb_password
-#   max_retries: 3
-#   default_measurement: state
-#   database: homeassistant
-#   include:
-#     entities:
-#       - sensor.water_cold_vanna
-#       - sensor.water_hot_vanna
-#       - sensor.water_cold_kuchnya
-#       - sensor.water_hot_kuchnya
-#       - sensor.t1
-#       - sensor.t2
-      
-#discovery:
-#  ignore:
-#    - xiaomi_miio
-homekit:
-  auto_start: false
-  filter:
-    include_domains:
-      - switch
-      - light
-      - sensor
-      - climate
-    # include_entities:
-    #   - media_player.tv_kukhnia
-    #   - media_player.televizor_zavodoukovsk
-    exclude_entities:
-      - light.led_light
-      - light.led_light_1_left
-      - light.led_light_1_right
-      - light.led_light_2
-      - light.led_light_3_left
-      - light.led_light_3_right
-      - switch.0x158d00031de357_channel_2
-      - switch.0x158d00034d0a07_channel_2
-      - switch.0x158d000428aefc_channel_2
-      - light.led_light_4_det
-      - light.led_light_zal
-      - switch.mikrotik_nat_tcp_33389
-      - switch.mikrotik_nat_tcp_443
-      - switch.mikrotik_nat_tcp_80
-      - switch.mikrotik_port_dom_ru
-      - switch.mikrotik_port_eoip_tunnel1
-      - switch.mikrotik_port_lan1_ethernet
-      - switch.mikrotik_port_lan2_ethernet
-      - switch.mikrotik_port_lan3_ethernet
-      - switch.mikrotik_port_lan4_ethernet
-      - switch.mikrotik_port_sfp1
-      - switch.mikrotik_port_wan
-      - switch.mikrotik_script_duckdns
-      - switch.mikrotik_zavod_port_cap1
-      - switch.mikrotik_zavod_port_cap2
-      - switch.mikrotik_zavod_port_cap2_1
-      - switch.mikrotik_zavod_port_cap3_1
-      - switch.mikrotik_zavod_port_cap3_2
-      - switch.mikrotik_zavod_port_eoip_tunnel1
-      - switch.mikrotik_zavod_port_inet
-      - switch.mikrotik_zavod_port_lan1_ethernet
-      - switch.mikrotik_zavod_port_lan2_ethernet
-      - switch.mikrotik_zavod_port_lan3_ethernet
-      - switch.mikrotik_zavod_port_lan4_ethernet
-      - switch.mikrotik_zavod_port_ovpn_outclient
-      - switch.mikrotik_zavod_port_sfp1
-      - switch.mikrotik_zavod_port_wan
-      - light.led_light_5_vanna
-      - switch.mikrotik_port_ovpn_antizapret
-      - switch.mikrotik_zavod_port_antizapret
-      - switch.mikrotik_nat_tcp_51827
-      - switch.mikrotik_nat_udp_5353
-      - switch.mikrotik_nat_tcp_7171
-      - switch.0x842e14fffe14f5e0_firmware_lock
-      - switch.0x588e81fffef9cbc6_firmware_lock
-      - switch.0x588e81fffee179e3_firmware_lock
-      - switch.0x158d00054eb5cc_channel_1
-      - light.led_light_5_tualet_svet
-      - light.led_light_5_tualet_svet_2
-      - light.led_light_5_vanna_svet
-      - switch.zavod_0xbc33acfffe515422_firmware_lock
-      - switch.mikrotik_nat_open_ports_to_rdp
-      - switch.mikrotik_ppp_secret_client
-      - switch.mikrotik_ppp_secret_igor
-      - switch.mikrotik_ppp_secret_mac
-      - switch.mikrotik_ppp_secret_marina
-      - switch.mikrotik_zavod_port_cap2_2
-      - switch.mikrotik_nat_tcp_53
-      - switch.mikrotik_nat_tcp_53_2
-      - switch.mikrotik_nat_udp_53_2
-      - switch.mikrotik_nat_udp_53
-      - switch.zavod_mikrotik_port_antizapret
-      - switch.zavod_mikrotik_port_cap1
-      - switch.zavod_mikrotik_port_cap2
-      - switch.zavod_mikrotik_port_cap2_1
-      - switch.zavod_mikrotik_port_inet
-      - switch.zavod_mikrotik_port_sfp1
-      - switch.zavod_mikrotik_port_wan
-      - switch.zavod_mikrotik_port_cap3_1
-      - switch.zavod_mikrotik_port_cap3_2
-      - switch.zavod_mikrotik_port_eoip_tunnel1
-      - switch.zavod_mikrotik_port_lan1_ethernet
-      - switch.zavod_mikrotik_port_lan2_ethernet
-      - switch.zavod_mikrotik_port_lan3_ethernet
-      - switch.zavod_mikrotik_port_lan4_ethernet
-      - switch.zavod_mikrotik_port_ovpn_outclient
-      - switch.block_inet_adroid_tv_zal
-      - switch.block_inet_apple_tv
-      - switch.block_inet_cube_x3
-      - switch.block_inet_ipad
-      - switch.block_inet_iphone_dima
-      - switch.block_inet_iphone_igor
-      - switch.block_inet_iphone_marina
-      - switch.block_inet_komp
-      - switch.block_inet_lg_tv
-      - switch.block_inet_lg_tv_wifi
-      - switch.block_inet_mackbook
-      - switch.mikrotik_mangle_mark_connection_udp_53
-      - switch.mikrotik_mangle_mark_packet_any_any
-      - switch.mikrotik_port_ether1
-      - switch.mikrotik_port_ether2
-      - switch.mikrotik_port_ether3
-      - switch.mikrotik_port_ether4
-      - switch.mikrotik_port_ether5
-      - switch.mikrotik_port_ether6
-      - switch.mikrotik_port_ether7
-      - switch.mikrotik_port_ether8
-      - switch.mikrotik_port_ether9
-      - switch.mikrotik_port_ether10
-      - switch.0x54ef441000098a9a_power_outage_memory
-      - switch.0x04cf8cdf3c789a09_power_outage_memory
-      - sensor.0x60a423fffe0da3ab_power
-      - switch.mikrotik_nat_home_assistant_2
-      - switch.mikrotik_nat_tcp_any
-      - switch.0x00158d00054eb5cc_channel_1
-      - switch.mikrotik_port_gre_ipsec_hex_poe
-      - switch.mikrotik_nat_home_assistant
-      - switch.0x00124b0024431c4d_l6
-      - switch.mikrotik_kidcontrol_dima
-      - switch.smartintercom_e8db849c6ee5_restart
-      - switch.mikrotik_port_eoip_hex_poe
-      - switch.mikrotik_kidcontrol_paused_dima
-      - switch.mikrotik_port_antizapret
-      - switch.mikrotik_port_sfp_sfpplus1
-      - switch.mikrotik_my_antizapret_port
-      - switch.0x60a423fffe0da3ab
-      - sensor.0x158d0006b1fada_power
-      - sensor.0x04cf8cdf3c789a09_power
-      - light.led_light_5_tualet_svet222
-      - light.led_light_4_left
-      - light.zesp_bulb_00158d0003f0db5a
-      - sensor.0x158d00039c0a59_battery
-      - sensor.a4c138439b6b_battery
-      - sensor.ups_ups_temperature
-      - sensor.homenas_disk_2_temperature
-      - sensor.0x60a423fffe0da3ab_current
-      - sensor.home_temperature_feels_like
-      - sensor.0x00124b001ec85b30_power
-      - sensor.illuminance_00158d0002ecd55b
-      - sensor.0x158d00046501c3_battery
-      - sensor.home_pressure
-      - sensor.ups_input_voltage
-      - sensor.0x158d0003992924_battery
-      - sensor.0x04cf8cdf3c789a09_device_temperature
-      - sensor.0x158d0003966333_battery
-      - sensor.home_pressure_mmhg
-      - sensor.ups_nominal_input_voltage
-      - sensor.0x158d0003a47ba3_battery
-      - sensor.homenas_disk_1_temperature
-      - sensor.0x60a423fffed2ef38_current
-      - sensor.ups_high_battery_voltage
-      - sensor.homenas_volume_1_average_disk_temp
-      - sensor.iphone_igor_battery_level
-      - sensor.ups_battery_charge
-      - sensor.0x54ef441000098a9a_device_temperature
-      - sensor.ups_battery_voltage
-      - sensor.0x158d0002fa9e5d_battery
-      - sensor.ipad_igor_battery_level
-      - sensor.ups_output_voltage
-      - sensor.0x158d0002583b1a_battery
-      - sensor.0x54ef441000098a9a_power
-      - sensor.0x00124b0024431c4d_battery
-      - sensor.0x158d0003983bf4_battery
-      - sensor.0x158d000396635b_battery
-      - sensor.illuminance_00158d0003f0e83b
-      - sensor.mikrotik_voltage
-      - sensor.illuminance_00158d00036391d8
-      - sensor.ups_nominal_battery_voltage
-      - sensor.a4c138fff7f1_battery
-      - sensor.home_water_temperature
-      - sensor.illuminance_00158d0003f0db5a
-      - sensor.0x00124b001ec85b30_current
-      - sensor.iphone_battery_level
-      - sensor.home_temperature
-      - sensor.ups_low_battery_voltage
-      - sensor.0x158d00039db890_battery
-      - sensor.0x158d0003f12cf9_battery
-      - sensor.0x00124b001ec85b30_cpu_temperature
-      - sensor.0x158d0002e6b618_battery
-      - sensor.0x54ef441000098a9a_device_temperature
-      - sensor.0x60a423fffed2ef38_voltage
-      - sensor.home_humidity
-      - sensor.homenas_temperature
-      - sensor.0x00124b0024431c4d_voltage
-      - sensor.0x158d000398f96c_battery
-      - sensor.0x158d0002c9db62_battery
-      - sensor.mikrotik_temperature
-      - sensor.0x158d0002583b1a_illuminance
-      - sensor.0x158d0003d31de4_battery
-      - sensor.0x158d0003d31f07_battery
-      - sensor.0x158d000101f92d_battery
-      - sensor.0x158d000374590a_battery
-      - sensor.0x158d0003a33237_battery
-      - sensor.0x158d000396675c_battery
-      - sensor.0x60a423fffed2ef38_power
-      - sensor.0x158d0001107199_power
-      - sensor.0x158d00035507c3_power
-      - sensor.illumination_7c49eb88e98a
-      - sensor.iphone_marina_battery_level
-      - sensor.macbook_pro_igor_internal_battery_level
-      - sensor.0x00158d0003f245e5_battery
-      - sensor.0x00158d0003975b9b_battery
-      - sensor.0x00158d0003d40fa7_battery
-      - sensor.0x003c84fffe85ac4e_current
-      - sensor.0x003c84fffe85ac4e_power
-      - sensor.0x003c84fffe85ac4e_voltage
-      
-yandex_smart_home:
-  filter:
-    include_domains:
-      - switch
-      - light
-      - sensor
-      - climate
-    include_entities:
-      - media_player.tv_kukhnia
-      - media_player.televizor_zavodoukovsk
-    #   - media_player.tv_lg
-# Исключение
-    exclude_entities:
-      - light.led_light
-      - light.led_light_1_left
-      - light.led_light_1_right
-      - light.led_light_2
-      - light.led_light_3_left
-      - light.led_light_3_right
-      - switch.0x158d00031de357_channel_2
-      - switch.0x158d00034d0a07_channel_2
-      - switch.0x158d000428aefc_channel_2
-      - light.led_light_4_det
-      - light.led_light_zal
-      - switch.mikrotik_nat_tcp_33389
-      - switch.mikrotik_nat_tcp_443
-      - switch.mikrotik_nat_tcp_80
-      - switch.mikrotik_port_dom_ru
-      - switch.mikrotik_port_eoip_tunnel1
-      - switch.mikrotik_port_lan1_ethernet
-      - switch.mikrotik_port_lan2_ethernet
-      - switch.mikrotik_port_lan3_ethernet
-      - switch.mikrotik_port_lan4_ethernet
-      - switch.mikrotik_port_sfp1
-      - switch.mikrotik_port_wan
-      - switch.mikrotik_script_duckdns
-      - switch.mikrotik_zavod_port_cap1
-      - switch.mikrotik_zavod_port_cap2
-      - switch.mikrotik_zavod_port_cap2_1
-      - switch.mikrotik_zavod_port_cap3_1
-      - switch.mikrotik_zavod_port_cap3_2
-      - switch.mikrotik_zavod_port_eoip_tunnel1
-      - switch.mikrotik_zavod_port_inet
-      - switch.mikrotik_zavod_port_lan1_ethernet
-      - switch.mikrotik_zavod_port_lan2_ethernet
-      - switch.mikrotik_zavod_port_lan3_ethernet
-      - switch.mikrotik_zavod_port_lan4_ethernet
-      - switch.mikrotik_zavod_port_ovpn_outclient
-      - switch.mikrotik_zavod_port_sfp1
-      - switch.mikrotik_zavod_port_wan
-      - light.led_light_5_vanna
-      - switch.mikrotik_port_ovpn_antizapret
-      - switch.mikrotik_zavod_port_antizapret
-      - switch.mikrotik_nat_tcp_51827
-      - switch.mikrotik_nat_udp_5353
-      - switch.mikrotik_nat_tcp_7171
-      - switch.0x842e14fffe14f5e0_firmware_lock
-      - switch.0x588e81fffef9cbc6_firmware_lock
-      - switch.0x588e81fffee179e3_firmware_lock
-      - switch.0x158d00054eb5cc_channel_1
-      - light.led_light_5_tualet_svet
-      - light.led_light_5_tualet_svet_2
-      - light.led_light_5_vanna_svet
-      - switch.zavod_0xbc33acfffe515422_firmware_lock
-      - switch.mikrotik_nat_open_ports_to_rdp
-      - switch.mikrotik_ppp_secret_client
-      - switch.mikrotik_ppp_secret_igor
-      - switch.mikrotik_ppp_secret_mac
-      - switch.mikrotik_ppp_secret_marina
-      - switch.mikrotik_zavod_port_cap2_2
-      - switch.mikrotik_nat_tcp_53
-      - switch.mikrotik_nat_tcp_53_2
-      - switch.mikrotik_nat_udp_53_2
-      - switch.mikrotik_nat_udp_53
-      - switch.zavod_mikrotik_port_antizapret
-      - switch.zavod_mikrotik_port_cap1
-      - switch.zavod_mikrotik_port_cap2
-      - switch.zavod_mikrotik_port_cap2_1
-      - switch.zavod_mikrotik_port_inet
-      - switch.zavod_mikrotik_port_sfp1
-      - switch.zavod_mikrotik_port_wan
-      - switch.zavod_mikrotik_port_cap3_1
-      - switch.zavod_mikrotik_port_cap3_2
-      - switch.zavod_mikrotik_port_eoip_tunnel1
-      - switch.zavod_mikrotik_port_lan1_ethernet
-      - switch.zavod_mikrotik_port_lan2_ethernet
-      - switch.zavod_mikrotik_port_lan3_ethernet
-      - switch.zavod_mikrotik_port_lan4_ethernet
-      - switch.zavod_mikrotik_port_ovpn_outclient
-      - switch.block_inet_adroid_tv_zal
-      - switch.block_inet_apple_tv
-      - switch.block_inet_cube_x3
-      - switch.block_inet_ipad
-      - switch.block_inet_iphone_dima
-      - switch.block_inet_iphone_igor
-      - switch.block_inet_iphone_marina
-      - switch.block_inet_komp
-      - switch.block_inet_lg_tv
-      - switch.block_inet_lg_tv_wifi
-      - switch.block_inet_mackbook
-      - switch.mikrotik_mangle_mark_connection_udp_53
-      - switch.mikrotik_mangle_mark_packet_any_any
-      - switch.mikrotik_port_ether1
-      - switch.mikrotik_port_ether2
-      - switch.mikrotik_port_ether3
-      - switch.mikrotik_port_ether4
-      - switch.mikrotik_port_ether5
-      - switch.mikrotik_port_ether6
-      - switch.mikrotik_port_ether7
-      - switch.mikrotik_port_ether8
-      - switch.mikrotik_port_ether9
-      - switch.mikrotik_port_ether10
-      - switch.0x54ef441000098a9a_power_outage_memory
-      - switch.0x04cf8cdf3c789a09_power_outage_memory
-      - sensor.0x60a423fffe0da3ab_power
-      - switch.mikrotik_nat_home_assistant_2
-      - switch.mikrotik_nat_tcp_any
-      - switch.0x00158d00054eb5cc_channel_1
-      - switch.mikrotik_port_gre_ipsec_hex_poe
-      - switch.mikrotik_nat_home_assistant
-      - switch.0x00124b0024431c4d_l6
-      - switch.mikrotik_kidcontrol_dima
-      - switch.smartintercom_e8db849c6ee5_restart
-      - switch.mikrotik_port_eoip_hex_poe
-      - switch.mikrotik_kidcontrol_paused_dima
-      - switch.mikrotik_port_antizapret
-      - switch.mikrotik_port_sfp_sfpplus1
-      - switch.mikrotik_my_antizapret_port
-      - switch.0x60a423fffe0da3ab
-      - sensor.0x158d0006b1fada_power
-      - sensor.0x04cf8cdf3c789a09_power
-      - light.led_light_5_tualet_svet222
-      - light.led_light_4_left
-      - light.zesp_bulb_00158d0003f0db5a
-      - sensor.0x158d00039c0a59_battery
-      - sensor.a4c138439b6b_battery
-      - sensor.ups_ups_temperature
-      - sensor.homenas_disk_2_temperature
-      - sensor.0x60a423fffe0da3ab_current
-      - sensor.home_temperature_feels_like
-      - sensor.0x00124b001ec85b30_power
-      - sensor.illuminance_00158d0002ecd55b
-      - sensor.0x158d00046501c3_battery
-      - sensor.home_pressure
-      - sensor.ups_input_voltage
-      - sensor.0x158d0003992924_battery
-      - sensor.0x04cf8cdf3c789a09_device_temperature
-      - sensor.0x158d0003966333_battery
-      - sensor.home_pressure_mmhg
-      - sensor.ups_nominal_input_voltage
-      - sensor.0x158d0003a47ba3_battery
-      - sensor.homenas_disk_1_temperature
-      - sensor.0x60a423fffed2ef38_current
-      - sensor.ups_high_battery_voltage
-      - sensor.homenas_volume_1_average_disk_temp
-      - sensor.iphone_igor_battery_level
-      - sensor.ups_battery_charge
-      - sensor.0x54ef441000098a9a_device_temperature
-      - sensor.ups_battery_voltage
-      - sensor.0x158d0002fa9e5d_battery
-      - sensor.ipad_igor_battery_level
-      - sensor.ups_output_voltage
-      - sensor.0x158d0002583b1a_battery
-      - sensor.0x54ef441000098a9a_power
-      - sensor.0x00124b0024431c4d_battery
-      - sensor.0x158d0003983bf4_battery
-      - sensor.0x158d000396635b_battery
-      - sensor.illuminance_00158d0003f0e83b
-      - sensor.mikrotik_voltage
-      - sensor.illuminance_00158d00036391d8
-      - sensor.ups_nominal_battery_voltage
-      - sensor.a4c138fff7f1_battery
-      - sensor.home_water_temperature
-      - sensor.illuminance_00158d0003f0db5a
-      - sensor.0x00124b001ec85b30_current
-      - sensor.iphone_battery_level
-      - sensor.home_temperature
-      - sensor.ups_low_battery_voltage
-      - sensor.0x158d00039db890_battery
-      - sensor.0x158d0003f12cf9_battery
-      - sensor.0x00124b001ec85b30_cpu_temperature
-      - sensor.0x158d0002e6b618_battery
-      - sensor.0x54ef441000098a9a_device_temperature
-      - sensor.0x60a423fffed2ef38_voltage
-      - sensor.home_humidity
-      - sensor.homenas_temperature
-      - sensor.0x00124b0024431c4d_voltage
-      - sensor.0x158d000398f96c_battery
-      - sensor.0x158d0002c9db62_battery
-      - sensor.mikrotik_temperature
-      - sensor.0x158d0002583b1a_illuminance
-      - sensor.0x158d0003d31de4_battery
-      - sensor.0x158d0003d31f07_battery
-      - sensor.0x158d000101f92d_battery
-      - sensor.0x158d000374590a_battery
-      - sensor.0x158d0003a33237_battery
-      - sensor.0x158d000396675c_battery
-      - sensor.0x60a423fffed2ef38_power
-      - sensor.0x158d0001107199_power
-      - sensor.0x158d00035507c3_power
-      - sensor.illumination_7c49eb88e98a
-      - sensor.iphone_marina_battery_level
-      - sensor.macbook_pro_igor_internal_battery_level
-      - sensor.0x00158d0003f245e5_battery
-      - sensor.0x00158d0003975b9b_battery
-      - sensor.0x00158d0003d40fa7_battery
-      - sensor.0x003c84fffe85ac4e_current
-      - sensor.0x003c84fffe85ac4e_power
-      - sensor.0x003c84fffe85ac4e_voltage
-      
-# sensor.water_cold_vanna:
-#   state_class: total_increasing
-# sensor.water_hot_vanna:
-#   state_class: total_increasing
-# sensor.water_cold_kuchnya:
-#   state_class: total_increasing
-# sensor.water_hot_kuchnya:
-#   state_class: total_increasing
-# Настройка названия и комнаты
-#   entity_config:
-#     switch.0x158d00031de357_channel_2:
-#       name: Ночник
-#       room: Кухня
+    - host: 192.168.88.128
+      port: 8123
+      secure: false
+      verify_ssl: true
+      access_token: !secret access_token_ha_128
+      entity_prefix: "zavod_"
+      include:
+        domains:
+          - sensor
+          - switch
+          - binary_sensor
+          - media_player
+          - remote
+        entities:
+          - script.garagescript
+          - counter.garage_counter
+          - input_boolean.garage_door_direction
+          - input_boolean.garage_door_motion
+          - script.garage_counter_decrement
+          - script.garage_counter_increment
+          - script.garage_door_direction

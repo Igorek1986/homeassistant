@@ -1277,11 +1277,17 @@
   - platform: numeric_state
     entity_id: sensor.zavod_sp3_current_power
     below: '10'
-  condition: []
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.zavod_home_assistant_temperature
+    above: 3.1
+  - condition: numeric_state
+    entity_id: sensor.zavod_home_assistant_temperature
+    below: 4
   action:
   - service: notify.mobile_app_iphone_igor
     data:
-      message: Проверьте состояние котла!
+      message: На улице тепло. Проверьте состояние котла.
   mode: single
 - id: '1643974902899'
   alias: Включение ТВ на кухне беспроводной выключатель
@@ -1790,22 +1796,27 @@
           - Назад:/backhome
     default: []
   mode: restart
-- id: '1681481082629'
-  alias: Открыто окно
+- id: '1682848661601'
+  alias: ZESP_activate_for_reboot_HA
   description: ''
   trigger:
-  - platform: state
-    entity_id:
-    - binary_sensor.0x158d000374590a_contact
-    for:
-      hours: 0
-      minutes: 0
-      seconds: 10
-    from: 'on'
-    to: 'off'
+  - platform: homeassistant
+    event: start
   condition: []
   action:
-  - service: notify.mobile_app_iphone_igor
+  - service: light.turn_on
     data:
-      message: sadasda
+      brightness: 0
+    target:
+      entity_id:
+      - light.zesp_bulb_00158d0002ecd55b
+      - light.zesp_bulb_00158d00036391d8
+      - light.zesp_bulb_00158d0003f0e83b
+  - service: light.turn_off
+    data: {}
+    target:
+      entity_id:
+      - light.zesp_bulb_00158d00036391d8
+      - light.zesp_bulb_00158d0003f0e83b
+      - light.zesp_bulb_00158d0002ecd55b
   mode: single

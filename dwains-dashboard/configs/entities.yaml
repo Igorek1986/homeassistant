@@ -85,18 +85,20 @@ binary_sensor.54ef44cd9aa5_gateway:
   sort_order: 18
   hidden: true
 light.yeelight_color_0x00000000112cbed7:
-  sort_order: 5
+  sort_order: 10
 light.yeelight_color_0x000000000800fcce:
-  sort_order: 6
+  sort_order: 11
 media_player.android_tv_192_168_88_26:
   sort_order: 9
 media_player.tv_kukhnia:
   sort_order: 4
   custom_card: true
 number.0x00124b0024431c4d_l3:
-  sort_order: 14
+  sort_order: 16
+  hidden: true
 number.0x00124b0024431c4d_l5:
-  sort_order: 13
+  sort_order: 15
+  hidden: true
 select.54ef44cd9aa5_command:
   sort_order: 24
   hidden: true
@@ -104,11 +106,13 @@ select.54ef44cd9aa5_data:
   sort_order: 25
   hidden: true
 sensor.0x00124b0024431c4d_battery:
-  sort_order: 12
+  sort_order: 14
 sensor.0x00124b0024431c4d_l3:
-  sort_order: 10
+  sort_order: 7
+  custom_card: true
 sensor.0x00124b0024431c4d_l5:
-  sort_order: 11
+  sort_order: 8
+  custom_card: true
 switch.0x00124b0024431c4d_l6:
   sort_order: 3
   hidden: true
@@ -130,9 +134,9 @@ light.led_light:
   custom_card: true
   custom_popup: false
 binary_sensor.0x158d000398f96c_motion:
-  sort_order: 7
+  sort_order: 12
 binary_sensor.0x00158d0003f245e5_motion:
-  sort_order: 8
+  sort_order: 13
 light.nochnik_na_kukhne:
   sort_order: 3
   hidden: false
@@ -359,14 +363,21 @@ light.led_light_5_vanna:
   sort_order: 2
 number.0x00124b002443190c_l3:
   sort_order: 6
+  hidden: true
 number.0x00124b002443190c_l5:
   sort_order: 7
+  hidden: true
 sensor.0x00124b002443190c_battery:
   sort_order: 3
+  disabled: true
 sensor.0x00124b002443190c_l3:
   sort_order: 4
+  custom_card: true
+  disabled: true
 sensor.0x00124b002443190c_l5:
   sort_order: 5
+  custom_card: true
+  disabled: true
 automation.vykliuchenie_sveta_v_tualete:
   hidden: true
 automation.vkliuchenie_nochnika_v_tualete:
@@ -383,3 +394,185 @@ light.led_light_5_tualet_svet:
   sort_order: 2
 binary_sensor.0x158d0002583b1a_motion:
   sort_order: 3
+climate.0x9035eafffe0c4759:
+  custom_card: true
+  sort_order: 5
+climate.0x04cd15fffe2257ee:
+  custom_card: true
+media_player.yandex_station_m00q4010082fxk:
+  custom_card: true
+  sort_order: 6
+media_player.yandex_station_ff98f0299947cb18e9407ac0:
+  custom_card: true
+sensor.a4c138d32a37_ble:
+  hidden: true
+sensor.a4c138aada99_ble:
+  hidden: true
+sensor.a4c138843f3c_ble:
+  hidden: true
+sensor.a4c138439b6b_ble:
+  hidden: true
+sensor.a4c13873444f_ble:
+  hidden: true
+sensor.a4c138fff7f1_ble:
+  hidden: true
+sensor.a4c138736c12_ble:
+  hidden: true
+switch.komp:
+  custom_card: true
+sensor.0x158d00034d0a07_action:
+  hidden: true
+sensor.0x00158d00034d0a07_zigbee:
+  hidden: true
+sensor.0x00158d000374590a_zigbee:
+  hidden: true
+sensor.0x00158d0003983bf4_zigbee:
+  hidden: true
+sensor.0x00158d0001107199_zigbee:
+  hidden: true
+switch.0x00158d00034d0a07_channel_1:
+  hidden: true
+switch.0x00158d00034d0a07_channel_2:
+  hidden: true
+sensor.0x158d0002e6b618_action:
+  hidden: true
+sensor.0x00158d0002e6b618_zigbee:
+  hidden: true
+sensor.0x00158d0003f12cf9_zigbee:
+  hidden: true
+sensor.ebcfb3ff43ad_ble:
+  hidden: true
+sensor.d80cc17e6c73_ble:
+  hidden: true
+sensor.0x00124b002443190c_linkquality:
+  hidden: true
+binary_sensor.0x00158d0003d40fa7_contact:
+  custom_card: true
+binary_sensor.0x00158d0003975b9b_contact:
+  custom_card: true
+sensor.0x158d0003235546_action:
+  hidden: true
+sensor.0x158d0005882b0b_action:
+  hidden: true
+sensor.0x00158d000396635b_zigbee:
+  hidden: true
+sensor.0x00158d00039c0a59_zigbee:
+  hidden: true
+sensor.0x00158d0003235546_zigbee:
+  hidden: true
+sensor.0x00158d0003d31f07_zigbee:
+  hidden: true
+sensor.0x00158d0005882b0b_zigbee:
+  hidden: true
+sensor.0x00158d0003d31de4_zigbee:
+  hidden: true
+sensor.0x00158d00054ce938_action:
+  hidden: true
+sensor.0x00158d00054ce938_zigbee:
+  hidden: true
+switch.0x158d0003235546_switch:
+  hidden: true
+switch.0x158d0005882b0b_switch:
+  hidden: true
+switch.0x00158d00054ce938_channel_1:
+  hidden: true
+switch.0x00158d00054ce938_channel_2:
+  hidden: true
+alarm_control_panel.54ef44c88277_alarm:
+  hidden: true
+binary_sensor.54ef44c88277_gateway:
+  hidden: true
+select.54ef44c88277_command:
+  hidden: true
+select.54ef44c88277_data:
+  hidden: true
+sensor.0x158d0006b1fada_action:
+  hidden: true
+sensor.0x158d0003a47ba3_action:
+  hidden: true
+sensor.0x00158d0006b1fada_zigbee:
+  hidden: true
+sensor.0x00158d000396675c_zigbee:
+  hidden: true
+sensor.0x00158d00039db890_zigbee:
+  hidden: true
+sensor.0x00158d0003a47ba3_zigbee:
+  hidden: true
+switch.0x00158d0006b1fada_channel_1:
+  hidden: true
+switch.0x00158d0006b1fada_channel_2:
+  hidden: true
+sensor.0x158d00046501c3_action:
+  hidden: true
+sensor.0x158d00054eb5cc_action:
+  hidden: true
+sensor.0x00158d0003966333_zigbee:
+  hidden: true
+sensor.0x00158d0003a33237_zigbee:
+  hidden: true
+sensor.0x00158d00046501c3_zigbee:
+  hidden: true
+sensor.0x00158d00054eb5cc_zigbee:
+  hidden: true
+sensor.0x003c84fffe85ac4e_zigbee:
+  hidden: true
+sensor.0x00158d00035507c3_zigbee:
+  hidden: true
+switch.0x00158d00054eb5cc_channel_1:
+  hidden: true
+switch.0x00158d00054eb5cc_channel_2:
+  hidden: true
+sensor.0x158d0002fa9e5d_action:
+  hidden: true
+sensor.0x158d0002c9db62_action:
+  hidden: true
+sensor.0x158d00031de357_action:
+  hidden: true
+switch.0x00158d00031de357_channel_2:
+  hidden: true
+sensor.0x158d0002e6b618_battery:
+  sort_order: 5
+sensor.0x158d0003f12cf9_battery:
+  sort_order: 6
+sensor.a4c138736c12_temperature:
+  sort_order: 7
+sensor.a4c138736c12_humidity:
+  sort_order: 8
+sensor.a4c138736c12_battery:
+  sort_order: 9
+switch.0x04cf8cdf3c8e15d6:
+  sort_order: 10
+sensor.waterius_11110046_resets:
+  disabled: true
+sensor.waterius_11110046_rssi:
+  disabled: true
+sensor.waterius_11110046_voltage_low:
+  disabled: true
+sensor.waterius_11110046_ch1:
+  sort_order: 3
+  custom_card: true
+number.waterius_11110046_period_min:
+  sort_order: 11
+sensor.waterius_11110046_battery:
+  sort_order: 12
+sensor.waterius_11110046_timestamp:
+  sort_order: 13
+sensor.waterius_11110046_voltage:
+  sort_order: 14
+sensor.waterius_11110046_ch0:
+  sort_order: 4
+  custom_card: true
+sensor.0x158d000398f96c_battery:
+  sort_order: 15
+sensor.0x158d0002fa9e5d_battery:
+  sort_order: 16
+sensor.0x158d0002c9db62_battery:
+  sort_order: 17
+sensor.0x00158d0003f245e5_battery:
+  sort_order: 18
+sensor.a4c138d32a37_temperature:
+  sort_order: 19
+sensor.a4c138d32a37_humidity:
+  sort_order: 20
+sensor.a4c138d32a37_battery:
+  sort_order: 21
