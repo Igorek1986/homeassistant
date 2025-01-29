@@ -1,5 +1,0 @@
-#   kitchen_rgb:
-#     name: Kitchen_nochnik
-#     entities:
-#       - light.yeelight_color_0x00000000112cbed7
-#       - light.yeelight_color_0x000000000800fcce

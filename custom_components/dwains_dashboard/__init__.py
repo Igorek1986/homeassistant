@@ -125,7 +125,7 @@ def websocket_get_configuration(
         for subdir in os.listdir(hass.config.path("dwains-dashboard/configs/cards/areas")):
             #_LOGGER.warning(subdir) #Subdir name
             area_cards[subdir] = {}
-            for fname in os.listdir(hass.config.path("dwains-dashboard/configs/cards/areas/"+subdir)):
+            for fname in sorted(os.listdir(hass.config.path("dwains-dashboard/configs/cards/areas/"+subdir))):
                 if fname.endswith('.yaml'):
                     #_LOGGER.warning(fname) #Card filename
                     with open(hass.config.path("dwains-dashboard/configs/cards/areas/"+subdir+"/"+fname)) as f:
@@ -447,7 +447,9 @@ async def ws_handle_edit_area_bool_value(
         vol.Optional("amPmClock"): bool,
         vol.Optional("disableWelcomeMessage"): bool,
         vol.Optional("v2Mode"): bool,
+        vol.Optional("disableSensorGraph"): bool,
         vol.Optional("weatherEntity"): str,
+        vol.Optional("invertCover"): bool,
         vol.Optional("alarmEntity"): str,
 
     }
@@ -469,6 +471,8 @@ async def ws_handle_edit_homepage_header(
         "am_pm_clock": msg["amPmClock"],
         "disable_welcome_message": msg["disableWelcomeMessage"],
         "v2_mode": msg["v2Mode"],
+        "disable_sensor_graph": msg["disableSensorGraph"],
+        "invert_cover": msg["invertCover"],
         "weather_entity": msg["weatherEntity"],
         "alarm_entity": msg["alarmEntity"],
     })

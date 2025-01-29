@@ -4,7 +4,7 @@ radio_spalnya:
       name: "Радио Спальня"
       icon: mdi:radio
 
-      
+
   input_select:
     gateway_radio_station_spalnya:
       name: "Станция"
@@ -19,6 +19,7 @@ radio_spalnya:
         - 'Дорожное радио'
       icon: mdi:playlist-music-outline
 
+
   input_number:
     gateway_volume_spalnya:
       name: "Радио спальня. Громкость"
@@ -26,6 +27,7 @@ radio_spalnya:
       min: 0
       max: 1
       step: 0.01
+
 
   media_player:
     - platform: universal
@@ -63,4 +65,3 @@ radio_spalnya:
         volume_level: input_number.gateway_volume_spalnya
         source: input_select.gateway_radio_station_spalnya
         source_list: input_select.gateway_radio_station_spalnya|options
-        

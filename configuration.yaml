@@ -2,7 +2,7 @@ homeassistant:
   name: Home
   latitude: !secret latitude_coord
   longitude: !secret longitude_coord
-  elevation: 81
+  elevation: 72
   unit_system: metric
   time_zone: Asia/Yekaterinburg
   country: RU
@@ -15,10 +15,6 @@ homeassistant:
 
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
-
-# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
-# http:
-#   base_url: example.duckdns.org:8123
 
 frontend:
   themes: !include_dir_merge_named themes
@@ -39,40 +35,20 @@ http:
 
 mqtt:
   sensor:
-    - name: t1
-      state_topic: "utility/main/energy/day"
-      unit_of_measurement: "кВт"
-      device_class: energy
-      # retain: true
-    - name: t2
-      state_topic: "utility/main/energy/night"
-      unit_of_measurement: "кВт"
-      device_class: energy
-      # retain: true
     - name: Bridge state
       state_topic: "zigbee2mqtt/bridge/state"
       icon: mdi:router-wireless
-
-hacs:
-  token: !secret hacs_token
-  appdaemon: true
-  python_script: true
-  theme: true
 
 #Вынос во внешние файлы
 timer: !include includes/timer.yaml
 input_boolean: !include includes/input_boolean.yaml
 input_select: !include includes/input_select.yaml
-group: !include includes/groups.yaml
 script: !include includes/scripts.yaml
 scene: !include includes/scenes.yaml
 recorder: !include includes/recorder.yaml
-yeelight: !include includes/yeelight.yaml
 light: !include includes/light.yaml
 notify: !include notify.yaml
-camera: !include includes/camera.yaml
 input_number: !include includes/input_number.yaml
-input_text: !include includes/input_text.yaml
 lovelace: !include includes/lovelace.yaml
 automation old: !include automations.yaml
 switch: !include includes/switch.yaml
@@ -86,6 +62,11 @@ automation: !include_dir_merge_list includes/automation
 binary_sensor: !include_dir_merge_list includes/binary_sensor
 template: !include_dir_merge_list includes/templates
 
+remote:
+  - platform: xiaomi_miio
+    name: mi_remote
+    host: 192.168.88.40
+    token: 86cce819993f3bc5074c841e53fac3ce
 
 yandex_station:
   username: igorponomarev1986
@@ -93,6 +74,12 @@ yandex_station:
   include:
     - media_player.samsung_tv_zal
     - media_player.tv_kukhnia
+
+# yandex_smart_home:
+#   notifier:
+#     - oauth_token: !secret yandex_oauth_token
+#       skill_id: !secret yandex_skill_id
+#       user_id: !secret ha_user_id
 
 wake_on_lan:
 
@@ -122,16 +109,33 @@ telegram_bot:
       - !secret telegram_bot_allowed_chat_id2
       - !secret telegram_bot_allowed_chat_id3
 
+xiaomi_gateway3:
+  devices:
+    "0x158d00039db890":
+      occupancy_timeout: 1
+    "0x00158d0003983bf4":
+      occupancy_timeout: 1
+    "0x158d0003966333":
+      occupancy_timeout: 1
+    "0x00158d000396635b":
+      occupancy_timeout: 1
+    "0x00158d0002583b1a":
+      occupancy_timeout: 1
+    "0x00158d0003f12cf9":
+      occupancy_timeout: 1
+    "0x00158d000398f96c":
+      occupancy_timeout: 1
+
 counter:
-#  garage_counter:
-#    initial: 0
-#    step: 1
 
 start_time:
 
 ios:
 
 sun:
+
+shell_command:
+  reboot_vps_pq: 'ssh root@45.14.245.69 "sudo reboot"'
 
 logbook:
   exclude:
@@ -181,46 +185,3 @@ history:
       - script.zavod_garage_counter_increment
       - script.zavod_garage_door_direction
       - sensor.zavod_garage_open_close
-
-xiaomi_gateway3:
-  buzzer: off
-  debug: true
-  devices:
-    "0x158d00039db890":
-      occupancy_timeout: 10
-    "0x158d0003983bf4":
-      occupancy_timeout: 10
-    "0x158d0003966333":
-      occupancy_timeout: 10
-    "0x158d000396635b":
-      occupancy_timeout: 10
-    "0x158d0002583b1a":
-      occupancy_timeout: 10
-    "0x158d0003f12cf9":
-      occupancy_timeout: 10
-    "0x158d000398f96c":
-      occupancy_timeout: 10
-
-remote_homeassistant:
-  instances:
-    - host: 192.168.88.128
-      port: 8123
-      secure: false
-      verify_ssl: true
-      access_token: !secret access_token_ha_128
-      entity_prefix: "zavod_"
-      include:
-        domains:
-          - sensor
-          - switch
-          - binary_sensor
-          - media_player
-          - remote
-        entities:
-          - script.garagescript
-          - counter.garage_counter
-          - input_boolean.garage_door_direction
-          - input_boolean.garage_door_motion
-          - script.garage_counter_decrement
-          - script.garage_counter_increment
-          - script.garage_door_direction

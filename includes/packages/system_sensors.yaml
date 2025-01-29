@@ -1,0 +1,12 @@
+system_sensors:
+  # Температура процессора
+  # Команда для получения термальных зон - ls -1 /sys/class/thermal/thermal_zone*/type | xargs -I % sh -c "echo % ; cat %"
+  # Температура корпуса процессора - x86_pkg_temp
+  # /sys/class/thermal/thermal_zone0/type
+
+  command_line:
+    - sensor:
+        command: "ssh -i /config/id_rsa -o StrictHostKeyChecking=no root@192.168.88.4 -t 'cat /sys/class/thermal/thermal_zone1/temp'"
+        name: cpu_temperature
+        value_template: "{{ value | multiply(0.001) | round(2) }}"
+        unit_of_measurement: "°C"

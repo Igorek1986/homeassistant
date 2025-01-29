@@ -1,0 +1,75 @@
+homeassistant: true
+advanced:
+  network_key:
+    - 197
+    - 43
+    - 98
+    - 147
+    - 178
+    - 129
+    - 85
+    - 221
+    - 112
+    - 195
+    - 207
+    - 118
+    - 118
+    - 76
+    - 162
+    - 55
+  pan_id: 2110
+  ext_pan_id:
+    - 47
+    - 126
+    - 46
+    - 124
+    - 80
+    - 13
+    - 58
+    - 246
+  channel: 11
+mqtt:
+  base_topic: zigbee2mqtt
+  server: mqtt://core-mosquitto
+  user: mqtt
+  password: ZySPhn8K13
+serial:
+  port: >-
+    /dev/serial/by-id/usb-ITEAD_SONOFF_Zigbee_3.0_USB_Dongle_Plus_V2_20230329102317-if00
+  adapter: ember
+frontend:
+  enabled: true
+  port: 8099
+device_options: {}
+devices:
+  '0x60a423fffe0da3ab':
+    friendly_name: Вводной автомат Коридор
+  '0xa4c13851b9596cf2':
+    friendly_name: Лампа Спальня
+  '0x00124b001b7976bf':
+    friendly_name: Подсветка Ванная
+  '0x04cf8cdf3c8e15d6':
+    friendly_name: Вентилятор Ванная
+  '0x54ef441000098a9a':
+    friendly_name: Вентилятор Туалет
+  '0xa4c1383788a34232':
+    friendly_name: Подсветка Кухня
+  '0x9035eafffe0c4759':
+    friendly_name: Теплый пол Кухня
+  '0x04cd15fffe2257ee':
+    friendly_name: Теплый пол Коридор
+  '0x60a423fffed2ef38':
+    friendly_name: Компьютер
+  '0x003c84fffe85ac4e':
+    friendly_name: Монитор AOC
+  '0x00124b0024431c4d':
+    friendly_name: Счетчик Кухня
+  '0xa4c138df659bfac3':
+    friendly_name: Сушилка Филамента
+  '0x04cf8cdf3c789a09':
+    friendly_name: 3D Принтер
+  '0xa4c1381862ac40dc':
+    friendly_name: Подсветка шкаф 3D принтер
+  '0xa4c138aada99fe58':
+    friendly_name: ДК Шкаф
+version: 2

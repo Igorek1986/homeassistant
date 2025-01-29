@@ -1,38 +1,38 @@
-    # - platform: rest
-    #   name: ender-3_extruder
-    #   resource: "http://192.168.88.29:7125/printer/objects/query?extruder"
-    #   value_template: "OK"
-    #   json_attributes_path: "$.result.status.extruder"
-    #   json_attributes:
-    #     - pressure_advance
-    #     - power
-    #     - target
-    #     - temperature
-    # - platform: template
-    #   sensors:
-    #     ender-3_hotend_actual:
-    #       friendly_name: 'Hot End Actual'
-    #       value_template: "{{ state_attr('sensor.ender-3_extruder', 'temperature') | float | round(1) }}"
-    #       device_class: temperature
-    #       unit_of_measurement: '°C'
+# - platform: rest
+#   name: ender-3_extruder
+#   resource: "http://192.168.88.29:7125/printer/objects/query?extruder"
+#   value_template: "OK"
+#   json_attributes_path: "$.result.status.extruder"
+#   json_attributes:
+#     - pressure_advance
+#     - power
+#     - target
+#     - temperature
+# - platform: template
+#   sensors:
+#     ender-3_hotend_actual:
+#       friendly_name: 'Hot End Actual'
+#       value_template: "{{ state_attr('sensor.ender-3_extruder', 'temperature') | float | round(1) }}"
+#       device_class: temperature
+#       unit_of_measurement: '°C'
 #  Example Home Assistant configuration file for a Voron V0.
 #  Credit to GitHub users @Kruppes and @pedrolamas
 #
 
-  - platform: rest
-    name: Ender-3_sensor
-    resource: "http://192.168.88.29:7125/printer/objects/query?heater_bed&extruder&print_stats&toolhead&display_status&virtual_sdcard"
-    json_attributes_path: "$.result.status"
-    json_attributes:
-      - heater_bed
-      - extruder
-      - print_stats
-      - toolhead
-      - display_status
-      - virtual_sdcard
-    value_template: >-
-      {{ 'OK' if ('result' in value_json) else None }}    
-    #  Adding an API key is only necessary while using the [authorization] component
-    #  and if Home Assistant is not a trusted client
-    headers:
-      x-api-key: d0d1c0619c4f466c974c7628715be374
+# - platform: rest
+#   name: Ender-3_sensor
+#   resource: "http://192.168.88.29:7125/printer/objects/query?heater_bed&extruder&print_stats&toolhead&display_status&virtual_sdcard"
+#   json_attributes_path: "$.result.status"
+#   json_attributes:
+#     - heater_bed
+#     - extruder
+#     - print_stats
+#     - toolhead
+#     - display_status
+#     - virtual_sdcard
+#   value_template: >-
+#     {{ 'OK' if ('result' in value_json) else None }}
+#   #  Adding an API key is only necessary while using the [authorization] component
+#   #  and if Home Assistant is not a trusted client
+#   headers:
+#     x-api-key: d0d1c0619c4f466c974c7628715be374

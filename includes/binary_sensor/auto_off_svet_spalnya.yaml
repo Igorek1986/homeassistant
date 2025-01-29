@@ -1,14 +1,48 @@
-    # Сенсор автоотключения света 
-      - platform: template
-        sensors:
-          auto_off_svet_spalnya:
-            friendly_name: "Автоотключение света спальня"
-            value_template: >-
-              {{ is_state('switch.0x00158d00034d0a07_channel_1', 'on')  
-                 and is_state('binary_sensor.0x158d0003983bf4_motion', 'off')  }}
-            icon_template: >-
-              {% if is_state("binary_sensor.auto_off_svet_spalnya", "on") %}
-              mdi:timer
-              {% else %}
-              mdi:timer-off
-              {% endif %}
+# Сенсор автоотключения света
+- platform: template
+  sensors:
+    auto_off_svet_spalnya:
+      friendly_name: "Автоотключение света спальня"
+      value_template: >-
+        {{ is_state('switch.0x00158d00034d0a07_channel_1', 'on')  
+          and is_state('binary_sensor.0x00158d0003983bf4_motion', 'off')  
+          and is_state("input_boolean.motion_auto_off_spalnya", "on")
+          }}
+      icon_template: >-
+        {% if is_state("binary_sensor.auto_off_svet_spalnya", "on") %}
+        mdi:timer
+        {% else %}
+        mdi:timer-off
+        {% endif %}
+
+- platform: template
+  sensors:
+    auto_off_lampa_spalnya:
+      friendly_name: "Автоотключение лампа спальня"
+      value_template: >-
+        {{ is_state('switch.0xa4c13851b9596cf2', 'on')  
+          and is_state('binary_sensor.0x00158d0003983bf4_motion', 'off')
+          and is_state("input_boolean.motion_auto_off_spalnya", "on")
+            }}
+      icon_template: >-
+        {% if is_state("binary_sensor.auto_off_lampa_spalnya", "on") %}
+        mdi:timer
+        {% else %}
+        mdi:timer-off
+        {% endif %}
+
+- platform: template
+  sensors:
+    auto_off_gateway_spalnya:
+      friendly_name: "Автоотключение подсветки шлюза спальня"
+      value_template: >-
+        {{ is_state('light.gateway_light_7c49eb88e98a', 'on')  
+          and is_state('binary_sensor.0x00158d0003983bf4_motion', 'off')  
+          and is_state("input_boolean.motion_auto_off_spalnya", "on")
+          }}
+      icon_template: >-
+        {% if is_state("binary_sensor.auto_off_gateway_spalnya", "on") %}
+        mdi:timer
+        {% else %}
+        mdi:timer-off
+        {% endif %}

@@ -1,7 +1,0 @@
-Mikrotik:
- module: mikrotik
- class: Mikrotik
- host: "192.168.88.1"
- username: "home"
- password: "home"
- addrlist: "BLOCK_INET"

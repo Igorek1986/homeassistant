@@ -1,3 +1,0 @@
-#  - platform: ffmpeg
-#    name: Xiaomi Mi1080p
-#    input: -rtsp_transport tcp -i rtsp://192.168.88.63:8554/mainstream

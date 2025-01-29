@@ -1,312 +1,307 @@
 # title: Home Assistant - сервер
 # views:
 
-  # - title: Главная
-    # icon: mdi:home-assistant
-    
-    # cards:
+# - title: Главная
+# icon: mdi:home-assistant
 
-      # - type: vertical-stack
-        # cards:
-        
-        # - type: markdown
-          # content: >
-             # **Текущее состояние**
-             
-        # - type: entities
-          # show_header_toggle: false
-          # entities:
-            # - entity: sensor.time
-              # name: Текущее время
-              # icon: mdi:clock-outline
-            # - entity: sensor.date
-              # name: Дата
-              # icon: mdi:calendar-check-outline
-              
-        # # - type: entities
-        # #   show_header_toggle: false
-        # #   entities:
-        # #     - entity: sensor.maria_db_size
-        # #       name: Объем БД
-        # #       icon: mdi:database
+# cards:
 
-      # - type: vertical-stack
-        # cards:
-        # - type: markdown
-          # content: >
-             # **Графики** 
+# - type: vertical-stack
+# cards:
 
-        # - type: horizontal-stack
-          # cards:
+# - type: markdown
+# content: >
+# **Текущее состояние**
 
-           # - type: gauge
-             # name: Загрузка CPU
-             # unit: '%'
-             # entity: sensor.processor_use
-             # severity:
-                # green: 0
-                # yellow: 60
-                # red: 85
-             
-           # - type: gauge
-             # name: Загрузка ОЗУ
-             # unit: '%'
-             # entity: sensor.memory_use_percent
-             # severity:
-                # green: 0
-                # yellow: 60
-                # red: 85
-                
-        # - type: horizontal-stack
-          # cards:
+# - type: entities
+# show_header_toggle: false
+# entities:
+# - entity: sensor.time
+# name: Текущее время
+# icon: mdi:clock-outline
+# - entity: sensor.date
+# name: Дата
+# icon: mdi:calendar-check-outline
 
-           # - type: gauge
-             # name: Диск заполнен
-             # unit: '%'
-             # entity: sensor.disk_use_percent
-             # severity:
-                # green: 0
-                # yellow: 60
-                # red: 85    
-                
-           # - type: gauge
-             # name: Свободное место
-             # unit: 'Гб'
-             # entity: sensor.disk_free
-             # severity:
-                # red: 2
-                # yellow: 6
-                # green: 8
-                
-        # # - type: history-graph
-        # #   entities:
-        # #   - entity: sensor.maria_db_size
-        # #      name: Maria DB
-                
-              
-  # - title: Погода
-    # icon: mdi:weather-partly-snowy-rainy
-    
-    # cards:
+# # - type: entities
+# #   show_header_toggle: false
+# #   entities:
+# #     - entity: sensor.maria_db_size
+# #       name: Объем БД
+# #       icon: mdi:database
 
-        # - type: weather-forecast
-          # entity: weather.home_assistant 
-          
-          
-  # - title: Освещение
-    # icon: mdi:lightbulb-group
-    
-          
-    # cards:
-    
-      # - type: vertical-stack
-        # cards:
-        # - type: markdown
-          # content: >
-             # **Панель переключателей** 
-             
-        # - type: entities
-          # show_header_toggle: false
-          # entities:          
-            # - entity: light.yeelink_rgb_buld
-              # name: Лампочка
-            # - entity: light.yeelink_rgb_buld_2
-              # name: Лампочка2
-            # - entity: light.led_light
-              # name: Светодиодная лента
-            # - entity: light.led_light_1_left
-              # name: Левая клавиша (Кухня)
-            # - entity: light.led_light_1_right
-              # name: Правая клавиша (Кухня)
-            # - entity: light.led_light_2
-              # name: Выключатель (вход)
-            # - entity: light.led_light_3_left
-              # name: Левая клавиша (Спальня)
-            # - entity: light.led_light_3_right
-              # name: Правая клавиша (Спальня)
+# - type: vertical-stack
+# cards:
+# - type: markdown
+# content: >
+# **Графики**
 
+# - type: horizontal-stack
+# cards:
 
-      # - type: vertical-stack
-        # cards:
-        # - type: markdown
-          # content: >
-             # **Светильники**    
-             
-      # - type: vertical-stack
-        # cards:
-        # - type: markdown
-          # content: >
-             # **Кухня**    
-              
-        # - type: horizontal-stack
-          # cards:
-            # - type: light
-              # entity: light.yeelink_rgb_buld
-              # name: Лампочка
-            # - type: light
-              # entity: light.yeelink_rgb_buld_2
-              # name: Лампочка2
-            # - type: light
-              # entity: light.led_light
-              # name: Светодиодная лента
-        # - type: horizontal-stack
-          # cards:
-            # - type: light
-              # entity: light.led_light_1_left
-              # name: Левая клавиша
-            # - type: light
-              # entity: light.led_light_1_right
-              # name: Правая клавиша
-        # - type: markdown
-          # content: >
-             # **Коридор**    
-        # - type: horizontal-stack
-          # cards:
-            # - type: light
-              # entity: light.led_light_2
-              # name: Выключатель (вход)
-        # - type: markdown
-          # content: >
-             # **Спальня**    
-        # - type: horizontal-stack
-          # cards:
-            # - type: light
-              # entity: light.led_light_3_left
-              # name: Левая клавиша
-            # - type: light
-              # entity: light.led_light_3_right
-              # name: Правая клавиша
+# - type: gauge
+# name: Загрузка CPU
+# unit: '%'
+# entity: sensor.processor_use
+# severity:
+# green: 0
+# yellow: 60
+# red: 85
 
-  # - title: Zigbee
-    # icon: mdi:zigbee
-    
-    # cards:
-    
-      # - type: vertical-stack
-        # cards:
-        # - type: markdown
-          # content: >
-             # **Уровень заряда** 
-             
-        # - type: entities
-          # show_header_toggle: false
-          # entities:          
-            # - entity: sensor.0x158d0002583b1a_battery
-            # - entity: sensor.0x158d0002e6b618_battery
-            # - entity: sensor.0x158d0002fa9e5d_battery
-            # - entity: sensor.0x158d0002c9db62_battery
-            
-        # - type: markdown
-          # content: >
-             # **Розетки** 
-             
-        # - type: entities
-          # show_header_toggle: false
-          # entities:          
-            # - entity: switch.0x158d0001107199_switch
-            # - entity: sensor.0x158d0001107199_power
+# - type: gauge
+# name: Загрузка ОЗУ
+# unit: '%'
+# entity: sensor.memory_use_percent
+# severity:
+# green: 0
+# yellow: 60
+# red: 85
 
-        # - type: entities
-          # show_header_toggle: false
-          # entities:          
-            # - entity: switch.0x00124b001ec85b30_switch
-            # - entity: sensor.0x00124b001ec85b30_power
+# - type: horizontal-stack
+# cards:
 
-        # - type: markdown
-          # content: >
-             # **Розетка WiFi** 
-             
-        # - type: entities
-          # show_header_toggle: false
-          # entities:          
-            # - entity: switch.sp3_switch
-            # - entity: sensor.sp3_switch_load
-            
-        # - type: markdown
-          # content: >
-             # **Шлюз** 
-             
-        # - type: entities
-          # show_header_toggle: false
-          # entities:          
-            # - entity: light.gateway_light_7c49eb88e98a
-            # - entity: sensor.illumination_7c49eb88e98a
-            
-  # - title: СС 2531
-    # icon: mdi:usb-flash-drive
-    
-    # cards:
-    
-      # - type: vertical-stack
-        # cards:
-        # - type: markdown
-          # content: >
-             # **Добавление устройств**     
+# - type: gauge
+# name: Диск заполнен
+# unit: '%'
+# entity: sensor.disk_use_percent
+# severity:
+# green: 0
+# yellow: 60
+# red: 85
 
-        # - type: entities
-          # title: Добавление Zigbee устройств
-          # show_header_toggle: false
-          # entities:
-             # - entity: input_boolean.zigbee_permit_join
-             # - entity: timer.zigbee_permit_join
-             # - entity: sensor.bridge_state
-             
+# - type: gauge
+# name: Свободное место
+# unit: 'Гб'
+# entity: sensor.disk_free
+# severity:
+# red: 2
+# yellow: 6
+# green: 8
 
-  # - title: Fit
-    # icon: mdi:google-fit
-    # cards:
-      # - type: vertical-stack
-        # cards:
-        # - type: markdown
-          # content: >
-             # **Google Fit Igor**
-        # - type: entities
-          # show_header_toggle: false
-          # entities:
-          # - entity: sensor.igor_steps
-          # - entity: sensor.igor_steps_remain
-          # - entity: sensor.igor_distance
-          # - entity: sensor.igor_move_time_custom
-          # - entity: sensor.igor_heart_rate
-          # - entity: sensor.igor_heartrate_update 
-          # - entity: sensor.igor_sleep
-          # - entity: sensor.igor_weight
-          # - entity: sensor.igor_weight_update
-            
-  # - title: TV Samsung
-    # icon: mdi:television
-    
-    # cards:
-    
-      # - type: vertical-stack
-        # cards:
-        # - type: markdown
-          # content: >
-             # **Самсунг ТВ**     
-        # - type: entities
-          # show_header_toggle: false
-          # entities:          
-            # - entity: switch.tv_on
-              # name: Включение/Выключение ТВ
+# # - type: history-graph
+# #   entities:
+# #   - entity: sensor.maria_db_size
+# #      name: Maria DB
 
-        # - type: markdown
-          # content: >
-             # **Mibox S**    
-        # - type: media-control
-          # entity: media_player.mibox4
+# - title: Погода
+# icon: mdi:weather-partly-snowy-rainy
 
-        # # - type: horizontal-stack
-        # #   cards:
-        # #     - type: light
-        # #       entity: light.tv_on
-        # #       name: Включение/Выключение ТВ
+# cards:
 
-  # - title: TV LG
-    # icon: mdi:television
-    # cards:
-       # - type: entities
-         # entities:
-             # - media_player.tv_kukhnia
+# - type: weather-forecast
+# entity: weather.home_assistant
+
+# - title: Освещение
+# icon: mdi:lightbulb-group
+
+# cards:
+
+# - type: vertical-stack
+# cards:
+# - type: markdown
+# content: >
+# **Панель переключателей**
+
+# - type: entities
+# show_header_toggle: false
+# entities:
+# - entity: light.yeelink_rgb_buld
+# name: Лампочка
+# - entity: light.yeelink_rgb_buld_2
+# name: Лампочка2
+# - entity: light.led_light
+# name: Светодиодная лента
+# - entity: light.led_light_1_left
+# name: Левая клавиша (Кухня)
+# - entity: light.led_light_1_right
+# name: Правая клавиша (Кухня)
+# - entity: light.led_light_2
+# name: Выключатель (вход)
+# - entity: light.led_light_3_left
+# name: Левая клавиша (Спальня)
+# - entity: light.led_light_3_right
+# name: Правая клавиша (Спальня)
+
+# - type: vertical-stack
+# cards:
+# - type: markdown
+# content: >
+# **Светильники**
+
+# - type: vertical-stack
+# cards:
+# - type: markdown
+# content: >
+# **Кухня**
+
+# - type: horizontal-stack
+# cards:
+# - type: light
+# entity: light.yeelink_rgb_buld
+# name: Лампочка
+# - type: light
+# entity: light.yeelink_rgb_buld_2
+# name: Лампочка2
+# - type: light
+# entity: light.led_light
+# name: Светодиодная лента
+# - type: horizontal-stack
+# cards:
+# - type: light
+# entity: light.led_light_1_left
+# name: Левая клавиша
+# - type: light
+# entity: light.led_light_1_right
+# name: Правая клавиша
+# - type: markdown
+# content: >
+# **Коридор**
+# - type: horizontal-stack
+# cards:
+# - type: light
+# entity: light.led_light_2
+# name: Выключатель (вход)
+# - type: markdown
+# content: >
+# **Спальня**
+# - type: horizontal-stack
+# cards:
+# - type: light
+# entity: light.led_light_3_left
+# name: Левая клавиша
+# - type: light
+# entity: light.led_light_3_right
+# name: Правая клавиша
+
+# - title: Zigbee
+# icon: mdi:zigbee
+
+# cards:
+
+# - type: vertical-stack
+# cards:
+# - type: markdown
+# content: >
+# **Уровень заряда**
+
+# - type: entities
+# show_header_toggle: false
+# entities:
+# - entity: sensor.0x158d0002583b1a_battery
+# - entity: sensor.0x158d0002e6b618_battery
+# - entity: sensor.0x158d0002fa9e5d_battery
+# - entity: sensor.0x158d0002c9db62_battery
+
+# - type: markdown
+# content: >
+# **Розетки**
+
+# - type: entities
+# show_header_toggle: false
+# entities:
+# - entity: switch.0x158d0001107199_switch
+# - entity: sensor.0x158d0001107199_power
+
+# - type: entities
+# show_header_toggle: false
+# entities:
+# - entity: switch.0xa4c1383788a34232
+# - entity: switch.0xa4c1383788a34232
+
+# - type: markdown
+# content: >
+# **Розетка WiFi**
+
+# - type: entities
+# show_header_toggle: false
+# entities:
+# - entity: switch.sp3_switch
+# - entity: sensor.sp3_switch_load
+
+# - type: markdown
+# content: >
+# **Шлюз**
+
+# - type: entities
+# show_header_toggle: false
+# entities:
+# - entity: light.gateway_light_7c49eb88e98a
+# - entity: sensor.illumination_7c49eb88e98a
+
+# - title: СС 2531
+# icon: mdi:usb-flash-drive
+
+# cards:
+
+# - type: vertical-stack
+# cards:
+# - type: markdown
+# content: >
+# **Добавление устройств**
+
+# - type: entities
+# title: Добавление Zigbee устройств
+# show_header_toggle: false
+# entities:
+# - entity: input_boolean.zigbee_permit_join
+# - entity: timer.zigbee_permit_join
+# - entity: sensor.bridge_state
+
+# - title: Fit
+# icon: mdi:google-fit
+# cards:
+# - type: vertical-stack
+# cards:
+# - type: markdown
+# content: >
+# **Google Fit Igor**
+# - type: entities
+# show_header_toggle: false
+# entities:
+# - entity: sensor.igor_steps
+# - entity: sensor.igor_steps_remain
+# - entity: sensor.igor_distance
+# - entity: sensor.igor_move_time_custom
+# - entity: sensor.igor_heart_rate
+# - entity: sensor.igor_heartrate_update
+# - entity: sensor.igor_sleep
+# - entity: sensor.igor_weight
+# - entity: sensor.igor_weight_update
+
+# - title: TV Samsung
+# icon: mdi:television
+
+# cards:
+
+# - type: vertical-stack
+# cards:
+# - type: markdown
+# content: >
+# **Самсунг ТВ**
+# - type: entities
+# show_header_toggle: false
+# entities:
+# - entity: switch.tv_on
+# name: Включение/Выключение ТВ
+
+# - type: markdown
+# content: >
+# **Mibox S**
+# - type: media-control
+# entity: media_player.mibox4
+
+# # - type: horizontal-stack
+# #   cards:
+# #     - type: light
+# #       entity: light.tv_on
+# #       name: Включение/Выключение ТВ
+
+# - title: TV LG
+# icon: mdi:television
+# cards:
+# - type: entities
+# entities:
+# - media_player.tv_kukhnia
 # #          elements:
 # #           - service: media_player.toggle
 # #             service_data:
@@ -546,7 +541,7 @@
 # #             style:
 # #               left: 71.5%
 # #               top: 70.3%
-# #             type: service-button    
+# #             type: service-button
 # #           - service: media_player.select_source
 # #             service_data:
 # #               entity_id: media_player.tv_kukhnia_2

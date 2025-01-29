@@ -4,7 +4,9 @@ Connect two Home Assistant instances via the Websocket API.
 For more details about this component, please refer to the documentation at
 https://home-assistant.io/components/remote_homeassistant/
 """
+from __future__ import annotations
 import asyncio
+from typing import Optional
 import copy
 import fnmatch
 import inspect
@@ -13,10 +15,15 @@ import re
 from contextlib import suppress
 
 import aiohttp
+from aiohttp import ClientWebSocketResponse
 import homeassistant.components.websocket_api.auth as api
 import homeassistant.helpers.config_validation as cv
 import voluptuous as vol
-from homeassistant.config import DATA_CUSTOMIZE
+try:
+    from homeassistant.core_config import DATA_CUSTOMIZE
+except (ModuleNotFoundError, ImportError):
+    # hass 2024.10 or older
+    from homeassistant.config import DATA_CUSTOMIZE
 from homeassistant.config_entries import SOURCE_IMPORT, ConfigEntry
 from homeassistant.const import (CONF_ABOVE, CONF_ACCESS_TOKEN, CONF_BELOW,
                                  CONF_DOMAINS, CONF_ENTITIES, CONF_ENTITY_ID,
@@ -28,10 +35,12 @@ from homeassistant.const import (CONF_ABOVE, CONF_ACCESS_TOKEN, CONF_BELOW,
 from homeassistant.core import (Context, EventOrigin, HomeAssistant, callback,
                                 split_entity_id)
 from homeassistant.helpers import device_registry as dr
+from homeassistant.helpers import entity_registry as er
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.dispatcher import async_dispatcher_send
 from homeassistant.helpers.reload import async_integration_yaml_config
-from homeassistant.helpers.typing import ConfigType, HomeAssistantType
+from homeassistant.helpers.service import async_register_admin_service
+from homeassistant.helpers.typing import ConfigType
 from homeassistant.setup import async_setup_component
 
 from custom_components.remote_homeassistant.views import DiscoveryInfoView
@@ -40,7 +49,7 @@ from .const import (CONF_EXCLUDE_DOMAINS, CONF_EXCLUDE_ENTITIES,
                     CONF_INCLUDE_DOMAINS, CONF_INCLUDE_ENTITIES,
                     CONF_LOAD_COMPONENTS, CONF_OPTIONS, CONF_REMOTE_CONNECTION,
                     CONF_SERVICE_PREFIX, CONF_SERVICES, CONF_UNSUB_LISTENER,
-                    DOMAIN, REMOTE_ID)
+                    DOMAIN, REMOTE_ID, DEFAULT_MAX_MSG_SIZE)
 from .proxy_services import ProxyServices
 from .rest_api import UnsupportedVersion, async_get_discovery_info
 
@@ -52,7 +61,9 @@ CONF_INSTANCES = "instances"
 CONF_SECURE = "secure"
 CONF_SUBSCRIBE_EVENTS = "subscribe_events"
 CONF_ENTITY_PREFIX = "entity_prefix"
+CONF_ENTITY_FRIENDLY_NAME_PREFIX = "entity_friendly_name_prefix"
 CONF_FILTER = "filter"
+CONF_MAX_MSG_SIZE = "max_message_size"
 
 STATE_INIT = "initializing"
 STATE_CONNECTING = "connecting"
@@ -63,6 +74,7 @@ STATE_RECONNECTING = "reconnecting"
 STATE_DISCONNECTED = "disconnected"
 
 DEFAULT_ENTITY_PREFIX = ""
+DEFAULT_ENTITY_FRIENDLY_NAME_PREFIX = ""
 
 INSTANCES_SCHEMA = vol.Schema(
     {
@@ -71,6 +83,7 @@ INSTANCES_SCHEMA = vol.Schema(
         vol.Optional(CONF_SECURE, default=False): cv.boolean,
         vol.Optional(CONF_VERIFY_SSL, default=True): cv.boolean,
         vol.Required(CONF_ACCESS_TOKEN): cv.string,
+        vol.Optional(CONF_MAX_MSG_SIZE, default=DEFAULT_MAX_MSG_SIZE): vol.Coerce(int),
         vol.Optional(CONF_EXCLUDE, default={}): vol.Schema(
             {
                 vol.Optional(CONF_ENTITIES, default=[]): cv.entity_ids,
@@ -101,7 +114,10 @@ INSTANCES_SCHEMA = vol.Schema(
             ],
         ),
         vol.Optional(CONF_SUBSCRIBE_EVENTS): cv.ensure_list,
-        vol.Optional(CONF_ENTITY_PREFIX, default=DEFAULT_ENTITY_PREFIX): cv.string,
+        vol.Optional(CONF_ENTITY_PREFIX,
+            default=DEFAULT_ENTITY_PREFIX): cv.string,
+        vol.Optional(CONF_ENTITY_FRIENDLY_NAME_PREFIX,
+            default=DEFAULT_ENTITY_FRIENDLY_NAME_PREFIX): cv.string,
         vol.Optional(CONF_LOAD_COMPONENTS): cv.ensure_list,
         vol.Required(CONF_SERVICE_PREFIX, default="remote_"): cv.string,
         vol.Optional(CONF_SERVICES): cv.ensure_list,
@@ -150,6 +166,7 @@ def async_yaml_to_config_entry(instance_conf):
         CONF_FILTER,
         CONF_SUBSCRIBE_EVENTS,
         CONF_ENTITY_PREFIX,
+        CONF_ENTITY_FRIENDLY_NAME_PREFIX,
         CONF_LOAD_COMPONENTS,
         CONF_SERVICE_PREFIX,
         CONF_SERVICES,
@@ -180,11 +197,11 @@ async def _async_update_config_entry_if_from_yaml(hass, entries_by_id, conf):
             hass.config_entries.async_update_entry(entry, data=data, options=options)
 
 
-async def setup_remote_instance(hass: HomeAssistantType):
+async def setup_remote_instance(hass: HomeAssistant.core.HomeAssistant):
     hass.http.register_view(DiscoveryInfoView())
 
 
-async def async_setup(hass: HomeAssistantType, config: ConfigType):
+async def async_setup(hass: HomeAssistant.core.HomeAssistant, config: ConfigType):
     """Set up the remote_homeassistant component."""
     hass.data.setdefault(DOMAIN, {})
 
@@ -208,7 +225,7 @@ async def async_setup(hass: HomeAssistantType, config: ConfigType):
 
     hass.async_create_task(setup_remote_instance(hass))
 
-    hass.helpers.service.async_register_admin_service(
+    async_register_admin_service(hass,
         DOMAIN,
         SERVICE_RELOAD,
         _handle_reload,
@@ -244,12 +261,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
             for domain in entry.options.get(CONF_LOAD_COMPONENTS, []):
                 hass.async_create_task(async_setup_component(hass, domain, {}))
 
-            await asyncio.gather(
-                *[
-                    hass.config_entries.async_forward_entry_setup(entry, platform)
-                    for platform in PLATFORMS
-                ]
-            )
+            await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
             await remote.async_connect()
 
         hass.async_create_task(setup_components_and_platforms())
@@ -290,7 +302,7 @@ async def _update_listener(hass, config_entry):
     await hass.config_entries.async_reload(config_entry.entry_id)
 
 
-class RemoteConnection(object):
+class RemoteConnection:
     """A Websocket connection to a remote home-assistant instance."""
 
     def __init__(self, hass, config_entry):
@@ -300,6 +312,7 @@ class RemoteConnection(object):
         self._secure = config_entry.data.get(CONF_SECURE, False)
         self._verify_ssl = config_entry.data.get(CONF_VERIFY_SSL, False)
         self._access_token = config_entry.data.get(CONF_ACCESS_TOKEN)
+        self._max_msg_size = config_entry.data.get(CONF_MAX_MSG_SIZE, DEFAULT_MAX_MSG_SIZE)
 
         # see homeassistant/components/influxdb/__init__.py
         # for include/exclude logic
@@ -323,9 +336,12 @@ class RemoteConnection(object):
         self._subscribe_events = set(
             config_entry.options.get(CONF_SUBSCRIBE_EVENTS, []) + INTERNALLY_USED_EVENTS
         )
-        self._entity_prefix = config_entry.options.get(CONF_ENTITY_PREFIX, "")
+        self._entity_prefix = config_entry.options.get(
+            CONF_ENTITY_PREFIX, "")
+        self._entity_friendly_name_prefix = config_entry.options.get(
+            CONF_ENTITY_FRIENDLY_NAME_PREFIX, "")
 
-        self._connection = None
+        self._connection : Optional[ClientWebSocketResponse] = None
         self._heartbeat_task = None
         self._is_stopping = False
         self._entities = set()
@@ -346,6 +362,26 @@ class RemoteConnection(object):
             return entity_id
         return entity_id
 
+    def _prefixed_entity_friendly_name(self, entity_friendly_name):
+        if (self._entity_friendly_name_prefix
+            and entity_friendly_name.startswith(self._entity_friendly_name_prefix)
+            == False):
+            entity_friendly_name = (self._entity_friendly_name_prefix + 
+                                    entity_friendly_name)
+            return entity_friendly_name
+        return entity_friendly_name
+
+    def _full_picture_url(self, url):
+        baseURL = "%s://%s:%s" % (
+            "https" if self._secure else "http",
+            self._entry.data[CONF_HOST],
+            self._entry.data[CONF_PORT],
+        )
+        if url.startswith(baseURL) == False:
+            url = baseURL + url
+            return url
+        return url
+ 
     def set_connection_state(self, state):
         """Change current connection state."""
         signal = f"remote_homeassistant_{self._entry.unique_id}"
@@ -416,7 +452,7 @@ class RemoteConnection(object):
 
             try:
                 _LOGGER.info("Connecting to %s", url)
-                self._connection = await session.ws_connect(url)
+                self._connection = await session.ws_connect(url, max_msg_size = self._max_msg_size)
             except aiohttp.client_exceptions.ClientError:
                 _LOGGER.error("Could not connect to %s, retry in 10 seconds...", url)
                 self.set_connection_state(STATE_RECONNECTING)
@@ -442,7 +478,7 @@ class RemoteConnection(object):
 
     async def _heartbeat_loop(self):
         """Send periodic heartbeats to remote instance."""
-        while not self._connection.closed:
+        while self._connection is not None and not self._connection.closed:
             await asyncio.sleep(HEARTBEAT_INTERVAL)
 
             _LOGGER.debug("Sending ping")
@@ -457,7 +493,7 @@ class RemoteConnection(object):
             try:
                 await asyncio.wait_for(event.wait(), HEARTBEAT_TIMEOUT)
             except asyncio.TimeoutError:
-                _LOGGER.error("heartbeat failed")
+                _LOGGER.warning("heartbeat failed")
 
                 # Schedule closing on event loop to avoid deadlock
                 asyncio.ensure_future(self._connection.close())
@@ -475,9 +511,13 @@ class RemoteConnection(object):
         self.__id += 1
         return _id
 
-    async def call(self, callback, message_type, **extra_args):
+    async def call(self, handler, message_type, **extra_args) -> None:
+        if self._connection is None:
+            _LOGGER.error("No remote websocket connection")
+            return
+
         _id = self._next_id()
-        self._handlers[_id] = callback
+        self._handlers[_id] = handler
         try:
             await self._connection.send_json(
                 {"id": _id, "type": message_type, **extra_args}
@@ -508,7 +548,7 @@ class RemoteConnection(object):
             asyncio.ensure_future(self.async_connect())
 
     async def _recv(self):
-        while not self._connection.closed:
+        while self._connection is not None and not self._connection.closed:
             try:
                 data = await self._connection.receive()
             except aiohttp.client_exceptions.ClientError as err:
@@ -528,6 +568,8 @@ class RemoteConnection(object):
 
             if data.type == aiohttp.WSMsgType.ERROR:
                 _LOGGER.error("websocket connection had an error")
+                if data.data.code == aiohttp.WSCloseCode.MESSAGE_TOO_BIG:
+                    _LOGGER.error(f"please consider increasing message size with `{CONF_MAX_MSG_SIZE}`")
                 break
 
             try:
@@ -547,13 +589,13 @@ class RemoteConnection(object):
 
             elif message["type"] == api.TYPE_AUTH_REQUIRED:
                 if self._access_token:
-                    data = {"type": api.TYPE_AUTH, "access_token": self._access_token}
+                    json_data = {"type": api.TYPE_AUTH, "access_token": self._access_token}
                 else:
                     _LOGGER.error("Access token required, but not provided")
                     self.set_connection_state(STATE_AUTH_REQUIRED)
                     return
                 try:
-                    await self._connection.send_json(data)
+                    await self._connection.send_json(json_data)
                 except Exception as err:
                     _LOGGER.error("could not send data to remote connection: %s", err)
                     break
@@ -565,12 +607,12 @@ class RemoteConnection(object):
                 return
 
             else:
-                callback = self._handlers.get(message["id"])
-                if callback is not None:
-                    if inspect.iscoroutinefunction(callback):
-                        await callback(message)
+                handler = self._handlers.get(message["id"])
+                if handler is not None:
+                    if inspect.iscoroutinefunction(handler):
+                        await handler(message)
                     else:
-                        callback(message)
+                        handler(message)
 
         await self._disconnected()
 
@@ -578,8 +620,8 @@ class RemoteConnection(object):
         async def forward_event(event):
             """Send local event to remote instance.
 
-            The affected entity_id has to origin from that remote instance,
-            otherwise the event is dicarded.
+            The affected entity_id has to originate from that remote instance,
+            otherwise the event is discarded.
             """
             event_data = event.data
             service_data = event_data["service_data"]
@@ -622,7 +664,10 @@ class RemoteConnection(object):
             data = {"id": _id, "type": event.event_type, **event_data}
 
             _LOGGER.debug("forward event: %s", data)
-
+            
+            if self._connection is None:
+                _LOGGER.error("There is no remote connecion to send send data to")
+                return
             try:
                 await self._connection.send_json(data)
             except Exception as err:
@@ -631,7 +676,7 @@ class RemoteConnection(object):
 
         def state_changed(entity_id, state, attr):
             """Publish remote state change on local instance."""
-            domain, object_id = split_entity_id(entity_id)
+            domain, _object_id = split_entity_id(entity_id)
 
             self._all_entity_names.add(entity_id)
 
@@ -656,7 +701,7 @@ class RemoteConnection(object):
                 try:
                     if f[CONF_BELOW] and float(state) < f[CONF_BELOW]:
                         _LOGGER.info(
-                            "%s: ignoring state '%s', because " "below '%s'",
+                            "%s: ignoring state '%s', because below '%s'",
                             entity_id,
                             state,
                             f[CONF_BELOW],
@@ -664,7 +709,7 @@ class RemoteConnection(object):
                         return
                     if f[CONF_ABOVE] and float(state) > f[CONF_ABOVE]:
                         _LOGGER.info(
-                            "%s: ignoring state '%s', because " "above '%s'",
+                            "%s: ignoring state '%s', because above '%s'",
                             entity_id,
                             state,
                             f[CONF_ABOVE],
@@ -675,15 +720,32 @@ class RemoteConnection(object):
 
             entity_id = self._prefixed_entity_id(entity_id)
 
+            # Add local unique id
+            domain, object_id = split_entity_id(entity_id)
+            attr['unique_id'] = f"{self._entry.unique_id[:16]}_{entity_id}"
+            entity_registry = er.async_get(self._hass)
+            entity_registry.async_get_or_create(
+                domain=domain,
+                platform='remote_homeassistant',
+                unique_id=attr['unique_id'],
+                suggested_object_id=object_id,
+            )
+
             # Add local customization data
             if DATA_CUSTOMIZE in self._hass.data:
                 attr.update(self._hass.data[DATA_CUSTOMIZE].get(entity_id))
+
+            for attrId, value in attr.items():
+                if attrId == "friendly_name":
+                    attr[attrId] = self._prefixed_entity_friendly_name(value)
+                if attrId == "entity_picture":
+                    attr[attrId] = self._full_picture_url(value)
 
             self._entities.add(entity_id)
             self._hass.states.async_set(entity_id, state, attr)
 
         def fire_event(message):
-            """Publish remove event on local instance."""
+            """Publish remote event on local instance."""
             if message["type"] == "result":
                 return
 
@@ -725,6 +787,11 @@ class RemoteConnection(object):
                 entity_id = entity["entity_id"]
                 state = entity["state"]
                 attributes = entity["attributes"]
+                for attr, value in attributes.items():
+                    if attr == "friendly_name":
+                        attributes[attr] = self._prefixed_entity_friendly_name(value)
+                    if attr == "entity_picture":
+                        attributes[attr] = self._full_picture_url(value)
 
                 state_changed(entity_id, state, attributes)
 

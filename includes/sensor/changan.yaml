@@ -1,0 +1,7 @@
+- platform: template
+  sensors:
+    changan_fuel_volume_liters:
+      friendly_name: Fuel volume liters
+      icon_template: mdi:fuel
+      value_template: "{{ states('sensor.changan_fuel_volume')|int * 0.55 |float }}"
+      unit_of_measurement: L

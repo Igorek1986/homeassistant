@@ -6,3 +6,17 @@ sensor.0x00124b0024431c4d_l5:
   device_class: water
   unit_of_measurement: "m³"
   state_class: total
+# binary_sensor.0x158d00039db890_motion:
+#   occupancy_timeout: 10
+# binary_sensor.0x00158d0003983bf4_motion:
+#   occupancy_timeout: 10
+# binary_sensor.0x158d0003966333_motion:
+#   occupancy_timeout: 10
+# binary_sensor.0x00158d000396635b_motion:
+#   occupancy_timeout: 10
+# binary_sensor.0x158d0002583b1a_motion:
+#   occupancy_timeout: 10
+# binary_sensor.0x00158d0003f12cf9_motion:
+#   occupancy_timeout: 10
+# binary_sensor.0x00158d000398f96c_motion:
+#   occupancy_timeout: 10

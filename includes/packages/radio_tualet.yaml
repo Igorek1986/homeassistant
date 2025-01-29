@@ -3,7 +3,8 @@ radio_tualet:
     gateway_radio_tualet:
       name: "Радио Туалет"
       icon: mdi:radio
-      
+
+
   input_select:
     gateway_radio_station_tualet:
       name: "Станция"
@@ -17,7 +18,8 @@ radio_tualet:
         - 'Smooth Jazz'
         - 'Дорожное радио'
       icon: mdi:playlist-music-outline
-    
+
+
   input_number:
     gateway_volume_tualet:
       name: "Радио туалет. Громкость"

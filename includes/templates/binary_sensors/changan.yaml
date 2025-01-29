@@ -1,0 +1,28 @@
+- binary_sensor:
+    - name:
+        changan autostart 1
+        # friendly_name: "Автозапуск 1"
+      state: >-
+        {% if -5 <= states("sensor.home_temperature")|float <= 5  %}
+          on
+        {% else %}
+          off
+        {% endif %}
+
+    - name: changan autostart 2
+      # friendly_name: "Автозапуск 2"
+      state: >-
+        {% if -5.1 >= states("sensor.home_temperature")|float >= -10  %}
+          on
+        {% else %}
+          off
+        {% endif %}
+
+    - name: changan autostart 3
+      # friendly_name: "Автозапуск 3"
+      state: >-
+        {% if -10.1 >= states("sensor.home_temperature")|float  %}
+        on
+        {% else %}
+          off
+        {% endif %}

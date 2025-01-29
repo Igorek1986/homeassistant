@@ -1,8 +1,5 @@
 zal_tv:
   switch:
-    - platform: xiaomi_miio
-      host: 192.168.88.57
-      token: b1caf288f5b422a1198c3f167f368ae1
     - platform: template
       switches:
         tv_on:
@@ -10,13 +7,13 @@ zal_tv:
           turn_on:
             service: remote.send_command
             data:
-             command:
+              command:
               - raw:Z6XLADICAACMBgAAjxEAALYRAADQtgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAjEBAQAAAAAAAQEBAAAAAAAAAQAAAAAAAAEAAQEBAQEBBAIxAQEAAAAAAAEBAQAAAAAAAAEAAAAAAAABAAEBAQEBAQQCMQEBAAAAAAABAQEAAAAAAAABAAAAAAAAAQABAQEBAQEAA=
             entity_id: remote.mi_remote
           turn_off:
             service: remote.send_command
             data:
-             command:
+              command:
               - raw:Z6XLADICAACMBgAAjxEAALYRAADQtgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAjEBAQAAAAAAAQEBAAAAAAAAAQAAAAAAAAEAAQEBAQEBBAIxAQEAAAAAAAEBAQAAAAAAAAEAAAAAAAABAAEBAQEBAQQCMQEBAAAAAAABAQEAAAAAAAABAAAAAAAAAQABAQEBAQEAA=
             entity_id: remote.mi_remote
           

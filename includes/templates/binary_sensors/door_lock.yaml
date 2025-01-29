@@ -1,0 +1,8 @@
+- binary_sensor:
+    - name: door lock
+      state: >-
+        {% if is_state('binary_sensor.0x158d0003d31f07_contact', 'off') or is_state('binary_sensor.0x158d0003d31de4_contact', 'off') %} 
+          off
+        {% else %}
+          on
+        {% endif %}

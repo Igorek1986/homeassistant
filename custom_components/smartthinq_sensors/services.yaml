@@ -5,6 +5,13 @@ remote_start:
     entity:
       integration: smartthinq_sensors
       domain: sensor
+  fields:
+    course:
+      name: course
+      description: Course (if not set will use current)
+      required: false
+      selector:
+        text:
 
 wake_up:
   name: WakeUp
@@ -13,6 +20,21 @@ wake_up:
     entity:
       integration: smartthinq_sensors
       domain: sensor
+
+set_time:
+  name: Set time
+  description: Set time device.
+  target:
+    entity:
+      integration: smartthinq_sensors
+      domain: sensor
+  fields:
+    time_wanted:
+      name: time
+      description: Time (if not set will use Home-Assistant time)
+      required: false
+      selector:
+        time:
 
 set_fan_mode:
   name: Set fan mode
@@ -29,3 +51,23 @@ set_fan_mode:
       example: "low"
       selector:
         text:
+
+set_sleep_time:
+  name: Set sleep time
+  description: Set sleep time.
+  target:
+    entity:
+      integration: smartthinq_sensors
+      domain: climate
+  fields:
+    sleep_time:
+      name: "Timeout"
+      description: Timeout for sleep mode in minutes
+      default: 60
+      required: true
+      selector:
+        number:
+          min: 0
+          max: 720
+          mode: box
+          unit_of_measurement: minutes

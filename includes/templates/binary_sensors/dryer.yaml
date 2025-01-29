@@ -1,0 +1,14 @@
+- binary_sensor:
+    - name: dryer filament on
+      # friendly_name: "Сушилка работает"
+      delay_off:
+        seconds: 15
+      state: >
+        {{ (states("sensor.0xa4c138df659bfac3_power")|float > 10 ) }}
+
+      # state: >-
+      #   {% if (states("sensor.0xa4c138df659bfac3_power")|float < 10) %}
+      #     off
+      #   {% elif (states("sensor.0xa4c138df659bfac3_power")|float > 10 ) %}
+      #     on
+      #   {% endif %}

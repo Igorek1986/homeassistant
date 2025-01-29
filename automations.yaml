@@ -5,7 +5,7 @@
     path: homeassistant/hacs_update_notification.yaml
     input:
       hacs_sensor: sensor.hacs
-      notify_device: 0a73048f155a11ebb495570e9df93de3
+      notify_device: e62255dd66501dd1ea0f9e3a834d77ff
 - id: '1618123351228'
   alias: Запуск ХА
   description: ''
@@ -35,11 +35,11 @@
         работы!"
   mode: single
 - id: '1618127526447'
-  alias: Включение ночника в зале при движении
+  alias: Включение ночника в спальне при движении
   description: ''
   trigger:
   - platform: state
-    entity_id: binary_sensor.0x158d0003966333_motion
+    entity_id: binary_sensor.0x00158d0003983bf4_motion
     to: 'on'
   condition:
   - condition: state
@@ -61,9 +61,9 @@
   description: ''
   trigger:
   - platform: state
-    entity_id: binary_sensor.auto_off_gateway_zal
+    entity_id: binary_sensor.auto_off_gateway_spalnya
     to: 'on'
-    for: 0:{{ states('input_number.auto_off_gateway_zal') |int }}
+    for: 0:{{ states('input_number.auto_off_gateway_spalnya') |int }}
   condition:
   - condition: state
     entity_id: light.gateway_light_7c49eb88e98a
@@ -133,7 +133,8 @@
   alias: Включение света левой клавишей в зале (Беспроводной выключатель)
   trigger:
   - platform: state
-    entity_id: sensor.0x158d00046501c3_action
+    entity_id:
+    - sensor.0x00158d00046501c3_action
     to: button_1_single
   action:
   - service: switch.toggle
@@ -146,21 +147,13 @@
   alias: Включение/Выключение ТВ Беспроводной выключатель правая кнопка
   trigger:
   - platform: state
-    entity_id: sensor.0x158d00046501c3_action
+    entity_id:
+    - sensor.0x00158d00046501c3_action
     to: button_2_single
   action:
   - service: switch.toggle
     entity_id: switch.tv_on
   mode: single
-- id: '1618414095808'
-  alias: Включение/Выключение ночника Беспроводной выключатель две кнопки
-  trigger:
-  - platform: state
-    entity_id: sensor.0x158d00046501c3_action
-    to: button_both_single
-  action:
-  - service: light.toggle
-    entity_id: light.gateway_light_7c49eb88e98a
 - id: '1618495688018'
   alias: Переключение света в зале по тряске
   trigger:
@@ -188,50 +181,6 @@
       - switch.0x00158d00034d0a07_channel_1
     data: {}
   mode: single
-- id: '1622659814377'
-  alias: Тариф день
-  description: ''
-  trigger:
-  - platform: time
-    at: 07:00:00
-  action:
-  - service: select.select_option
-    target:
-      entity_id: select.energy_daily_kvartira
-    data:
-      option: day
-  - service: select.select_option
-    target:
-      entity_id: select.energy_monthly_kvartira
-    data:
-      option: day
-  - service: select.select_option
-    target:
-      entity_id: select.energy_yearly_kvartira
-    data:
-      option: day
-- id: '1622659927374'
-  alias: Тариф ночь
-  description: ''
-  trigger:
-  - platform: time
-    at: '23:00:00'
-  action:
-  - service: select.select_option
-    target:
-      entity_id: select.energy_daily_kvartira
-    data:
-      option: night
-  - service: select.select_option
-    target:
-      entity_id: select.energy_monthly_kvartira
-    data:
-      option: night
-  - service: select.select_option
-    target:
-      entity_id: select.energy_yearly_kvartira
-    data:
-      option: night
 - id: '1628524322841'
   alias: Включение света в коридоре
   description: Автоматически при отсутствии движения 2 минуты и открытии двери
@@ -243,15 +192,15 @@
   - condition: and
     conditions:
     - condition: state
-      entity_id: switch.0x158d0003235546_switch
+      entity_id: switch.0x00158d0003235546_switch
       state: 'off'
     - condition: state
-      entity_id: binary_sensor.0x158d000396635b_motion
+      entity_id: binary_sensor.0x00158d000396635b_motion
       state: 'off'
       for: 00:02:00
   action:
   - service: switch.toggle
-    entity_id: switch.0x158d0003235546_switch
+    entity_id: switch.0x00158d0003235546_switch
   mode: single
 - id: '1628525044344'
   alias: Выключение света в квартире
@@ -268,8 +217,8 @@
     data: {}
     target:
       entity_id:
-      - switch.0x158d0003235546_switch
-      - switch.0x00124b001ec85b30_switch
+      - switch.0x00158d0003235546_switch
+      - switch.0xa4c1383788a34232
       - switch.0x158d00031de357_channel_1
       - switch.0x158d00034d0a07_channel_1
       - switch.0x158d00034d0a07_channel_2
@@ -358,11 +307,11 @@
     for: 0:{{ states('input_number.auto_off_svet_koridor') |int }}
   condition:
   - condition: state
-    entity_id: switch.0x158d0003235546_switch
+    entity_id: switch.0x00158d0003235546_switch
     state: 'on'
   action:
   - service: switch.turn_off
-    entity_id: switch.0x158d0003235546_switch
+    entity_id: switch.0x00158d0003235546_switch
   mode: single
 - id: '1628525907366'
   alias: Выключение света в туалете
@@ -454,7 +403,7 @@
     for: 0:{{ states('input_number.auto_off_svet_zerkalo_vannay') |int }}
   condition:
   - condition: state
-    entity_id: switch.0x04cf8cdf3c8e15d6
+    entity_id: switch.0x00124b001b7976bf
     state: 'on'
   action:
   - service: switch.turn_off
@@ -570,25 +519,6 @@
   action:
   - service: input_select.select_next
     data: {}
-  mode: single
-- id: '1628528310784'
-  alias: Включение гиверлампы
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.0x158d00039db890_motion
-    to: 'on'
-  condition:
-  - condition: state
-    entity_id: light.gyver_lamp_esp_920e37
-    state: 'off'
-  - condition: time
-    after: '22:00:00'
-    before: 02:00:00
-  action:
-  - service: light.turn_on
-    entity_id: light.gyver_lamp_esp_920e37
-  initial_state: false
   mode: single
 - id: '1628529297058'
   alias: Гиверлампа скорость
@@ -720,20 +650,20 @@
 - id: '1634062346517'
   alias: Выключение ночника в детской без движения
   description: ''
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.auto_off_svet_detskay
+  triggers:
+  - entity_id: binary_sensor.auto_off_nochnik_detskay
     to: 'on'
-    for: 0:{{ states('input_number.auto_off_svet_detskay') |int }}
-  condition:
+    for: 0:{{ states('input_number.auto_off_nochnik_detskay') |int }}
+    trigger: state
+  conditions:
   - condition: state
     state: 'on'
     entity_id: light.zesp_bulb_00158d00036391d8
-  action:
-  - service: light.turn_off
-    target:
+  actions:
+  - target:
       entity_id: light.zesp_bulb_00158d00036391d8
     data: {}
+    action: light.turn_off
   mode: single
 - id: '1634095100957'
   alias: Выключение света на кухне без движения
@@ -850,12 +780,12 @@
     for: 0:{{ states('input_number.auto_off_podsvetka_kuchnya') |int }}
   condition:
   - condition: state
-    entity_id: switch.0x00124b001ec85b30
+    entity_id: switch.0xa4c1383788a34232
     state: 'on'
   action:
   - service: switch.turn_off
     target:
-      entity_id: switch.0x00124b001ec85b30
+      entity_id: switch.0xa4c1383788a34232
   mode: single
 - id: '1634097308577'
   alias: Выключение без движения ТВ на кухне
@@ -948,7 +878,7 @@
   action:
   - service: switch.toggle
     target:
-      entity_id: switch.0x00124b001ec85b30
+      entity_id: switch.0xa4c1383788a34232
   mode: single
 - id: '1634099237481'
   alias: Включение ТВ на кухне кнопка
@@ -1022,7 +952,7 @@
   action:
   - service: switch.toggle
     target:
-      entity_id: switch.0x00124b001ec85b30
+      entity_id: switch.0xa4c1383788a34232
   mode: single
 - id: '1634099849191'
   alias: Переключение подсветки на кухне беспроводной выключатель
@@ -1035,7 +965,7 @@
   action:
   - service: switch.toggle
     target:
-      entity_id: switch.0x00124b001ec85b30
+      entity_id: switch.0xa4c1383788a34232
   mode: single
 - id: '1634099923043'
   alias: Выключение ТВ на кухне беспроводной выключатель
@@ -1086,6 +1016,9 @@
   - condition: numeric_state
     entity_id: sensor.0x158d0002583b1a_illuminance
     below: '10'
+  - condition: state
+    entity_id: switch.0x00158d00054ce938_channel_1
+    state: 'off'
   action:
   - service: light.turn_on
     target:
@@ -1161,40 +1094,62 @@
 - id: '1634108894043'
   alias: Входная дверь открыта, уведомление об открытии
   description: ''
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.0x158d00039c0a59_contact
+  triggers:
+  - entity_id: binary_sensor.0x158d00039c0a59_contact
     to: 'on'
-  condition:
+    trigger: state
+  conditions:
   - condition: state
     entity_id: person.igor
     state: not_home
+    enabled: false
   - condition: state
     entity_id: person.marina
     state: not_home
-  action:
-  - service: notify.mobile_app_iphone_igor
-    data:
+    enabled: false
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: person.igor
+      state: home
+    - condition: state
+      entity_id: person.marina
+      state: home
+  actions:
+  - data:
       message: Входная дверь открыта
+    action: notify.mobile_app_iphone_igor
   mode: single
 - id: '1634108970221'
   alias: Входная дверь закрыта, уведомление о закрытии
   description: ''
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.0x158d00039c0a59_contact
+  triggers:
+  - entity_id:
+    - binary_sensor.0x158d00039c0a59_contact
     to: 'off'
-  condition:
+    from: 'on'
+    trigger: state
+  conditions:
   - condition: state
     entity_id: person.igor
     state: not_home
+    enabled: false
   - condition: state
     entity_id: person.marina
     state: not_home
-  action:
-  - service: notify.mobile_app_iphone_igor
-    data:
+    enabled: false
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: person.igor
+      state: home
+    - condition: state
+      entity_id: person.marina
+      state: home
+  actions:
+  - data:
       message: Входная дверь закрыта
+    action: notify.mobile_app_iphone_igor
   mode: single
 - id: '1634109198843'
   alias: Гараж, уведомление об открытии
@@ -1275,7 +1230,7 @@
   description: ''
   trigger:
   - platform: numeric_state
-    entity_id: sensor.zavod_sp3_current_power
+    entity_id: sensor.zavod_0xa4c1385975f14143_power
     below: '10'
   condition:
   - condition: numeric_state
@@ -1284,6 +1239,9 @@
   - condition: numeric_state
     entity_id: sensor.zavod_home_assistant_temperature
     below: 4
+  - condition: state
+    entity_id: binary_sensor.zavod_kotel_on
+    state: 'on'
   action:
   - service: notify.mobile_app_iphone_igor
     data:
@@ -1453,35 +1411,38 @@
 - id: '1659447042826'
   alias: Открытие домофона один раз
   description: ''
-  trigger:
-  - platform: zone
-    entity_id:
+  triggers:
+  - entity_id:
     - person.igor
     - person.marina
     zone: zone.domofon
     event: enter
-  condition: []
-  action:
-  - service: select.select_option
-    data:
+    trigger: zone
+  conditions:
+  - condition: time
+    after: 08:00:00
+    before: '20:00:00'
+  actions:
+  - data:
       option: Открывать всегда
     target:
       entity_id:
       - select.smartintercom_modes
-  - service: switch.turn_on
-    data: {}
+    action: select.select_option
+  - data: {}
     target:
       entity_id:
       - switch.smartintercom_mute
-  - service: notify.mobile_app_iphone_igor
-    data:
+    action: switch.turn_on
+  - data:
       message: 'Домофон: включен режим однократного авто-открытия.'
+    action: notify.mobile_app_iphone_igor
   - wait_for_trigger:
-    - platform: state
-      entity_id:
+    - entity_id:
       - binary_sensor.0x158d00039c0a59_contact
       to: 'on'
       from: 'off'
+      trigger: state
     timeout: 00:10:00
   - choose:
     - conditions:
@@ -1489,48 +1450,22 @@
         entity_id: select.smartintercom_modes
         state: Открывать всегда
       sequence:
-      - service: select.select_option
-        data:
+      - data:
           option: Не активен
         target:
           entity_id:
           - select.smartintercom_modes
-      - service: switch.turn_off
-        data: {}
+        action: select.select_option
+      - data: {}
         target:
           entity_id:
           - switch.smartintercom_mute
-      - service: notify.mobile_app_iphone_igor
-        data:
+        action: switch.turn_off
+      - data:
           message: 'Домофон: отключен режим однократного авто-открытия.'
+        action: notify.mobile_app_iphone_igor
     default: []
   mode: single
-- id: '1663938626283'
-  trigger:
-  - platform: time
-    at: 07:00:00
-    variables:
-      tariff: day
-  - platform: time
-    at: '23:00:00'
-    variables:
-      tariff: night
-  action:
-  - service: select.select_option
-    target:
-      entity_id: select.energy_daily_kvartira
-    data:
-      option: '{{ tariff }}'
-  - service: select.select_option
-    target:
-      entity_id: select.energy_monthly_kvartira
-    data:
-      option: '{{ tariff }}'
-  - service: select.select_option
-    target:
-      entity_id: select.energy_yearly_kvartira
-    data:
-      option: '{{ tariff }}'
 - id: '1669644331218'
   alias: Запуск двигателя
   description: ''
@@ -1819,4 +1754,532 @@
       - light.zesp_bulb_00158d00036391d8
       - light.zesp_bulb_00158d0003f0e83b
       - light.zesp_bulb_00158d0002ecd55b
+  mode: single
+- id: '1683091330559'
+  alias: Низкий заряд батареи
+  description: Уведомление о низком заряде батареи
+  use_blueprint:
+    path: sbyx/low-battery-level-detection-notification-for-all-battery-sensors.yaml
+    input:
+      actions:
+      - service: notify.telegram_id_1
+        data:
+          message: Осталось менее 20% на {{sensors}}
+      threshold: 25
+      time: '19:00:00'
+- id: '1684569250192'
+  alias: Ночной тариф
+  description: ''
+  trigger:
+  - platform: time
+    at: '23:00:00'
+  condition: []
+  action:
+  - service: select.select_option
+    data:
+      option: night
+    target:
+      entity_id:
+      - select.elektroenergiia
+      - select.energy_daily_kvartira
+      - select.energy_monthly_kvartira
+      - select.energy_yearly_kvartira
+  mode: single
+- id: '1684569316736'
+  alias: Дневной тариф
+  description: ''
+  trigger:
+  - platform: time
+    at: '7:00:00'
+  condition: []
+  action:
+  - service: select.select_option
+    data:
+      option: day
+    target:
+      entity_id:
+      - select.elektroenergiia
+      - select.energy_daily_kvartira
+      - select.energy_monthly_kvartira
+      - select.energy_yearly_kvartira
+  mode: single
+- id: '1695361748847'
+  alias: Переключение лампы в спальне
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - sensor.0x00158d0003990f74_action
+    from: single
+  condition: []
+  action:
+  - action: switch.toggle
+    data: {}
+    target:
+      entity_id: switch.0xa4c13851b9596cf2
+  mode: single
+- id: '1698216429840'
+  alias: Выключение лампы в спальне без движения
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.auto_off_lampa_spalnya
+    to: 'on'
+    for: 0:{{ states('input_number.auto_off_lampa_spalnya') |int }}
+  condition:
+  - condition: state
+    entity_id: switch.0xa4c13851b9596cf2
+    state: 'on'
+  action:
+  - service: switch.turn_off
+    data: {}
+    target:
+      entity_id:
+      - switch.0xa4c13851b9596cf2
+  mode: single
+- id: '1698835204806'
+  alias: Автозапуск машины на работе режим 1
+  description: С понедельника по четверг от +5 до -5
+  trigger:
+  - platform: time
+    at: '16:55:00'
+  condition:
+  - condition: zone
+    entity_id: device_tracker.changan_location
+    zone: zone.rabota
+  - condition: time
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+  - condition: state
+    entity_id: binary_sensor.changan_autostart_1
+    state: 'on'
+  - condition: state
+    entity_id: switch.changan_engine
+    state: 'off'
+  action:
+  - service: switch.turn_on
+    data: {}
+    target:
+      entity_id: switch.changan_engine
+  - service: notify.mobile_app_iphone_igor
+    data:
+      message: Машина заводиться! Пора собираться домой!
+  - service: notify.telegram_id_1
+    data:
+      message: Машина заводиться! Пора собираться домой!
+  mode: single
+- id: '1698836123076'
+  alias: Автозапуск машины на работе в пятницу режим 1
+  description: В пятницу от +5 до -5
+  trigger:
+  - platform: time
+    at: '16:55:00'
+  condition:
+  - condition: zone
+    entity_id: device_tracker.changan_location
+    zone: zone.rabota
+  - condition: time
+    weekday:
+    - fri
+  - condition: state
+    entity_id: binary_sensor.changan_autostart_1
+    state: 'on'
+  - condition: state
+    entity_id: switch.changan_engine
+    state: 'off'
+  action:
+  - service: switch.turn_on
+    data: {}
+    target:
+      entity_id: switch.changan_engine
+  - service: notify.mobile_app_iphone_igor
+    data:
+      message: Машина заводиться! Пора собираться домой!
+  - service: notify.telegram_id_1
+    data:
+      message: Машина заводиться! Пора собираться домой!
+  mode: single
+- id: '1698836411102'
+  alias: Автозапуск машины на работе режим 2
+  description: С понедельника по четверг от -5 до -10
+  trigger:
+  - platform: time
+    at: '16:50:00'
+  condition:
+  - condition: zone
+    entity_id: device_tracker.changan_location
+    zone: zone.rabota
+  - condition: time
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+  - condition: state
+    entity_id: binary_sensor.changan_autostart_2
+    state: 'on'
+  - condition: state
+    entity_id: switch.changan_engine
+    state: 'off'
+  action:
+  - service: switch.turn_on
+    data: {}
+    target:
+      entity_id: switch.changan_engine
+  - service: notify.mobile_app_iphone_igor
+    data:
+      message: Машина заводиться! Пора собираться домой!
+  - service: notify.telegram_id_1
+    data:
+      message: Машина заводиться! Пора собираться домой!
+  mode: single
+- id: '1698836461667'
+  alias: Автозапуск машины на работе в пятницу режим 2
+  description: В пятницу от -5 до -10
+  trigger:
+  - platform: time
+    at: '16:50:00'
+  condition:
+  - condition: zone
+    entity_id: device_tracker.changan_location
+    zone: zone.rabota
+  - condition: time
+    weekday:
+    - fri
+  - condition: state
+    entity_id: binary_sensor.changan_autostart_2
+    state: 'on'
+  - condition: state
+    entity_id: switch.changan_engine
+    state: 'off'
+  action:
+  - service: switch.turn_on
+    data: {}
+    target:
+      entity_id: switch.changan_engine
+  - service: notify.mobile_app_iphone_igor
+    data:
+      message: Машина заводиться! Пора собираться домой!
+  - service: notify.telegram_id_1
+    data:
+      message: Машина заводиться! Пора собираться домой!
+  mode: single
+- id: '1698836554777'
+  alias: Автозапуск машины на работе режим 3
+  description: С понедельника по четверг от -10
+  trigger:
+  - platform: time
+    at: '16:45:00'
+  condition:
+  - condition: zone
+    entity_id: device_tracker.changan_location
+    zone: zone.rabota
+  - condition: time
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+  - condition: state
+    entity_id: binary_sensor.changan_autostart_3
+    state: 'on'
+  - condition: state
+    entity_id: switch.changan_engine
+    state: 'off'
+  action:
+  - service: switch.turn_on
+    data: {}
+    target:
+      entity_id: switch.changan_engine
+  - service: notify.mobile_app_iphone_igor
+    data:
+      message: Машина заводиться! Пора собираться домой!
+  - service: notify.telegram_id_1
+    data:
+      message: Машина заводиться! Пора собираться домой!
+  mode: single
+- id: '1698836607315'
+  alias: Автозапуск машины на работе в пятницу режим 3
+  description: В пятницу от -5 до -10
+  trigger:
+  - platform: time
+    at: '16:45:00'
+  condition:
+  - condition: zone
+    entity_id: device_tracker.changan_location
+    zone: zone.rabota
+  - condition: time
+    weekday:
+    - fri
+  - condition: state
+    entity_id: binary_sensor.changan_autostart_3
+    state: 'on'
+  - condition: state
+    entity_id: switch.changan_engine
+    state: 'off'
+  action:
+  - service: switch.turn_on
+    data: {}
+    target:
+      entity_id: switch.changan_engine
+  - service: notify.mobile_app_iphone_igor
+    data:
+      message: Машина заводиться! Пора собираться домой!
+  - service: notify.telegram_id_1
+    data:
+      message: Машина заводиться! Пора собираться домой!
+  mode: single
+- id: '1705639681274'
+  alias: Автовыключение в спальне
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - input_boolean.motion_auto_off_spalnya
+    from: 'on'
+    to: 'off'
+  condition: []
+  action:
+  - delay:
+      hours: 3
+      minutes: 0
+      seconds: 0
+      milliseconds: 0
+  - service: input_boolean.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: input_boolean.motion_auto_off_spalnya
+  mode: single
+- id: '1719570207722'
+  alias: Уведомление о завершении сушки филамента
+  description: ''
+  triggers:
+  - entity_id:
+    - binary_sensor.dryer_filament_on
+    from: 'on'
+    to: 'off'
+    trigger: state
+  conditions: []
+  actions:
+  - data:
+      message: Сушка филамента завершена!
+    action: notify.mobile_app_iphone_igor
+  mode: single
+- id: '1720424972019'
+  alias: Low Battery Notifications & Actions
+  description: ''
+  use_blueprint:
+    path: Blackshome/low-battery-notifications-and-actions.yaml
+    input:
+      include_button: enable_button_trigger
+      time: '20:00:00'
+      battery_level: 25
+      custom_group_battery_level: 25
+      notify_device:
+      - 917480c467720538fe30fd539386c88b
+      notify_title: Уведомление о низком заряде батареи
+      notify_okay_message: Да! Все батарейки в порядке :)
+      notify_action_buttons: enable_to_do_list_button
+      custom_actions: []
+      include_easy_notify: enable_easy_notify
+      include_persistent_notification: enable_persistent_notification
+      include_custom_actions: disabled_custom_actions
+      action_button_to_do: Батарейки
+      to_do_list: todo.batareiki
+      include_time: time_enabled
+      exclude_sensors:
+        entity_id:
+        - sensor.zavod_0x00158d0005448590_battery
+        - sensor.zavod_0x00158d00054480be_battery
+        - sensor.zavod_0x00158d0003f24581_battery
+        - sensor.zavod_0x158d000394082b_battery
+        - sensor.zavod_a4c13876c89b_battery
+        - sensor.zavod_a4c13891b96d_battery
+        - sensor.zavod_a4c138359f36_battery
+        - sensor.zavod_0x00158d0003992924_battery
+        - sensor.zavod_0x00158d000398bd56_battery
+        - sensor.zavod_iphone_marinitta_2_battery_level
+        - sensor.0x00158d00046501c3_battery
+        - sensor.0x158d0002c9db62_battery
+        - sensor.0x158d00039c0a59_battery
+        - sensor.0x00158d0003f12cf9_battery
+        - sensor.0x158d00039db890_battery
+        - sensor.0x158d0003966333_battery
+        - sensor.0x00158d000396635b_battery
+        - sensor.0x00158d000398f96c_battery
+        - sensor.0x00158d0003f245e5_battery
+        - sensor.0x00158d0003983bf4_battery
+        - sensor.0x158d0002583b1a_battery
+        - sensor.a4c138fff7f1_battery
+        - sensor.a4c138736c12_battery
+        - sensor.a4c138439b6b_battery
+        - sensor.a4c138843f3c_battery
+        - sensor.a4c13873444f_battery
+        - sensor.a4c138d32a37_battery
+        - sensor.a4c138d61ef9_battery
+        - sensor.0xa4c138aada99fe58_battery
+        - sensor.0x158d0003d31f07_battery
+        - sensor.0x158d0003d31de4_battery
+        - sensor.0x158d0002e6b618_battery
+        - sensor.0x158d0003a47ba3_battery
+        - sensor.0x158d0002fa9e5d_battery
+        - sensor.0x00158d0003990f74_battery
+        - sensor.0x00158d0003d40fa7_battery
+        - sensor.0x158d000396675c_battery
+        - sensor.0x158d0003a33237_battery
+        - sensor.0x00158d0003975b9b_battery
+        - sensor.0x158d000374590a_battery
+        - sensor.0x00124b0024431c4d_battery
+        - sensor.iphone_igor_battery_level
+        - sensor.iphone_marina_battery_level
+        - sensor.waterius_11110046_battery
+        - sensor.infinix_dima_battery_level
+        - sensor.iphone_marina_watch_battery
+        - sensor.iphone_igor_watch_battery
+      notify_message: all_sensors
+      notify_interruption_level: active
+- id: '1728991165027'
+  alias: Уведомление о низком заряде батареи и действия
+  description: ''
+  use_blueprint:
+    path: Blackshome/low-battery-notifications-and-actions.yaml
+    input:
+      include_button: enable_button_trigger
+      time: '20:00:00'
+      battery_level: 25
+      custom_group_battery_level: 25
+      notify_device:
+      - e62255dd66501dd1ea0f9e3a834d77ff
+      notify_title: Уведомление о низком заряде батареи
+      notify_okay_message: Да! Все батарейки в порядке :)
+      notify_action_buttons: enable_to_do_list_button
+      custom_actions: []
+      include_easy_notify: enable_easy_notify
+      include_persistent_notification: enable_persistent_notification
+      include_custom_actions: disabled_custom_actions
+      action_button_to_do: Батарейки
+      to_do_list: todo.batareiki
+      include_time: time_enabled
+      exclude_sensors:
+        entity_id:
+        - sensor.zamok_battery_plus
+        - sensor.dd_zal_battery_plus
+        - sensor.dk_zal_battery_plus
+        - sensor.zamok_2_battery_plus
+        - sensor.dk_shkaf_battery_plus
+        - sensor.okno_zal_battery_plus
+        - sensor.dd_tualet_battery_plus
+        - sensor.dk_balkon_battery_plus
+        - sensor.dd_vannaia_battery_plus
+        - sensor.dd_koridor_battery_plus
+        - sensor.dd_kukhnia_battery_plus
+        - sensor.dk_vannaia_battery_plus
+        - sensor.dk_koridor_battery_plus
+        - sensor.dk_kukhnia_battery_plus
+        - sensor.dk_spalnia_battery_plus
+        - sensor.dd_detskaia_battery_plus
+        - sensor.dk_detskaia_battery_plus
+        - sensor.dd_kukhnia_2_battery_plus
+        - sensor.okno_spalnia_battery_plus
+        - sensor.zavod_dd_igor_battery_plus
+        - sensor.zavod_dk_mama_battery_plus
+        - sensor.okno_detskaia_battery_plus
+        - binary_sensor.zamok_battery_plus_low
+        - binary_sensor.dd_zal_battery_plus_low
+        - binary_sensor.dk_zal_battery_plus_low
+        - sensor.knopka_kukhnia_battery_plus
+        - sensor.knopka_vannaia_battery_plus
+        - sensor.knopka_spalnia_battery_plus
+        - sensor.zavod_dd_marina_battery_plus
+        - sensor.zavod_dk_marina_battery_plus
+        - binary_sensor.zamok_2_battery_plus_low
+        - sensor.knopka_detskaia_battery_plus
+        - binary_sensor.dk_shkaf_battery_plus_low
+        - binary_sensor.okno_zal_battery_plus_low
+        - sensor.waterius_11110046_battery_plus
+        - sensor.0x158d0002c9db62_battery
+        - binary_sensor.dd_vannaia_battery_plus_low
+        - binary_sensor.dd_koridor_battery_plus_low
+        - binary_sensor.dd_kukhnia_battery_plus_low
+        - binary_sensor.dd_tualet_battery_plus_low
+        - binary_sensor.dk_balkon_battery_plus_low
+        - binary_sensor.dk_vannaia_battery_plus_low
+        - binary_sensor.dk_koridor_battery_plus_low
+        - binary_sensor.dk_kukhnia_battery_plus_low
+        - binary_sensor.dk_spalnia_battery_plus_low
+        - sensor.schetchik_kukhnia_battery_plus
+        - binary_sensor.dd_detskaia_battery_plus_low
+        - binary_sensor.dk_detskaia_battery_plus_low
+        - sensor.okno_bolshoe_balkon_battery_plus
+        - binary_sensor.iphone_igor_battery_plus_low
+        - binary_sensor.dd_kukhnia_2_battery_plus_low
+        - sensor.okno_malenkoe_balkon_battery_plus
+        - binary_sensor.okno_spalnia_battery_plus_low
+        - binary_sensor.zavod_dd_igor_battery_plus_low
+        - binary_sensor.zavod_dk_mama_battery_plus_low
+        - binary_sensor.okno_detskaia_battery_plus_low
+        - binary_sensor.iphone_marina_battery_plus_low
+        - sensor.vkhodnaia_dver_koridor_battery_plus
+        - binary_sensor.knopka_vannaia_battery_plus_low
+        - binary_sensor.knopka_kukhnia_battery_plus_low
+        - binary_sensor.knopka_spalnia_battery_plus_low
+        - binary_sensor.zavod_dd_marina_battery_plus_low
+        - binary_sensor.zavod_dk_marina_battery_plus_low
+        - binary_sensor.knopka_detskaia_battery_plus_low
+        - sensor.zavod_0x00158d0003992924_battery_plus
+        - sensor.zavod_dk_zavodoukovsk_zal_battery_plus
+        - binary_sensor.schetchik_kukhnia_battery_plus_low
+        - binary_sensor.waterius_11110046_battery_plus_low
+        - sensor.0x00158d0003983bf4_battery_battery_plus
+        - sensor.zavod_vorota_zakryty_garazh_battery_plus
+        - sensor.zavod_vorota_otkryty_garazh_battery_plus
+        - binary_sensor.okno_bolshoe_balkon_battery_plus_low
+        - binary_sensor.okno_malenkoe_balkon_battery_plus_low
+        - binary_sensor.vkhodnaia_dver_koridor_battery_plus_low
+        - binary_sensor.zavod_iphone_marinitta_battery_plus_low
+        - binary_sensor.zavod_0x00158d0003992924_battery_plus_low
+        - sensor.besprovodnoi_vykliuchatel_kukhnia_battery_plus
+        - binary_sensor.zavod_dk_zavodoukovsk_zal_battery_plus_low
+        - binary_sensor.0x00158d0003983bf4_battery_battery_plus_low
+        - binary_sensor.zavod_vorota_zakryty_garazh_battery_plus_low
+        - binary_sensor.zavod_vorota_otkryty_garazh_battery_plus_low
+        - binary_sensor.besprovodnoi_vykliuchatel_kukhnia_battery_plus_low
+        - sensor.zavod_knopka_nad_podvalom_kholl_1_i_etazh_battery_plus
+        - sensor.aqara_wireless_remote_switch_double_rocker_battery_plus
+        - binary_sensor.zavod_knopka_nad_podvalom_kholl_1_i_etazh_battery_plus_low
+        - binary_sensor.aqara_wireless_remote_switch_double_rocker_battery_plus_low
+        - sensor.iphone_igor_watch_battery
+        - sensor.iphone_igor_battery_level
+        - sensor.zavod_iphone_igor_battery_level
+        - sensor.iphone_marina_battery_level
+        - sensor.iphone_marina_watch_battery
+        - sensor.zavod_iphone_marinitta_2_battery_level
+        - sensor.infinix_dima_battery_level
+        - sensor.zavod_iphone_tamara_battery_level
+        - sensor.dk_filament_battery_plus
+        - binary_sensor.dk_filament_battery_plus_low
+        - sensor.dk_3d_shkaf_battery_plus
+        - sensor.zavod_iphone_tamara_battery_plus
+        - binary_sensor.zavod_iphone_tamara_battery_plus_low
+        - binary_sensor.dk_3d_shkaf_battery_plus_low
+      notify_message: all_sensors
+      notify_interruption_level: active
+- id: '1733307522939'
+  alias: Высокая загрузка процессора VPS PQ
+  description: ''
+  triggers:
+  - trigger: numeric_state
+    entity_id:
+    - sensor.45_14_245_69_cpu_usage
+    above: 80
+  conditions: []
+  actions:
+  - action: notify.mobile_app_iphone_igor
+    metadata: {}
+    data:
+      message: Высокая загрузка процессора VPS PA
   mode: single

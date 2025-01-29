@@ -3,13 +3,13 @@ light.led_light_4_left:
   hidden: false
   excluded: false
   disabled: false
-  friendly_name: ''
-  col_span: '1'
-  row_span: '1'
-  col_span_lg: '1'
-  row_span_lg: '1'
-  col_span_xl: '1'
-  row_span_xl: '1'
+  friendly_name: ""
+  col_span: "1"
+  row_span: "1"
+  col_span_lg: "1"
+  row_span_lg: "1"
+  col_span_xl: "1"
+  row_span_xl: "1"
   custom_card: true
   custom_popup: false
 alarm_control_panel.54ef44cde541_alarm:
@@ -124,16 +124,16 @@ light.led_light:
   hidden: false
   excluded: false
   disabled: false
-  friendly_name: ''
-  col_span: '1'
-  row_span: '1'
-  col_span_lg: '1'
-  row_span_lg: '1'
-  col_span_xl: '1'
-  row_span_xl: '1'
+  friendly_name: ""
+  col_span: "1"
+  row_span: "1"
+  col_span_lg: "1"
+  row_span_lg: "1"
+  col_span_xl: "1"
+  row_span_xl: "1"
   custom_card: true
   custom_popup: false
-binary_sensor.0x158d000398f96c_motion:
+binary_sensor.0x00158d000398f96c_motion:
   sort_order: 12
 binary_sensor.0x00158d0003f245e5_motion:
   sort_order: 13
@@ -142,26 +142,26 @@ light.nochnik_na_kukhne:
   hidden: false
   excluded: false
   disabled: false
-  friendly_name: ''
-  col_span: '2'
-  row_span: '1'
-  col_span_lg: '1'
-  row_span_lg: '1'
-  col_span_xl: '1'
-  row_span_xl: '1'
+  friendly_name: ""
+  col_span: "2"
+  row_span: "1"
+  col_span_lg: "1"
+  row_span_lg: "1"
+  col_span_xl: "1"
+  row_span_xl: "1"
   custom_card: true
   custom_popup: false
 media_player.lg_tv_spalnya:
   hidden: false
   excluded: false
   disabled: false
-  friendly_name: ''
-  col_span: '1'
-  row_span: '1'
-  col_span_lg: '1'
-  row_span_lg: '1'
-  col_span_xl: '1'
-  row_span_xl: '1'
+  friendly_name: ""
+  col_span: "1"
+  row_span: "1"
+  col_span_lg: "1"
+  row_span_lg: "1"
+  col_span_xl: "1"
+  row_span_xl: "1"
   custom_card: true
   custom_popup: false
 automation.vykliuchenie_sveta_v_vannoi:
@@ -178,7 +178,7 @@ automation.stiralnaia_mashina_stirka_zavershena:
   hidden: true
 automation.stiralnaia_mashina_oshibka:
   hidden: true
-binary_sensor.0x158d0003f12cf9_motion:
+binary_sensor.0x00158d0003f12cf9_motion:
   hidden: true
 switch.0x00124b002443190c_l6:
   hidden: true
@@ -186,13 +186,13 @@ binary_sensor.0x158d000374590a_contact:
   hidden: false
   excluded: false
   disabled: false
-  friendly_name: ''
-  col_span: '1'
-  row_span: '1'
-  col_span_lg: '1'
-  row_span_lg: '1'
-  col_span_xl: '1'
-  row_span_xl: '1'
+  friendly_name: ""
+  col_span: "1"
+  row_span: "1"
+  col_span_lg: "1"
+  row_span_lg: "1"
+  col_span_xl: "1"
+  row_span_xl: "1"
   custom_card: true
   custom_popup: false
 automation.vkliuchenie_nochnika_v_zale:
@@ -222,13 +222,13 @@ light.led_light_zal:
   hidden: false
   excluded: false
   disabled: false
-  friendly_name: ''
-  col_span: '1'
-  row_span: '1'
-  col_span_lg: '1'
-  row_span_lg: '1'
-  col_span_xl: '1'
-  row_span_xl: '1'
+  friendly_name: ""
+  col_span: "1"
+  row_span: "1"
+  col_span_lg: "1"
+  row_span_lg: "1"
+  col_span_xl: "1"
+  row_span_xl: "1"
   custom_card: true
   custom_popup: false
 binary_sensor.0x158d0003966333_motion:
@@ -345,7 +345,7 @@ light.zesp_bulb_00158d0003f0e83b:
 light.led_light_2:
   custom_card: true
   sort_order: 1
-binary_sensor.0x158d000396635b_motion:
+binary_sensor.0x00158d000396635b_motion:
   sort_order: 4
 binary_sensor.0x158d00039c0a59_contact:
   sort_order: 5
@@ -450,7 +450,7 @@ binary_sensor.0x00158d0003d40fa7_contact:
   custom_card: true
 binary_sensor.0x00158d0003975b9b_contact:
   custom_card: true
-sensor.0x158d0003235546_action:
+sensor.0x00158d0003235546_action:
   hidden: true
 sensor.0x158d0005882b0b_action:
   hidden: true
@@ -470,7 +470,7 @@ sensor.0x00158d00054ce938_action:
   hidden: true
 sensor.0x00158d00054ce938_zigbee:
   hidden: true
-switch.0x158d0003235546_switch:
+switch.0x00158d0003235546_switch:
   hidden: true
 switch.0x158d0005882b0b_switch:
   hidden: true
@@ -532,7 +532,7 @@ switch.0x00158d00031de357_channel_2:
   hidden: true
 sensor.0x158d0002e6b618_battery:
   sort_order: 5
-sensor.0x158d0003f12cf9_battery:
+sensor.0x00158d0003f12cf9_battery:
   sort_order: 6
 sensor.a4c138736c12_temperature:
   sort_order: 7
@@ -562,7 +562,7 @@ sensor.waterius_11110046_voltage:
 sensor.waterius_11110046_ch0:
   sort_order: 4
   custom_card: true
-sensor.0x158d000398f96c_battery:
+sensor.0x00158d000398f96c_battery:
   sort_order: 15
 sensor.0x158d0002fa9e5d_battery:
   sort_order: 16
